@@ -1,0 +1,333 @@
+/* ========================================
+   DATA TEMPAT KOST
+======================================== */
+
+.kost-page {
+  padding: 10px 0 10px;
+}
+
+/* HEADER */
+
+.kost-header {
+  background: linear-gradient(135deg, #ffffff, #f8f5ef);
+  border: 1px solid #e8dfd2;
+  border-radius: 18px;
+  padding: 24px 28px;
+  margin-bottom: 22px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.05);
+}
+
+.kost-header h2 {
+  margin: 0 0 7px;
+  color: #2f2a24;
+  font-size: 24px;
+}
+
+.kost-header p {
+  margin: 0;
+  color: #777;
+  font-size: 14px;
+}
+
+/* FORM CARD */
+
+.kost-card {
+  background: #ffffff;
+  border: 1px solid #e8e2da;
+  border-radius: 18px;
+  padding: 25px;
+  margin-bottom: 24px;
+  box-shadow: 0 5px 18px rgba(0, 0, 0, 0.05);
+}
+
+.kost-card-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
+}
+
+.kost-card-title h3 {
+  margin: 0;
+  color: #302a24;
+  font-size: 19px;
+}
+
+/* FORM */
+
+.kost-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px 22px;
+
+}
+
+.kost-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.kost-form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #4c463f;
+}
+
+.kost-form-group input,
+.kost-form-group select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 11px 13px;
+  border: 1px solid #dcd5cc;
+  border-radius: 10px;
+  background: #fff;
+  color: #333;
+  font-size: 14px;
+  outline: none;
+  transition: 0.2s ease;
+}
+
+.kost-form-group input:focus,
+.kost-form-group select:focus {
+  border-color: #b8955a;
+  box-shadow: 0 0 0 3px rgba(184, 149, 90, 0.12);
+}
+
+/* TOTAL */
+
+.kost-total input {
+  background: #faf7f1;
+  color: #8a6a32;
+  font-weight: 700;
+}
+
+/* BUTTON */
+
+.kost-form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 22px;
+}
+
+.kost-btn-primary,
+.kost-btn-secondary,
+.kost-btn-edit,
+.kost-btn-delete {
+  border: none;
+  border-radius: 9px;
+  padding: 10px 17px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.kost-btn-primary {
+  background: #8a6a32;
+  color: white;
+}
+
+.kost-btn-primary:hover {
+  background: #735522;
+}
+
+.kost-btn-secondary {
+  background: #eeeae4;
+  color: #4d463e;
+}
+
+.kost-btn-secondary:hover {
+  background: #e2ddd5;
+}
+
+/* TABLE CARD */
+
+.kost-table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #ebe5dd;
+  border-radius: 12px;
+}
+
+.kost-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 950px;
+}
+
+.kost-table th {
+  background: #f7f3ed;
+  color: #514a42;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 13px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e4ddd4;
+  white-space: nowrap;
+}
+
+.kost-table td {
+  padding: 13px 12px;
+  border-bottom: 1px solid #eee9e2;
+  color: #4a4641;
+  font-size: 13px;
+  vertical-align: middle;
+}
+
+.kost-table tbody tr:hover {
+  background: #fcfaf7;
+}
+
+.kost-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* TOTAL TABLE */
+
+.kost-total-cell {
+  color: #8a6a32 !important;
+  font-weight: 700;
+}
+
+/* STATUS */
+
+.kost-status {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.kost-status.aktif {
+  background: #e8f5e9;
+  color: #2e7d32;
+}
+
+.kost-status.tidak-aktif {
+  background: #fbe9e7;
+  color: #c62828;
+}
+
+/* ACTION */
+
+.kost-actions {
+  display: flex;
+  gap: 7px;
+}
+
+.kost-btn-edit {
+  background: #f1eadf;
+  color: #795b2a;
+}
+
+.kost-btn-edit:hover {
+  background: #e7dccb;
+}
+
+.kost-btn-delete {
+  background: #f8e7e5;
+  color: #b3261e;
+}
+
+.kost-btn-delete:hover {
+  background: #f2d7d4;
+}
+
+/* EMPTY */
+
+.kost-empty {
+  text-align: center;
+  padding: 35px 20px;
+  color: #888;
+}
+
+.kost-empty-icon {
+  font-size: 38px;
+  margin-bottom: 10px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 800px) {
+  .kost-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kost-card {
+    padding: 18px;
+  }
+
+  .kost-header {
+    padding: 20px;
+  }
+}
+
+/* ==================================================
+   REKAP DISTRIBUSI BULANAN
+================================================== */
+
+.kost-rekap-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.kost-rekap-item {
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 18px;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+}
+
+.kost-rekap-label {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 8px;
+}
+
+.kost-rekap-value {
+  font-size: 21px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.kost-rekap-filter {
+  max-width: 260px;
+}
+
+.kost-rekap-filter label {
+  display: block;
+  margin-bottom: 7px;
+  font-weight: 600;
+  color: #374151;
+}
+
+.kost-rekap-filter input {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1100px) {
+  .kost-rekap-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .kost-rekap-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .kost-rekap-grid {
+    grid-template-columns: 1fr;
+  }
+}

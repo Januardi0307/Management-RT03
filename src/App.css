@@ -1,0 +1,722 @@
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f6f8;
+  color: #1f2937;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+
+/* =========================================================
+   APP
+========================================================= */
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  background: #f4f6f8;
+}
+
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+.sidebar {
+  width: 245px;
+  min-width: 245px;
+  height: 100vh;
+  background: #172033;
+  color: white;
+  display: flex;
+  flex-direction: column;
+
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.logo-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 22px 18px 14px;
+}
+
+.logo-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #d9a441;
+  color: #172033;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.logo-area h3 {
+  margin: 0;
+  font-size: 16px;
+  letter-spacing: 0.5px;
+}
+
+.logo-area span {
+  display: block;
+  margin-top: 3px;
+  font-size: 12px;
+  color: #cbd5e1;
+}
+
+.wilayah {
+  margin: 4px 18px 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  color: #d9a441;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 0 10px;
+}
+
+.menu-item {
+  width: 100%;
+  border: none;
+  background: transparent;
+  color: #cbd5e1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 13px;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 13px;
+  transition: 0.2s ease;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+}
+
+.menu-item.active {
+  background: #d9a441;
+  color: #172033;
+  font-weight: 700;
+}
+
+.menu-icon {
+  width: 22px;
+  text-align: center;
+  font-size: 17px;
+}
+
+.sidebar-bottom {
+  margin-top: auto;
+  padding: 15px 10px 20px;
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.main-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  padding-left: 130px;
+  padding-right: 20px;
+}
+
+
+.topbar {
+  height: 70px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+}
+
+.topbar h1 {
+  margin: 0;
+  font-size: 21px;
+  color: #172033;
+}
+
+.admin-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #172033;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.admin-info strong {
+  display: block;
+  font-size: 13px;
+  color: #172033;
+}
+
+.admin-info span {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.content {
+  flex: 1;
+  padding: 22px 10px 10px;
+}
+
+
+/* =========================================================
+   DASHBOARD
+========================================================= */
+
+.dashboard-page {
+  width: 100%;
+}
+
+.welcome {
+  background: white;
+  border-radius: 12px;
+  padding: 17px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 16px;
+}
+
+.welcome h2 {
+  margin: 0;
+  font-size: 19px;
+  color: #172033;
+}
+
+.welcome p {
+  margin: 5px 0 0;
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.date-box {
+  text-align: right;
+}
+
+.date-box strong {
+  display: block;
+  font-size: 13px;
+  color: #172033;
+  text-transform: capitalize;
+}
+
+.date-box span {
+  display: block;
+  margin-top: 3px;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+
+/* =========================================================
+   STATISTIK CARD
+========================================================= */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 11px;
+  margin-bottom: 16px;
+}
+
+.stat-card {
+  min-width: 0;
+  min-height: 105px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 11px;
+  padding: 12px 10px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 14px rgba(0, 0, 0, 0.07);
+}
+
+.stat-icon {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 9px;
+  background: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.stat-info {
+  min-width: 0;
+  flex: 1;
+}
+
+.stat-info > span {
+  display: block;
+  font-size: 11px;
+  line-height: 1.25;
+  color: #64748b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stat-info strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 30px;
+  line-height: 1;
+  color: #172033;
+}
+
+.stat-info small {
+  display: block;
+  margin-top: 7px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #475569;
+  white-space: nowrap;
+}
+
+/* =========================================================
+   DASHBOARD INFO
+========================================================= */
+
+.dashboard-info {
+  margin-top: 14px;
+}
+
+.info-card {
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 11px;
+  padding: 16px 18px;
+}
+
+.info-card h3 {
+  margin: 0;
+  font-size: 15px;
+  color: #172033;
+}
+
+.info-card p {
+  margin: 7px 0 12px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.birthday-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.birthday-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 10px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 7px;
+  font-size: 12px;
+}
+
+.birthday-item span {
+  font-size: 15px;
+}
+
+
+/* =========================================================
+   BIRTHDAY MODAL
+========================================================= */
+
+.birthday-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.birthday-modal {
+  width: 100%;
+  max-width: 500px;
+  max-height: 80vh;
+  background: white;
+  border-radius: 13px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+}
+
+.birthday-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 17px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.birthday-modal-header h3 {
+  margin: 0;
+  font-size: 16px;
+  color: #172033;
+}
+
+.birthday-modal-header p {
+  margin: 4px 0 0;
+  font-size: 11px;
+  color: #64748b;
+}
+
+.birthday-close {
+  border: none;
+  background: #f1f5f9;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.birthday-close:hover {
+  background: #e2e8f0;
+}
+
+.birthday-modal-body {
+  padding: 14px 20px 20px;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+.birthday-modal-item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 11px 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.birthday-modal-item:last-child {
+  border-bottom: none;
+}
+
+.birthday-person-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #fff2c9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.birthday-modal-item strong {
+  display: block;
+  font-size: 13px;
+  color: #172033;
+}
+
+.birthday-modal-item span {
+  display: block;
+  margin-top: 3px;
+  font-size: 11px;
+  color: #64748b;
+}
+
+
+/* =========================================================
+   EMPTY PAGE
+========================================================= */
+
+.empty-page {
+  min-height: 300px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.empty-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.empty-page h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.empty-page p {
+  margin-top: 7px;
+  color: #64748b;
+  font-size: 13px;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1200px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .sidebar {
+    width: 210px;
+    min-width: 210px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .content {
+    padding: 18px;
+  }
+}
+
+@media (max-width: 700px) {
+  .app {
+    display: block;
+  }
+
+  .sidebar {
+    width: 100%;
+    min-width: 0;
+    min-height: auto;
+  }
+
+  .logo-area {
+    padding: 12px 15px;
+  }
+
+  .wilayah {
+    display: none;
+  }
+
+  .menu {
+    flex-direction: row;
+    overflow-x: auto;
+    padding: 8px 10px 10px;
+  }
+
+  .menu-item {
+    width: auto;
+    min-width: max-content;
+  }
+
+  .sidebar-bottom {
+    display: none;
+  }
+
+  .topbar {
+    padding: 0 15px;
+  }
+
+  .dashboard-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .welcome {
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .date-box {
+    display: none;
+  }
+}
+
+@media (max-width: 450px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .content {
+    padding: 12px;
+  }
+
+  .welcome {
+    padding: 14px;
+  }
+}
+
+
+/* =========================================
+   MODAL DAFTAR WARGA DARI CARD DASHBOARD
+   ========================================= */
+
+.category-modal {
+  width: min(1100px, 94vw);
+  max-width: 1100px;
+}
+
+.category-modal-body {
+  padding: 20px;
+  max-height: 65vh;
+  overflow-y: auto;
+}
+
+.category-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.category-table {
+  width: 100%;
+  min-width: 850px;
+  border-collapse: collapse;
+  font-size: 14px;
+  background: #ffffff;
+}
+
+.category-table th {
+  padding: 12px 14px;
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+  background: #f5f6f8;
+  border-bottom: 2px solid #e5e7eb;
+  color: #333333;
+}
+
+.category-table td {
+  padding: 11px 14px;
+  border-bottom: 1px solid #eeeeee;
+  color: #444444;
+  white-space: nowrap;
+}
+
+.category-table tbody tr:hover {
+  background: #f8f9fb;
+}
+
+.category-table th:first-child,
+.category-table td:first-child {
+  width: 50px;
+  text-align: center;
+}
+
+.category-table th:last-child,
+.category-table td:last-child {
+  text-align: center;
+  width: 100px;
+}
+
+.category-empty {
+  padding: 40px 20px;
+  text-align: center;
+  color: #777777;
+  font-size: 15px;
+}
+
+.category-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 14px 20px;
+  border-top: 1px solid #eeeeee;
+}
+
+.birthday-close-button {
+  border: none;
+  padding: 9px 22px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  background: #eeeeee;
+  color: #333333;
+}
+
+.birthday-close-button:hover {
+  background: #dddddd;
+}
+
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 768px) {
+  .category-modal {
+    width: 95vw;
+  }
+
+  .category-modal-body {
+    padding: 12px;
+    max-height: 60vh;
+  }
+
+  .category-table {
+    min-width: 800px;
+    font-size: 13px;
+  }
+
+  .category-table th,
+  .category-table td {
+    padding: 9px 10px;
+  }
+}
