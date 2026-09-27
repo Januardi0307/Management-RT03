@@ -6,6 +6,8 @@ import WargaPendatang from "./components/WargaPendatang";
 import DataStatistik from "./components/DataStatistik";
 import SuratPengantar from "./components/SuratPengantar";
 import DataTempatKost from "./components/DataTempatKost";
+import IuranDanaDuka from "./components/IuranDanaDuka";
+import LaporanDanaDuka from "./components/LaporanDanaDuka";
 import { supabase } from "./lib/supabase";
 import Pengaturan from "./components/Pengaturan";
 function hitungUsia(tanggalLahir) {
@@ -629,6 +631,16 @@ function App() {
       label: "Data Statistik",
       icon: "📈",
     },
+
+{
+  label: "Iuran Dana Duka",
+  icon: "💰",
+},
+{
+  label: "Laporan Dana Duka",
+  icon: "📊",
+},
+
   ];
 
   return (
@@ -708,9 +720,13 @@ function App() {
 
           {activeMenu === "Surat" && <SuratPengantar />}
 
-          {activeMenu === "Data Statistik" && <DataStatistik />}
+         {activeMenu === "Data Statistik" && <DataStatistik />}
 
-          {activeMenu === "Pengaturan" && <Pengaturan />}
+{activeMenu === "Iuran Dana Duka" && <IuranDanaDuka />}
+
+{activeMenu === "Laporan Dana Duka" && <LaporanDanaDuka />}
+
+{activeMenu === "Pengaturan" && <Pengaturan />}
         </div>
       </main>
     </div>
