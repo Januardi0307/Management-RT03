@@ -37,6 +37,32 @@ function LaporanDanaDuka() {
     const awalTahun = `${tahun}-01`;
     const akhirTahun = `${tahun}-12`;
 
+    // Ambil hanya Kepala Keluarga yang saat ini mengikuti Dana Duka
+    const { data: peserta, error: errorPeserta } = await supabase
+        .from("warga")
+        .select("id")
+        .eq("status", "Aktif")
+        .eq("status_kependudukan", "Warga RT03")
+        .eq("status_keluarga", "Kepala Keluarga")
+        .eq("ikut_dana_duka", true);
+
+    if (errorPeserta) {
+        throw errorPeserta;
+    }
+
+    const pesertaIds = (peserta || []).map((item) => item.id);
+
+    console.log(
+        `LAPORAN DANA DUKA - JUMLAH PESERTA AKTIF: ${pesertaIds.length}`
+    );
+
+    if (pesertaIds.length === 0) {
+        console.log(
+            `LAPORAN DANA DUKA - TIDAK ADA PESERTA DANA DUKA.`
+        );
+        return [];
+    }
+
     let semuaData = [];
     let halaman = 0;
     const ukuranHalaman = 1000;
@@ -53,8 +79,10 @@ function LaporanDanaDuka() {
         .gte("bulan", awalTahun)
         .lte("bulan", akhirTahun)
         .eq("status_pembayaran", "Lunas")
+        .in("warga_id", pesertaIds)
         .order("bulan", { ascending: true })
         .range(dari, sampai);
+        
 
       if (error) {
         throw error;

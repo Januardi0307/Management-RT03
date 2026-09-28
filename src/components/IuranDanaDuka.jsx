@@ -84,12 +84,13 @@ function IuranDanaDuka() {
       console.log("MEMUAT DATA KEPALA KELUARGA UNTUK IURAN DANA DUKA...");
 
       const { data, error } = await supabase
-        .from("warga")
-        .select("id, nama, kk")
-        .eq("status", "Aktif")
-        .eq("status_kependudukan", "Warga RT03")
-        .eq("status_keluarga", "Kepala Keluarga")
-        .order("nama", { ascending: true });
+  .from("warga")
+  .select("id, nama, kk, ikut_dana_duka")
+  .eq("status", "Aktif")
+  .eq("status_kependudukan", "Warga RT03")
+  .eq("status_keluarga", "Kepala Keluarga")
+  .eq("ikut_dana_duka", true)
+  .order("nama", { ascending: true });
 
       if (error) {
         console.error("GAGAL MEMUAT KEPALA KELUARGA:", error);
