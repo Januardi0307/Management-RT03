@@ -62,9 +62,11 @@ function IuranDanaDuka() {
   const [saldoAwalInput, setSaldoAwalInput] = useState("");
   const [menyimpanSaldoAwal, setMenyimpanSaldoAwal] = useState(false);
 
-  const jumlahSudahBayar = dataIuran.filter(
-    (item) => item.status_pembayaran === "Lunas",
-  ).length;
+  const jumlahSudahBayar = new Set(
+    dataIuran
+      .filter((item) => item.status_pembayaran === "Lunas")
+      .map((item) => item.warga_id),
+  ).size;
 
   const jumlahBelumBayar = kepalaKeluarga.length - jumlahSudahBayar;
 
@@ -84,13 +86,13 @@ function IuranDanaDuka() {
       console.log("MEMUAT DATA KEPALA KELUARGA UNTUK IURAN DANA DUKA...");
 
       const { data, error } = await supabase
-  .from("warga")
-  .select("id, nama, kk, ikut_dana_duka")
-  .eq("status", "Aktif")
-  .eq("status_kependudukan", "Warga RT03")
-  .eq("status_keluarga", "Kepala Keluarga")
-  .eq("ikut_dana_duka", true)
-  .order("nama", { ascending: true });
+        .from("warga")
+        .select("id, nama, kk, ikut_dana_duka")
+        .eq("status", "Aktif")
+        .eq("status_kependudukan", "Warga RT03")
+        .eq("status_keluarga", "Kepala Keluarga")
+        .eq("ikut_dana_duka", true)
+        .order("nama", { ascending: true });
 
       if (error) {
         console.error("GAGAL MEMUAT KEPALA KELUARGA:", error);
@@ -124,12 +126,40 @@ function IuranDanaDuka() {
         `MEMUAT DATA IURAN DANA DUKA BULAN ${bulan} DARI SUPABASE...`,
       );
 
+      // Ambil hanya Kepala Keluarga yang aktif dan ikut Dana Duka
+      const { data: peserta, error: errorPeserta } = await supabase
+        .from("warga")
+        .select("id")
+        .eq("status", "Aktif")
+        .eq("status_kependudukan", "Warga RT03")
+        .eq("status_keluarga", "Kepala Keluarga")
+        .eq("ikut_dana_duka", true);
+
+      if (errorPeserta) {
+        console.error("GAGAL MEMUAT PESERTA DANA DUKA:", errorPeserta);
+        throw errorPeserta;
+      }
+
+      const pesertaIds = (peserta || []).map((item) => item.id);
+
+      console.log(`JUMLAH PESERTA AKTIF DANA DUKA: ${pesertaIds.length}`);
+
+      // Kalau tidak ada peserta, tidak perlu mengambil transaksi
+      if (pesertaIds.length === 0) {
+        console.log("TIDAK ADA PESERTA DANA DUKA.");
+
+        setDataIuran([]);
+        return;
+      }
+
+      // Ambil transaksi hanya milik peserta Dana Duka
       const { data, error } = await supabase
         .from("iuran_dana_duka")
         .select(
           "id, warga_id, kk, nama_kepala_keluarga, bulan, jumlah, status_pembayaran, tanggal_bayar, keterangan",
         )
-        .eq("bulan", bulan);
+        .eq("bulan", bulan)
+        .in("warga_id", pesertaIds);
 
       if (error) {
         console.error("GAGAL MEMUAT DATA IURAN:", error);
@@ -141,6 +171,22 @@ function IuranDanaDuka() {
       );
 
       setDataIuran(data || []);
+
+      console.log("=== CEK IURAN BULANAN ===");
+console.log("BULAN:", bulan);
+console.log("JUMLAH PESERTA:", pesertaIds.length);
+console.log("JUMLAH DATA IURAN:", data?.length || 0);
+console.log(
+  "JUMLAH KK UNIK LUNAS:",
+  new Set(
+    (data || [])
+      .filter((item) => item.status_pembayaran === "Lunas")
+      .map((item) => item.warga_id),
+  ).size,
+);
+console.log("DATA IURAN:", data);
+console.log("==========================");
+
     } catch (err) {
       console.error("ERROR MEMUAT IURAN DANA DUKA:", err);
       setDataIuran([]);
@@ -150,104 +196,91 @@ function IuranDanaDuka() {
   }
 
   async function loadRekapIuran(tahun) {
-  try {
-    setLoadingRekap(true);
+    try {
+      setLoadingRekap(true);
 
-    console.log(`MEMUAT REKAP IURAN DANA DUKA TAHUN ${tahun}...`);
+      console.log(`MEMUAT REKAP IURAN DANA DUKA TAHUN ${tahun}...`);
 
-    const awalTahun = `${tahun}-01`;
-    const akhirTahun = `${tahun}-12`;
+      const awalTahun = `${tahun}-01`;
+      const akhirTahun = `${tahun}-12`;
 
-    let semuaDataIuran = [];
-    let halaman = 0;
-    const ukuranHalaman = 1000;
+      let semuaDataIuran = [];
+      let halaman = 0;
+      const ukuranHalaman = 1000;
 
-    while (true) {
-      const dari = halaman * ukuranHalaman;
-      const sampai = dari + ukuranHalaman - 1;
+      while (true) {
+        const dari = halaman * ukuranHalaman;
+        const sampai = dari + ukuranHalaman - 1;
 
-      const { data: dataHalaman, error } = await supabase
-        .from("iuran_dana_duka")
-        .select(
-          "id, warga_id, kk, nama_kepala_keluarga, bulan, jumlah, status_pembayaran, tanggal_bayar",
-        )
-        .gte("bulan", awalTahun)
-        .lte("bulan", akhirTahun)
-        .eq("status_pembayaran", "Lunas")
-        .order("bulan", { ascending: true })
-        .range(dari, sampai);
+        const { data: dataHalaman, error } = await supabase
+          .from("iuran_dana_duka")
+          .select(
+            "id, warga_id, kk, nama_kepala_keluarga, bulan, jumlah, status_pembayaran, tanggal_bayar",
+          )
+          .gte("bulan", awalTahun)
+          .lte("bulan", akhirTahun)
+          .eq("status_pembayaran", "Lunas")
+          .order("bulan", { ascending: true })
+          .range(dari, sampai);
 
-      if (error) {
-        throw error;
+        if (error) {
+          throw error;
+        }
+
+        console.log(
+          `REKAP IURAN HALAMAN ${halaman + 1}:`,
+          dataHalaman?.length || 0,
+          "DATA",
+        );
+
+        semuaDataIuran = [...semuaDataIuran, ...(dataHalaman || [])];
+
+        if (!dataHalaman || dataHalaman.length < ukuranHalaman) {
+          break;
+        }
+
+        halaman++;
       }
 
-      console.log(
-        `REKAP IURAN HALAMAN ${halaman + 1}:`,
-        dataHalaman?.length || 0,
-        "DATA",
-      );
+      console.log("TOTAL DATA IURAN UNTUK REKAP:", semuaDataIuran.length);
 
-      semuaDataIuran = [
-        ...semuaDataIuran,
-        ...(dataHalaman || []),
-      ];
+      const dataBulan = Array.from({ length: 12 }, (_, index) => {
+        const nomorBulan = String(index + 1).padStart(2, "0");
+        const bulan = `${tahun}-${nomorBulan}`;
 
-      if (!dataHalaman || dataHalaman.length < ukuranHalaman) {
-        break;
-      }
+        const dataBulanIni = semuaDataIuran.filter(
+          (item) => item.bulan === bulan,
+        );
 
-      halaman++;
+        const jumlahKK = dataBulanIni.length;
+
+        const total = dataBulanIni.reduce(
+          (sum, item) => sum + Number(item.jumlah || 0),
+          0,
+        );
+
+        return {
+          bulan,
+          nomorBulan: index + 1,
+          namaBulan: new Date(tahun, index, 1).toLocaleDateString("id-ID", {
+            month: "long",
+          }),
+          jumlahKK,
+          total,
+        };
+      });
+
+      console.log("REKAP IURAN:", dataBulan);
+
+      setRekapIuran(dataBulan);
+    } catch (err) {
+      console.error(`GAGAL MEMUAT REKAP IURAN TAHUN ${tahun}:`, err);
+
+      setRekapIuran([]);
+    } finally {
+      setLoadingRekap(false);
     }
-
-    console.log(
-      "TOTAL DATA IURAN UNTUK REKAP:",
-      semuaDataIuran.length,
-    );
-
-    const dataBulan = Array.from({ length: 12 }, (_, index) => {
-      const nomorBulan = String(index + 1).padStart(2, "0");
-      const bulan = `${tahun}-${nomorBulan}`;
-
-      const dataBulanIni = semuaDataIuran.filter(
-        (item) => item.bulan === bulan,
-      );
-
-      const jumlahKK = dataBulanIni.length;
-
-      const total = dataBulanIni.reduce(
-        (sum, item) => sum + Number(item.jumlah || 0),
-        0,
-      );
-
-      return {
-        bulan,
-        nomorBulan: index + 1,
-        namaBulan: new Date(
-          tahun,
-          index,
-          1,
-        ).toLocaleDateString("id-ID", {
-          month: "long",
-        }),
-        jumlahKK,
-        total,
-      };
-    });
-
-    console.log("REKAP IURAN:", dataBulan);
-
-    setRekapIuran(dataBulan);
-  } catch (err) {
-    console.error(
-      `GAGAL MEMUAT REKAP IURAN TAHUN ${tahun}:`,
-      err,
-    );
-
-    setRekapIuran([]);
-  } finally {
-    setLoadingRekap(false);
   }
-}
 
   async function loadSaldoAwalTahun(tahun) {
     console.log("=== DEBUG SALDO AWAL ===");
@@ -486,41 +519,41 @@ function IuranDanaDuka() {
   }
 
   async function loadSantunan(tahun) {
-  try {
-    setLoadingSantunan(true);
+    try {
+      setLoadingSantunan(true);
 
-    console.log(
-      `MEMUAT DATA SANTUNAN DANA DUKA TAHUN ${tahun} DARI SUPABASE...`,
-    );
+      console.log(
+        `MEMUAT DATA SANTUNAN DANA DUKA TAHUN ${tahun} DARI SUPABASE...`,
+      );
 
-    const { data, error } = await supabase
-      .from("santunan_dana_duka")
-      .select(
-        "id, tanggal_santunan, tahun, nama_almarhum, warga_meninggal_id, nama_penerima, hubungan_penerima, jumlah, keterangan",
-      )
-      .eq("tahun", tahun)
-      .order("tanggal_santunan", { ascending: true })
-      .range(0, 4999);
+      const { data, error } = await supabase
+        .from("santunan_dana_duka")
+        .select(
+          "id, tanggal_santunan, tahun, nama_almarhum, warga_meninggal_id, nama_penerima, hubungan_penerima, jumlah, keterangan",
+        )
+        .eq("tahun", tahun)
+        .order("tanggal_santunan", { ascending: true })
+        .range(0, 4999);
 
-    if (error) {
-      console.error("GAGAL MEMUAT DATA SANTUNAN:", error);
-      throw error;
+      if (error) {
+        console.error("GAGAL MEMUAT DATA SANTUNAN:", error);
+        throw error;
+      }
+
+      console.log(
+        `BERHASIL MEMUAT ${data?.length || 0} DATA SANTUNAN TAHUN ${tahun}.`,
+      );
+
+      console.log("DATA SANTUNAN:", data);
+
+      setDataSantunan(data || []);
+    } catch (err) {
+      console.error("ERROR MEMUAT SANTUNAN DANA DUKA:", err);
+      setDataSantunan([]);
+    } finally {
+      setLoadingSantunan(false);
     }
-
-    console.log(
-      `BERHASIL MEMUAT ${data?.length || 0} DATA SANTUNAN TAHUN ${tahun}.`,
-    );
-
-    console.log("DATA SANTUNAN:", data);
-
-    setDataSantunan(data || []);
-  } catch (err) {
-    console.error("ERROR MEMUAT SANTUNAN DANA DUKA:", err);
-    setDataSantunan([]);
-  } finally {
-    setLoadingSantunan(false);
   }
-}
 
   async function loadWargaUntukSantunan() {
     try {
