@@ -643,6 +643,7 @@ function App() {
 },
 {
   label: "KAS RT",
+  icon: "💰",
   key: "kas-rt",
 },
 

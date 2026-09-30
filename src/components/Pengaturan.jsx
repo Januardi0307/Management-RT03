@@ -143,7 +143,6 @@ function Pengaturan() {
   .eq("status", "Aktif")
   .eq("status_kependudukan", "Warga RT03")
   .eq("status_keluarga", "Kepala Keluarga")
-  .eq("ikut_dana_duka", true)
   .order("nama", { ascending: true });
       if (error) {
         throw error;
