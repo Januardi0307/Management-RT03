@@ -93,37 +93,40 @@ function Pengaturan() {
   // =========================================================
 
   function buatDaftarBulanIuran() {
-    const hasil = [];
+  const hasil = [];
 
-    const mulaiTahun = 2024;
-    const mulaiBulan = 11;
+  const mulaiTahun = 2024;
+  const mulaiBulan = 11;
 
-    let tahun = mulaiTahun;
-    let bulan = mulaiBulan;
+  const akhirTahun = 2026;
+  const akhirBulan = 12;
 
-    while (
-      tahun < tahunSekarang ||
-      (tahun === tahunSekarang && bulan <= bulanSekarang)
-    ) {
-      const nilaiBulan = String(bulan).padStart(2, "0");
+  let tahun = mulaiTahun;
+  let bulan = mulaiBulan;
 
-      hasil.push({
-        tahun,
-        bulan,
-        nilai: `${tahun}-${nilaiBulan}`,
-        nama: formatBulan(tahun, bulan),
-      });
+  while (
+    tahun < akhirTahun ||
+    (tahun === akhirTahun && bulan <= akhirBulan)
+  ) {
+    const nilaiBulan = String(bulan).padStart(2, "0");
 
-      bulan++;
+    hasil.push({
+      tahun,
+      bulan,
+      nilai: `${tahun}-${nilaiBulan}`,
+      nama: formatBulan(tahun, bulan),
+    });
 
-      if (bulan > 12) {
-        bulan = 1;
-        tahun++;
-      }
+    bulan++;
+
+    if (bulan > 12) {
+      bulan = 1;
+      tahun++;
     }
-
-    return hasil.reverse();
   }
+
+  return hasil.reverse();
+}
 
   const daftarBulanIuran = buatDaftarBulanIuran();
 
