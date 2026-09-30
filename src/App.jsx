@@ -10,6 +10,7 @@ import IuranDanaDuka from "./components/IuranDanaDuka";
 import LaporanDanaDuka from "./components/LaporanDanaDuka";
 import { supabase } from "./lib/supabase";
 import Pengaturan from "./components/Pengaturan";
+import KasRT from "./components/KasRT";
 function hitungUsia(tanggalLahir) {
   if (!tanggalLahir) return null;
 
@@ -640,6 +641,10 @@ function App() {
   label: "Laporan Dana Duka",
   icon: "📊",
 },
+{
+  label: "KAS RT",
+  key: "kas-rt",
+},
 
   ];
 
@@ -725,6 +730,8 @@ function App() {
 {activeMenu === "Iuran Dana Duka" && <IuranDanaDuka />}
 
 {activeMenu === "Laporan Dana Duka" && <LaporanDanaDuka />}
+
+{activeMenu === "KAS RT" && <KasRT />}
 
 {activeMenu === "Pengaturan" && <Pengaturan />}
         </div>

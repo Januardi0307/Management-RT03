@@ -1,0 +1,565 @@
+.kas-rt-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.kas-rt-header {
+  margin-bottom: 20px;
+}
+
+.kas-rt-header h2 {
+  margin: 0 0 5px;
+}
+
+.kas-rt-header p {
+  margin: 0;
+  color: #666;
+}
+
+.kas-rt-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #ddd;
+}
+
+.kas-rt-tabs button {
+  border: none;
+  background: transparent;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 15px;
+  border-bottom: 3px solid transparent;
+}
+
+.kas-rt-tabs button.active {
+  border-bottom-color: #222;
+  font-weight: 600;
+}
+
+.kas-rt-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.kas-rt-card {
+  background: #fff;
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.kas-rt-card-header {
+  margin-bottom: 18px;
+}
+
+.kas-rt-card-header h3 {
+  margin: 0 0 5px;
+}
+
+.kas-rt-card-header span {
+  color: #777;
+  font-size: 14px;
+}
+
+.kas-rt-form-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.kas-rt-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.kas-rt-form-full {
+  grid-column: 1 / -1;
+}
+
+.kas-rt-form-group label {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.kas-rt-form-group input,
+.kas-rt-form-group textarea {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px;
+  font-size: 14px;
+}
+
+.kas-rt-form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.kas-rt-btn-primary,
+.kas-rt-btn-secondary,
+.kas-rt-btn-edit,
+.kas-rt-btn-delete {
+  border: none;
+  border-radius: 6px;
+  padding: 9px 14px;
+  cursor: pointer;
+}
+
+.kas-rt-btn-primary {
+  background: #222;
+  color: #fff;
+}
+
+.kas-rt-btn-secondary {
+  background: #ddd;
+  color: #222;
+}
+
+.kas-rt-btn-edit {
+  background: #eee;
+}
+
+.kas-rt-btn-delete {
+  background: #f3d6d6;
+}
+
+.kas-rt-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.kas-rt-summary-card {
+  border: 1px solid #e2e2e2;
+  border-radius: 10px;
+  padding: 18px;
+  background: #fff;
+}
+
+.kas-rt-summary-card span {
+  display: block;
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+.kas-rt-summary-card strong {
+  font-size: 22px;
+}
+
+.kas-rt-error {
+  background: #fbe4e4;
+  color: #a00000;
+  padding: 12px;
+  border-radius: 6px;
+}
+
+.kas-rt-loading,
+.kas-rt-empty {
+  padding: 30px;
+  text-align: center;
+  color: #777;
+}
+
+.kas-rt-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.kas-rt-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.kas-rt-table th,
+.kas-rt-table td {
+  border-bottom: 1px solid #eee;
+  padding: 11px 10px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.kas-rt-table th {
+  background: #f7f7f7;
+  font-weight: 600;
+}
+
+.kas-rt-jumlah {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.kas-rt-action-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.kas-rt-placeholder {
+  border: 1px dashed #ccc;
+  border-radius: 10px;
+  padding: 40px;
+  text-align: center;
+  color: #777;
+}
+
+@media (max-width: 900px) {
+  .kas-rt-form-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .kas-rt-container {
+    padding: 12px;
+  }
+
+  .kas-rt-tabs {
+    overflow-x: auto;
+  }
+
+  .kas-rt-tabs button {
+    white-space: nowrap;
+  }
+
+  .kas-rt-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kas-rt-form-full {
+    grid-column: auto;
+  }
+
+  .kas-rt-summary {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================
+   REKAP KAS RT PER BULAN
+   ========================================= */
+
+.kas-rt-table tfoot th {
+  background: #f3f3f3;
+  font-weight: 700;
+  border-top: 2px solid #ddd;
+}
+
+/* Judul bagian laporan bulanan */
+.kas-rt-laporan-bulanan {
+  margin-top: 20px;
+}
+
+/* Header rekap bulanan */
+.kas-rt-laporan-bulanan-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 18px;
+}
+
+.kas-rt-laporan-bulanan-header h3 {
+  margin: 0 0 5px;
+}
+
+.kas-rt-laporan-bulanan-header span {
+  color: #777;
+  font-size: 14px;
+}
+
+/* Tabel rekap bulanan */
+.kas-rt-laporan-bulanan .kas-rt-table {
+  min-width: 850px;
+}
+
+/* Kolom bulan */
+.kas-rt-laporan-bulanan .kas-rt-table th:nth-child(2),
+.kas-rt-laporan-bulanan .kas-rt-table td:nth-child(2) {
+  min-width: 120px;
+}
+
+/* Kolom angka */
+.kas-rt-laporan-bulanan .kas-rt-table th:nth-child(n + 3),
+.kas-rt-laporan-bulanan .kas-rt-table td:nth-child(n + 3) {
+  text-align: right;
+}
+
+/* Kolom nomor */
+.kas-rt-laporan-bulanan .kas-rt-table th:first-child,
+.kas-rt-laporan-bulanan .kas-rt-table td:first-child {
+  width: 50px;
+  text-align: center;
+}
+
+/* Baris total */
+.kas-rt-laporan-bulanan .kas-rt-table tfoot th {
+  background: #f3f3f3;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Supaya angka Rupiah tidak pecah */
+.kas-rt-laporan-bulanan .kas-rt-jumlah {
+  white-space: nowrap;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .kas-rt-laporan-bulanan {
+    overflow: hidden;
+  }
+
+  .kas-rt-laporan-bulanan-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .kas-rt-laporan-bulanan .kas-rt-table {
+    min-width: 800px;
+  }
+}
+
+.kas-rt-table tfoot th {
+  font-size: 13px;
+  background: #f3f3f3;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.kas-rt-table tfoot th:first-child {
+  text-align: left;
+}
+
+.kas-rt-table tfoot th:not(:first-child) {
+  text-align: right;
+}
+
+/* =========================================================
+   AREA KHUSUS CETAK LAPORAN KAS RT
+   ========================================================= */
+
+.kas-rt-print-area {
+  display: none;
+}
+
+.preview-kop-surat,
+.preview-garis {
+  display: none;
+}
+
+/* =========================================================
+   TAMPILAN SAAT PRINT
+   ========================================================= */
+
+@media print {
+  body * {
+    visibility: hidden !important;
+  }
+
+  .kas-rt-print-area,
+  .kas-rt-print-area * {
+    visibility: visible !important;
+  }
+
+  .kas-rt-print-area {
+    display: block !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+  }
+
+.kas-rt-print-title {
+  text-align: center !important;
+  margin: 10px 0 8px !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
+
+.kas-rt-print-table {
+  width: 100% !important;
+  border-collapse: collapse !important;
+  font-size: 10px !important;
+}
+
+.kas-rt-print-table th,
+.kas-rt-print-table td {
+  border: 1px solid #000 !important;
+  padding: 5px 6px !important;
+}
+
+.kas-rt-print-table th {
+  text-align: center !important;
+  font-weight: 700 !important;
+}
+
+.kas-rt-print-table td {
+  text-align: right !important;
+}
+
+.kas-rt-print-table td:nth-child(1),
+.kas-rt-print-table td:nth-child(2) {
+  text-align: left !important;
+}
+
+.kas-rt-print-table tfoot td {
+  font-weight: 700 !important;
+}
+
+.kas-rt-print-footer {
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: flex-start !important;
+  width: 100% !important;
+  margin-top: 25px !important;
+}
+
+.kas-rt-print-signature {
+  width: 240px !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  text-align: center !important;
+  font-size: 11px !important;
+}
+
+.kas-rt-print-signature p {
+  margin: 0 0 4px 0 !important;
+  text-align: center !important;
+}
+
+.kas-rt-print-signature strong {
+  display: block !important;
+  text-align: center !important;
+}
+
+.ttd-jabatan {
+  margin-top: 25px !important;
+}
+
+.ttd-space {
+  height: 45px !important;
+}
+.kas-rt-print-header {
+  text-align: center !important;
+  margin: 14px 0 18px !important;
+}
+
+.kas-rt-print-header h1 {
+  margin: 0 0 4px 0 !important;
+  font-size: 20px !important;
+  line-height: 1.3 !important;
+  font-weight: 700 !important;
+}
+
+.kas-rt-print-header h2 {
+  margin: 0 0 3px 0 !important;
+  font-size: 15px !important;
+  line-height: 1.3 !important;
+  font-weight: 600 !important;
+}
+
+.kas-rt-print-header p {
+  margin: 0 !important;
+  font-size: 13px !important;
+  line-height: 1.3 !important;
+  font-weight: 600 !important;
+}
+
+.kas-rt-print-line {
+  border-bottom: 1px solid #000 !important;
+  margin: 0 0 14px 0 !important;
+}
+
+.kas-rt-print-identitas {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 12px !important;
+  width: 100% !important;
+  margin: 0 0 20px 0 !important;
+}
+
+.kas-rt-print-identitas > div {
+  text-align: center !important;
+  padding: 5px !important;
+}
+
+.kas-rt-print-identitas p {
+  margin: 0 0 5px 0 !important;
+  font-size: 10px !important;
+  line-height: 1.3 !important;
+}
+
+.kas-rt-print-identitas strong {
+  display: block !important;
+  font-size: 12px !important;
+  line-height: 1.3 !important;
+}
+.print-tahun {
+  font-weight: 600 !important;
+}
+
+  @page {
+    size: A4 portrait;
+    margin: 15mm;
+  }
+
+  .preview-kop-surat {
+  display: block !important;
+}
+
+.preview-garis {
+  display: block !important;
+}
+}
+
+.preview-kop-surat {
+  width: 100%;
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.kop-baris {
+  margin: 0;
+  padding: 0;
+  line-height: 1.25;
+}
+
+.kop-baris-1 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.kop-baris-2,
+.kop-baris-3 {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.kop-baris-4 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-top: 5px;
+  font-size: 11px;
+}
+
+.kop-baris-5 {
+  margin-top: 3px;
+  font-size: 12px;
+}
+
+.preview-garis {
+  width: 100%;
+  margin-top: 6px;
+  border-bottom: 3px solid #000;
+}
