@@ -1068,6 +1068,12 @@
   color: #a33a3a;
 }
 
+.status-badge.pindah {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffe69c;
+}
+
 .detail-grid {
   display: grid;
 
@@ -1531,4 +1537,9 @@
 .warga-luar-rt-row td,
 .warga-luar-rt-row td strong {
   color: green;
+}
+
+.kepala-belum-ditentukan {
+  color: #dc2626;
+  font-weight: 600;
 }

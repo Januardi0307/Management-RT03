@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
-
+import DenahRT from "./components/DenahRT";
 import DataWarga from "./components/DataWarga";
 import WargaPendatang from "./components/WargaPendatang";
 import DataStatistik from "./components/DataStatistik";
@@ -625,6 +625,10 @@ function App() {
       icon: "🏠",
     },
     {
+  label: "Denah RT",
+  icon: "🗺️",
+},
+    {
       label: "Surat",
       icon: "📄",
     },
@@ -723,6 +727,8 @@ function App() {
           {activeMenu === "Warga Kost / Pendatang" && <WargaPendatang />}
 
           {activeMenu === "Data Tempat Kost" && <DataTempatKost />}
+
+          {activeMenu === "Denah RT" && <DenahRT />}
 
           {activeMenu === "Surat" && <SuratPengantar />}
 

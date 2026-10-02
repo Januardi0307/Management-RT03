@@ -545,19 +545,32 @@
 }
 
 @media print {
-  @page {
-    size: A4;
-    margin: 15mm;
-  }
+ @page {
+  size: A4 portrait;
+  margin: 15mm;
+}
 
   body * {
     visibility: hidden;
   }
 
-  .statistik-a4-paper,
-  .statistik-a4-paper * {
-    visibility: visible;
-  }
+ .statistik-preview-overlay,
+.statistik-preview-modal,
+.statistik-preview-content,
+.statistik-a4-paper,
+.statistik-a4-paper * {
+  visibility: visible !important;
+}
+
+.statistik-tanda-tangan {
+  break-inside: avoid;
+  page-break-inside: avoid;
+  margin-top: 5mm;
+}
+.statistik-laporan-table tr {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
 
   .statistik-a4-paper {
     position: absolute;

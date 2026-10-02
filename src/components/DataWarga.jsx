@@ -38,7 +38,12 @@ function normalisasiData(data) {
 
     id: item.id || Date.now() + Math.random(),
 
-    status: item.status === "Meninggal" ? "Meninggal" : "Aktif",
+    status:
+      item.status === "Meninggal"
+        ? "Meninggal"
+        : item.status === "Pindah"
+          ? "Pindah"
+          : "Aktif",
 
     statusPerkawinan:
       item.statusPerkawinan === "Kawin"
@@ -94,11 +99,9 @@ function mapSupabaseToWarga(row) {
 
     statusKeluarga: row.status_keluarga || "",
 
-    statusKependudukan:
-      row.status_kependudukan || "Warga RT03",
+    statusKependudukan: row.status_kependudukan || "Warga RT03",
 
-    statusTinggal:
-      row.status_tinggal || "Tinggal di RT03",
+    statusTinggal: row.status_tinggal || "Tinggal di RT03",
 
     jenisTinggal: row.jenis_tinggal || "",
 
@@ -112,8 +115,7 @@ function mapSupabaseToWarga(row) {
 
     tanggalMeninggal: row.tanggal_meninggal || "",
 
-    keteranganMeninggal:
-      row.keterangan_meninggal || "",
+    keteranganMeninggal: row.keterangan_meninggal || "",
   };
 }
 
@@ -228,55 +230,45 @@ function DataWarga() {
   }, [warga.length, tabAktif]);
 
   useEffect(() => {
-  async function loadDaftarKost() {
-    try {
-      console.log("MEMUAT DAFTAR KOST UNTUK DATA WARGA DARI SUPABASE...");
+    async function loadDaftarKost() {
+      try {
+        console.log("MEMUAT DAFTAR KOST UNTUK DATA WARGA DARI SUPABASE...");
 
-      const { data, error } = await supabase
-        .from("tempat_kost")
-        .select("*")
-        .eq("status", "Aktif")
-        .order("nama_kost", { ascending: true });
+        const { data, error } = await supabase
+          .from("tempat_kost")
+          .select("*")
+          .eq("status", "Aktif")
+          .order("nama_kost", { ascending: true });
 
-      if (error) {
-        console.error(
-          "GAGAL MEMUAT DAFTAR KOST DARI SUPABASE:",
-          error
+        if (error) {
+          console.error("GAGAL MEMUAT DAFTAR KOST DARI SUPABASE:", error);
+
+          return;
+        }
+
+        const kostAktif = data.map((item) => ({
+          id: item.id,
+          namaKost: item.nama_kost || "",
+          alamat: item.alamat || "",
+          jumlahKamar: Number(item.jumlah_kamar || 0),
+          jumlahAnakKost: Number(item.jumlah_anak_kost || 0),
+          distribusiPerOrang: Number(item.distribusi_per_orang || 0),
+          totalDistribusi: Number(item.total_distribusi || 0),
+          status: item.status || "Aktif",
+        }));
+
+        setDaftarKost(kostAktif);
+
+        console.log(
+          `BERHASIL MEMUAT ${kostAktif.length} KOST AKTIF DARI SUPABASE.`,
         );
-
-        return;
+      } catch (error) {
+        console.error("ERROR MEMUAT DAFTAR KOST DARI SUPABASE:", error);
       }
-
-      const kostAktif = data.map((item) => ({
-        id: item.id,
-        namaKost: item.nama_kost || "",
-        alamat: item.alamat || "",
-        jumlahKamar: Number(item.jumlah_kamar || 0),
-        jumlahAnakKost: Number(item.jumlah_anak_kost || 0),
-        distribusiPerOrang: Number(
-          item.distribusi_per_orang || 0
-        ),
-        totalDistribusi: Number(
-          item.total_distribusi || 0
-        ),
-        status: item.status || "Aktif",
-      }));
-
-      setDaftarKost(kostAktif);
-
-      console.log(
-        `BERHASIL MEMUAT ${kostAktif.length} KOST AKTIF DARI SUPABASE.`
-      );
-    } catch (error) {
-      console.error(
-        "ERROR MEMUAT DAFTAR KOST DARI SUPABASE:",
-        error
-      );
     }
-  }
 
-  loadDaftarKost();
-}, []);
+    loadDaftarKost();
+  }, []);
 
   useEffect(() => {
     if (tabAktif !== "meninggal") return;
@@ -407,35 +399,35 @@ function DataWarga() {
   }, [warga.length, tabAktif]);
 
   useEffect(() => {
-  async function loadDataWarga() {
-    try {
-      console.log("MEMUAT DATA WARGA DARI SUPABASE...");
+    async function loadDataWarga() {
+      try {
+        console.log("MEMUAT DATA WARGA DARI SUPABASE...");
 
-      const { data, error } = await supabase
-        .from("warga")
-        .select("*")
-        .order("nama", { ascending: true });
+        const { data, error } = await supabase
+          .from("warga")
+          .select("*")
+          .order("nama", { ascending: true });
 
-      if (error) {
-        console.error("GAGAL MEMUAT DATA DARI SUPABASE:", error);
-        return;
+        if (error) {
+          console.error("GAGAL MEMUAT DATA DARI SUPABASE:", error);
+          return;
+        }
+
+        const dataWarga = data.map(mapSupabaseToWarga);
+        const dataNormal = normalisasiData(dataWarga);
+
+        setWarga(dataNormal);
+
+        console.log(
+          `BERHASIL MEMUAT ${dataNormal.length} DATA WARGA DARI SUPABASE.`,
+        );
+      } catch (error) {
+        console.error("ERROR MEMUAT DATA WARGA:", error);
       }
-
-      const dataWarga = data.map(mapSupabaseToWarga);
-      const dataNormal = normalisasiData(dataWarga);
-
-      setWarga(dataNormal);
-
-      console.log(
-        `BERHASIL MEMUAT ${dataNormal.length} DATA WARGA DARI SUPABASE.`
-      );
-    } catch (error) {
-      console.error("ERROR MEMUAT DATA WARGA:", error);
     }
-  }
 
-  loadDataWarga();
-}, []);
+    loadDataWarga();
+  }, []);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -530,301 +522,275 @@ function DataWarga() {
   }
 
   async function handleSubmit(e) {
-  e.preventDefault();
+    e.preventDefault();
 
-  /*
+    /*
     NIK dan KK boleh kosong.
     Tetapi jika diisi harus 16 digit.
   */
 
-  if (form.nik && !/^\d{16}$/.test(form.nik)) {
-    alert("NIK harus terdiri dari 16 digit angka.");
-    return;
-  }
-
-  if (form.kk && !/^\d{16}$/.test(form.kk)) {
-    alert("Nomor KK harus terdiri dari 16 digit angka.");
-    return;
-  }
-
-  if (!form.nama.trim()) {
-    alert("Nama wajib diisi.");
-    return;
-  }
-
-  if (form.statusKependudukan === "Pendatang") {
-    if (!form.jenisTinggal) {
-      alert("Silakan pilih Jenis Tinggal.");
+    if (form.nik && !/^\d{16}$/.test(form.nik)) {
+      alert("NIK harus terdiri dari 16 digit angka.");
       return;
     }
 
-    if (form.statusTinggal !== "Tinggal di RT03") {
-      alert("Pendatang harus tinggal di RT03.");
+    if (form.kk && !/^\d{16}$/.test(form.kk)) {
+      alert("Nomor KK harus terdiri dari 16 digit angka.");
       return;
     }
 
-    if (form.jenisTinggal === "Kost" && !form.tempatKostId) {
-      alert("Silakan pilih Tempat Kost.");
+    if (!form.nama.trim()) {
+      alert("Nama wajib diisi.");
       return;
     }
 
-    if (form.jenisTinggal === "Kontrak" && !form.alamatKontrak.trim()) {
-      alert("Silakan isi Alamat Kontrak.");
-      return;
-    }
-  }
+    if (form.statusKependudukan === "Pendatang") {
+      if (!form.jenisTinggal) {
+        alert("Silakan pilih Jenis Tinggal.");
+        return;
+      }
 
-  if (form.statusKependudukan === "Warga RT03") {
-    if (form.statusTinggal === "Tinggal di luar RT03") {
-      form.jenisTinggal = "";
-      form.tempatKostId = "";
-      form.tempatKostNama = "";
-      form.alamatKontrak = "";
-    }
-  }
+      if (form.statusTinggal !== "Tinggal di RT03") {
+        alert("Pendatang harus tinggal di RT03.");
+        return;
+      }
 
-  if (form.status === "Meninggal") {
-    if (!form.tanggalMeninggal) {
-      alert("Tanggal meninggal wajib diisi untuk status Meninggal.");
-      return;
-    }
-  }
+      if (form.jenisTinggal === "Kost" && !form.tempatKostId) {
+        alert("Silakan pilih Tempat Kost.");
+        return;
+      }
 
-  /*
+      if (form.jenisTinggal === "Kontrak" && !form.alamatKontrak.trim()) {
+        alert("Silakan isi Alamat Kontrak.");
+        return;
+      }
+    }
+
+    if (form.statusKependudukan === "Warga RT03") {
+      if (form.statusTinggal === "Tinggal di luar RT03") {
+        form.jenisTinggal = "";
+        form.tempatKostId = "";
+        form.tempatKostNama = "";
+        form.alamatKontrak = "";
+      }
+    }
+
+    if (form.status === "Meninggal") {
+      if (!form.tanggalMeninggal) {
+        alert("Tanggal meninggal wajib diisi untuk status Meninggal.");
+        return;
+      }
+    }
+
+    /*
     ==========================================
     EDIT
     ==========================================
     Untuk sementara TIDAK diubah.
   */
 
-  if (editId) {
-  const dataSupabase = {
-    nama: form.nama || "",
-    nik: form.nik || "",
-    kk: form.kk || "",
+    if (editId) {
+      const dataSupabase = {
+        nama: form.nama || "",
+        nik: form.nik || "",
+        kk: form.kk || "",
 
-    nomor_telepon: form.nomorTelepon || "",
+        nomor_telepon: form.nomorTelepon || "",
 
-    tempat_lahir: form.tempatLahir || "",
-    tanggal_lahir: form.tanggalLahir || "",
+        tempat_lahir: form.tempatLahir || "",
+        tanggal_lahir: form.tanggalLahir || "",
 
-    jenis_kelamin: form.jenisKelamin || "",
+        jenis_kelamin: form.jenisKelamin || "",
 
-    alamat: form.alamat || "",
-    rt_rw: form.rtRw || "03/07",
+        alamat: form.alamat || "",
+        rt_rw: form.rtRw || "03/07",
 
-    kelurahan: form.kelurahan || "Karet",
-    kecamatan: form.kecamatan || "Setiabudi",
+        kelurahan: form.kelurahan || "Karet",
+        kecamatan: form.kecamatan || "Setiabudi",
 
-    agama: form.agama || "",
-    status_perkawinan: form.statusPerkawinan || "",
-    pekerjaan: form.pekerjaan || "",
-    kewarganegaraan: form.kewarganegaraan || "",
+        agama: form.agama || "",
+        status_perkawinan: form.statusPerkawinan || "",
+        pekerjaan: form.pekerjaan || "",
+        kewarganegaraan: form.kewarganegaraan || "",
 
-    status_keluarga: form.statusKeluarga || "",
+        status_keluarga: form.statusKeluarga || "",
 
-    status_kependudukan:
-      form.statusKependudukan || "Warga RT03",
+        status_kependudukan: form.statusKependudukan || "Warga RT03",
 
-    status_tinggal:
-      form.statusTinggal || "Tinggal di RT03",
+        status_tinggal: form.statusTinggal || "Tinggal di RT03",
 
-    jenis_tinggal: form.jenisTinggal || "",
+        jenis_tinggal: form.jenisTinggal || "",
 
-    tempat_kost_id: form.tempatKostId || "",
+        tempat_kost_id: form.tempatKostId || "",
 
-    nama_tempat_kost: form.tempatKostNama || "",
+        nama_tempat_kost: form.tempatKostNama || "",
 
-    alamat_kontrak: form.alamatKontrak || "",
+        alamat_kontrak: form.alamatKontrak || "",
 
-    status: form.status || "Aktif",
+        status: form.status || "Aktif",
 
-    tanggal_meninggal: form.tanggalMeninggal || "",
+        tanggal_meninggal: form.tanggalMeninggal || "",
 
-    keterangan_meninggal:
-      form.keteranganMeninggal || "",
-  };
+        keterangan_meninggal: form.keteranganMeninggal || "",
+      };
 
-  console.log(
-    "MENGUPDATE DATA WARGA DI SUPABASE:",
-    editId,
-    dataSupabase
-  );
+      console.log("MENGUPDATE DATA WARGA DI SUPABASE:", editId, dataSupabase);
 
-  const { data, error } = await supabase
-    .from("warga")
-    .update(dataSupabase)
-    .eq("id", String(editId))
-    .select()
-    .single();
+      const { data, error } = await supabase
+        .from("warga")
+        .update(dataSupabase)
+        .eq("id", String(editId))
+        .select()
+        .single();
 
-  if (error) {
-    console.error(
-      "GAGAL MENGUPDATE WARGA DI SUPABASE:",
-      error
-    );
+      if (error) {
+        console.error("GAGAL MENGUPDATE WARGA DI SUPABASE:", error);
 
-    alert("Data warga gagal diperbarui di Supabase.");
+        alert("Data warga gagal diperbarui di Supabase.");
 
-    return;
-  }
+        return;
+      }
 
-  console.log(
-    "DATA WARGA BERHASIL DIUPDATE DI SUPABASE:",
-    data
-  );
+      console.log("DATA WARGA BERHASIL DIUPDATE DI SUPABASE:", data);
 
-  const wargaUpdated = mapSupabaseToWarga(data);
+      const wargaUpdated = mapSupabaseToWarga(data);
 
-  const dataBaru = warga.map((item) =>
-    String(item.id) === String(editId)
-      ? wargaUpdated
-      : item
-  );
+      const dataBaru = warga.map((item) =>
+        String(item.id) === String(editId) ? wargaUpdated : item,
+      );
 
-  const dataNormal = normalisasiData(dataBaru);
+      const dataNormal = normalisasiData(dataBaru);
 
-  setWarga(dataNormal);
+      setWarga(dataNormal);
 
-  alert("Data warga berhasil diperbarui.");
+      alert("Data warga berhasil diperbarui.");
 
-  batalForm();
-  return;
-}
+      batalForm();
+      return;
+    }
 
-  /*
+    /*
     ==========================================
     TAMBAH DATA BARU → SUPABASE
     ==========================================
   */
 
-  const idBaru = String(Date.now());
+    const idBaru = String(Date.now());
 
-  const dataSupabase = {
-    id: idBaru,
+    const dataSupabase = {
+      id: idBaru,
 
-    nama: form.nama || "",
-    nik: form.nik || "",
-    kk: form.kk || "",
+      nama: form.nama || "",
+      nik: form.nik || "",
+      kk: form.kk || "",
 
-    nomor_telepon: form.nomorTelepon || "",
+      nomor_telepon: form.nomorTelepon || "",
 
-    tempat_lahir: form.tempatLahir || "",
-    tanggal_lahir: form.tanggalLahir || "",
+      tempat_lahir: form.tempatLahir || "",
+      tanggal_lahir: form.tanggalLahir || "",
 
-    jenis_kelamin: form.jenisKelamin || "",
+      jenis_kelamin: form.jenisKelamin || "",
 
-    alamat: form.alamat || "",
-    rt_rw: form.rtRw || "03/07",
+      alamat: form.alamat || "",
+      rt_rw: form.rtRw || "03/07",
 
-    kelurahan: form.kelurahan || "Karet",
-    kecamatan: form.kecamatan || "Setiabudi",
+      kelurahan: form.kelurahan || "Karet",
+      kecamatan: form.kecamatan || "Setiabudi",
 
-    agama: form.agama || "",
-    status_perkawinan: form.statusPerkawinan || "",
-    pekerjaan: form.pekerjaan || "",
-    kewarganegaraan: form.kewarganegaraan || "",
+      agama: form.agama || "",
+      status_perkawinan: form.statusPerkawinan || "",
+      pekerjaan: form.pekerjaan || "",
+      kewarganegaraan: form.kewarganegaraan || "",
 
-    status_keluarga: form.statusKeluarga || "",
+      status_keluarga: form.statusKeluarga || "",
 
-    status_kependudukan:
-      form.statusKependudukan || "Warga RT03",
+      status_kependudukan: form.statusKependudukan || "Warga RT03",
 
-    status_tinggal:
-      form.statusTinggal || "Tinggal di RT03",
+      status_tinggal: form.statusTinggal || "Tinggal di RT03",
 
-    jenis_tinggal: form.jenisTinggal || "",
+      jenis_tinggal: form.jenisTinggal || "",
 
-    tempat_kost_id: form.tempatKostId || "",
+      tempat_kost_id: form.tempatKostId || "",
 
-    nama_tempat_kost: form.tempatKostNama || "",
+      nama_tempat_kost: form.tempatKostNama || "",
 
-    alamat_kontrak: form.alamatKontrak || "",
+      alamat_kontrak: form.alamatKontrak || "",
 
-    status: form.status || "Aktif",
+      status: form.status || "Aktif",
 
-    tanggal_meninggal: form.tanggalMeninggal || "",
+      tanggal_meninggal: form.tanggalMeninggal || "",
 
-    keterangan_meninggal:
-      form.keteranganMeninggal || "",
-  };
+      keterangan_meninggal: form.keteranganMeninggal || "",
+    };
 
-  console.log("MENYIMPAN DATA WARGA BARU KE SUPABASE:", dataSupabase);
+    console.log("MENYIMPAN DATA WARGA BARU KE SUPABASE:", dataSupabase);
 
-  const { data, error } = await supabase
-    .from("warga")
-    .insert(dataSupabase)
-    .select()
-    .single();
+    const { data, error } = await supabase
+      .from("warga")
+      .insert(dataSupabase)
+      .select()
+      .single();
 
-  if (error) {
-    console.error("GAGAL MENYIMPAN WARGA KE SUPABASE:", error);
+    if (error) {
+      console.error("GAGAL MENYIMPAN WARGA KE SUPABASE:", error);
 
-    alert("Data warga gagal disimpan ke Supabase.");
+      alert("Data warga gagal disimpan ke Supabase.");
 
-    return;
-  }
+      return;
+    }
 
-  console.log("DATA WARGA BERHASIL DISIMPAN KE SUPABASE:", data);
+    console.log("DATA WARGA BERHASIL DISIMPAN KE SUPABASE:", data);
 
-  /*
+    /*
     Ubah kembali data Supabase ke format
     yang digunakan oleh DataWarga.jsx.
   */
 
-  const wargaBaru = mapSupabaseToWarga(data);
+    const wargaBaru = mapSupabaseToWarga(data);
 
-  /*
+    /*
     Normalisasi agar format data tetap sama
     dengan data warga yang sudah ada.
   */
 
-  const dataNormal = normalisasiData([...warga, wargaBaru]);
+    const dataNormal = normalisasiData([...warga, wargaBaru]);
 
-  setWarga(dataNormal);
+    setWarga(dataNormal);
 
-  alert("Data warga berhasil disimpan.");
+    alert("Data warga berhasil disimpan.");
 
-  batalForm();
-}
-
-  async function handleDelete(id) {
-  const konfirmasi = window.confirm(
-    "Data warga akan dihapus permanen.\n\nApakah Anda yakin?",
-  );
-
-  if (!konfirmasi) return;
-
-  console.log("MENGHAPUS DATA WARGA DARI SUPABASE:", id);
-
-  const { error } = await supabase
-    .from("warga")
-    .delete()
-    .eq("id", String(id));
-
-  if (error) {
-    console.error(
-      "GAGAL MENGHAPUS WARGA DARI SUPABASE:",
-      error
-    );
-
-    alert("Data warga gagal dihapus dari Supabase.");
-    return;
+    batalForm();
   }
 
-  const dataBaru = warga.filter(
-    (item) => String(item.id) !== String(id)
-  );
+  async function handleDelete(id) {
+    const konfirmasi = window.confirm(
+      "Data warga akan dihapus permanen.\n\nApakah Anda yakin?",
+    );
 
-  setWarga(dataBaru);
+    if (!konfirmasi) return;
 
-  console.log(
-    "DATA WARGA BERHASIL DIHAPUS DARI SUPABASE:",
-    id
-  );
+    console.log("MENGHAPUS DATA WARGA DARI SUPABASE:", id);
 
-  alert("Data warga berhasil dihapus.");
-}
+    const { error } = await supabase
+      .from("warga")
+      .delete()
+      .eq("id", String(id));
+
+    if (error) {
+      console.error("GAGAL MENGHAPUS WARGA DARI SUPABASE:", error);
+
+      alert("Data warga gagal dihapus dari Supabase.");
+      return;
+    }
+
+    const dataBaru = warga.filter((item) => String(item.id) !== String(id));
+
+    setWarga(dataBaru);
+
+    console.log("DATA WARGA BERHASIL DIHAPUS DARI SUPABASE:", id);
+
+    alert("Data warga berhasil dihapus.");
+  }
 
   function tandaiMeninggal(item) {
     const konfirmasi = window.confirm(
@@ -842,65 +808,163 @@ function DataWarga() {
     setEditId(item.id);
     setShowForm(true);
   }
+  async function tandaiPindah(item) {
+    const konfirmasi = window.confirm(
+      `Apakah ${item.nama} benar sudah pindah dari lingkungan RT03?`,
+    );
 
-  async function kembalikanAktif(item) {
+    if (!konfirmasi) return;
+
+    const { data, error } = await supabase
+      .from("warga")
+      .update({
+        status: "Pindah",
+      })
+      .eq("id", String(item.id))
+      .select()
+      .single();
+
+    if (error) {
+      console.error("GAGAL MENANDAI WARGA PINDAH:", error);
+      alert("Gagal mengubah status warga menjadi Pindah.");
+      return;
+    }
+
+    const wargaPindahBaru = normalisasiData([mapSupabaseToWarga(data)])[0];
+
+    setWarga((prev) =>
+      prev.map((w) => (String(w.id) === String(item.id) ? wargaPindahBaru : w)),
+    );
+
+    setOpenActionId(null);
+
+    alert(`${item.nama} berhasil ditandai sebagai Pindah.`);
+  }
+
+  async function jadikanKepalaKeluarga(item) {
+  if (!item) return;
+
+  if (item.status !== "Aktif") {
+    alert("Hanya warga Aktif yang dapat dijadikan Kepala Keluarga.");
+    return;
+  }
+
+  // Cari anggota keluarga dalam KK yang sama
+  const anggotaDalamKK = warga.filter(
+    (w) => w.kk === item.kk,
+  );
+
+  // Cek apakah sudah ada Kepala Keluarga Aktif
+  const kepalaAktif = anggotaDalamKK.find((w) => {
+    const statusKeluarga = String(w.statusKeluarga || "")
+      .trim()
+      .toLowerCase();
+
+    return (
+      statusKeluarga === "kepala keluarga" &&
+      w.status === "Aktif"
+    );
+  });
+
+  if (kepalaAktif) {
+    alert(
+      `KK ini sudah memiliki Kepala Keluarga Aktif:\n\n${kepalaAktif.nama}\n\nSilakan ubah terlebih dahulu Status Keluarga Kepala Keluarga tersebut sebelum menetapkan Kepala Keluarga baru.`,
+    );
+
+    return;
+  }
+
   const konfirmasi = window.confirm(
-    `Kembalikan ${item.nama} menjadi warga Aktif?`,
+    `Jadikan ${item.nama} sebagai Kepala Keluarga?`,
   );
 
   if (!konfirmasi) return;
 
-  console.log(
-    "MENGEMBALIKAN WARGA MENJADI AKTIF DI SUPABASE:",
-    item.id
-  );
-
-  const dataSupabase = {
-    status: "Aktif",
-    tanggal_meninggal: "",
-    keterangan_meninggal: "",
-  };
-
   const { data, error } = await supabase
     .from("warga")
-    .update(dataSupabase)
+    .update({
+      status_keluarga: "Kepala Keluarga",
+    })
     .eq("id", String(item.id))
     .select()
     .single();
 
   if (error) {
     console.error(
-      "GAGAL MENGEMBALIKAN WARGA MENJADI AKTIF:",
-      error
+      "GAGAL MENJADIKAN KEPALA KELUARGA:",
+      error,
     );
 
-    alert("Data warga gagal dikembalikan menjadi Aktif.");
+    alert("Gagal menetapkan Kepala Keluarga.");
     return;
   }
 
-  console.log(
-    "WARGA BERHASIL DIKEMBALIKAN MENJADI AKTIF:",
-    data
+  const wargaBaru = normalisasiData([
+    mapSupabaseToWarga(data),
+  ])[0];
+
+  setWarga((prev) =>
+    prev.map((w) =>
+      String(w.id) === String(item.id)
+        ? wargaBaru
+        : w,
+    ),
   );
 
-  const wargaUpdated = mapSupabaseToWarga(data);
-
-  const dataBaru = warga.map((dataItem) =>
-    String(dataItem.id) === String(item.id)
-      ? wargaUpdated
-      : dataItem
+  alert(
+    `${item.nama} berhasil ditetapkan sebagai Kepala Keluarga.`,
   );
-
-  const dataNormal = normalisasiData(dataBaru);
-
-  setWarga(dataNormal);
-
-  alert(`${item.nama} telah dikembalikan ke Warga Aktif.`);
 }
+
+  async function kembalikanAktif(item) {
+    const konfirmasi = window.confirm(
+      `Kembalikan ${item.nama} menjadi warga Aktif?`,
+    );
+
+    if (!konfirmasi) return;
+
+    console.log("MENGEMBALIKAN WARGA MENJADI AKTIF DI SUPABASE:", item.id);
+
+    const dataSupabase = {
+      status: "Aktif",
+      tanggal_meninggal: "",
+      keterangan_meninggal: "",
+    };
+
+    const { data, error } = await supabase
+      .from("warga")
+      .update(dataSupabase)
+      .eq("id", String(item.id))
+      .select()
+      .single();
+
+    if (error) {
+      console.error("GAGAL MENGEMBALIKAN WARGA MENJADI AKTIF:", error);
+
+      alert("Data warga gagal dikembalikan menjadi Aktif.");
+      return;
+    }
+
+    console.log("WARGA BERHASIL DIKEMBALIKAN MENJADI AKTIF:", data);
+
+    const wargaUpdated = mapSupabaseToWarga(data);
+
+    const dataBaru = warga.map((dataItem) =>
+      String(dataItem.id) === String(item.id) ? wargaUpdated : dataItem,
+    );
+
+    const dataNormal = normalisasiData(dataBaru);
+
+    setWarga(dataNormal);
+
+    alert(`${item.nama} telah dikembalikan ke Warga Aktif.`);
+  }
 
   const wargaAktif = warga.filter(
     (item) => (item.status || "Aktif") === "Aktif",
   );
+
+  const wargaPindah = warga.filter((item) => item.status === "Pindah");
 
   const wargaMeninggal = warga.filter((item) => item.status === "Meninggal");
 
@@ -909,6 +973,20 @@ function DataWarga() {
   */
 
   const wargaAktifFiltered = wargaAktif.filter((item) => {
+    const keyword = search.toLowerCase().trim();
+
+    return (
+      item.nama?.toLowerCase().includes(keyword) ||
+      item.nik?.includes(keyword) ||
+      item.kk?.includes(keyword)
+    );
+  });
+
+  /*
+    Pencarian warga pindah
+  */
+
+  const wargaPindahFiltered = wargaPindah.filter((item) => {
     const keyword = search.toLowerCase().trim();
 
     return (
@@ -940,6 +1018,10 @@ function DataWarga() {
 
   warga.forEach((item) => {
     if (!item.kk) return;
+
+    // KK hanya masuk daftar jika masih memiliki
+    // minimal satu anggota yang Aktif
+    if (item.status !== "Aktif") return;
 
     const sudahAda = daftarKK.find((kk) => kk.nomor === item.kk);
 
@@ -1385,6 +1467,7 @@ function DataWarga() {
                   onChange={handleChange}
                 >
                   <option value="Aktif">Aktif</option>
+                  <option value="Pindah">Pindah</option>
                   <option value="Meninggal">Meninggal</option>
                 </select>
               </div>
@@ -1462,6 +1545,19 @@ function DataWarga() {
 
             <button
               className={
+                tabAktif === "pindah" ? "status-tab active" : "status-tab"
+              }
+              onClick={() => {
+                setTabAktif("pindah");
+                setSearch("");
+              }}
+            >
+              🚚 Warga Pindah
+              <span>{wargaPindah.length}</span>
+            </button>
+
+            <button
+              className={
                 tabAktif === "meninggal" ? "status-tab active" : "status-tab"
               }
               onClick={() => {
@@ -1508,6 +1604,12 @@ function DataWarga() {
               </div>
             )}
 
+            {tabAktif === "pindah" && (
+              <div className="total-data">
+                Warga Pindah: <strong>{wargaPindah.length}</strong>
+              </div>
+            )}
+
             {tabAktif === "meninggal" && (
               <div className="total-data">
                 Orang Meninggal: <strong>{wargaMeninggal.length}</strong>
@@ -1551,17 +1653,17 @@ function DataWarga() {
                     </tr>
                   ) : (
                     wargaAktifFiltered.map((item, index) => (
-                     <tr
-  key={item.id}
-  className={
-    item.statusKependudukan === "Pendatang"
-      ? "warga-pendatang-row"
-      : item.statusKependudukan === "Warga RT03" &&
-        item.statusTinggal === "Tinggal di luar RT03"
-      ? "warga-luar-rt-row"
-      : ""
-  }
->
+                      <tr
+                        key={item.id}
+                        className={
+                          item.statusKependudukan === "Pendatang"
+                            ? "warga-pendatang-row"
+                            : item.statusKependudukan === "Warga RT03" &&
+                                item.statusTinggal === "Tinggal di luar RT03"
+                              ? "warga-luar-rt-row"
+                              : ""
+                        }
+                      >
                         <td>{index + 1}</td>
 
                         <td>{item.nik || "-"}</td>
@@ -1654,6 +1756,16 @@ function DataWarga() {
                                   type="button"
                                   onClick={() => {
                                     setOpenActionId(null);
+                                    tandaiPindah(item);
+                                  }}
+                                >
+                                  🚚 Tandai Pindah
+                                </button>
+
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setOpenActionId(null);
                                     tandaiMeninggal(item);
                                   }}
                                 >
@@ -1682,6 +1794,153 @@ function DataWarga() {
               <div className="floating-scrollbar" ref={floatingScrollRef}>
                 <div className="floating-scrollbar-content"></div>
               </div>
+            </div>
+          )}
+
+          {/* =========================
+    TAB WARGA PINDAH
+========================== */}
+
+          {tabAktif === "pindah" && (
+            <div className="table-wrapper table-wrapper-warga-pindah table-scroll-floating">
+              <table className="data-table table-warga-pindah">
+                <thead>
+                  <tr>
+                    <th>No</th>
+                    <th>NIK</th>
+                    <th>Nama</th>
+                    <th>No. KK</th>
+                    <th>Jenis Kelamin</th>
+                    <th>Status Keluarga</th>
+                    <th>Aksi</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {wargaPindahFiltered.length === 0 ? (
+                    <tr>
+                      <td colSpan="7" className="empty-table">
+                        Belum ada data warga pindah.
+                      </td>
+                    </tr>
+                  ) : (
+                    wargaPindahFiltered.map((item, index) => (
+                      <tr key={item.id}>
+                        <td>{index + 1}</td>
+
+                        <td>{item.nik || "-"}</td>
+
+                        <td>
+                          <strong>{item.nama}</strong>
+                        </td>
+
+                        <td>{item.kk || "-"}</td>
+
+                        <td>{item.jenisKelamin || "-"}</td>
+
+                        <td>{item.statusKeluarga || "-"}</td>
+
+                        <td>
+                          <div className="action-dropdown">
+                            <button
+                              type="button"
+                              className="action-menu-button"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+
+                                const rect =
+                                  e.currentTarget.getBoundingClientRect();
+
+                                const menuWidth = 175;
+                                const menuHeight = 148;
+                                const jarak = 6;
+
+                                let top = rect.bottom + jarak;
+                                let left = rect.right - menuWidth;
+
+                                if (top + menuHeight > window.innerHeight) {
+                                  top = rect.top - menuHeight - jarak;
+                                }
+
+                                if (left < 5) {
+                                  left = 5;
+                                }
+
+                                if (left + menuWidth > window.innerWidth - 5) {
+                                  left = window.innerWidth - menuWidth - 5;
+                                }
+
+                                setActionMenuPosition({
+                                  top,
+                                  left,
+                                });
+
+                                setOpenActionId(item.id);
+                              }}
+                            >
+                              ⋮ Aksi
+                            </button>
+
+                            {openActionId === item.id && (
+                              <div
+                                className="action-menu"
+                                style={{
+                                  position: "fixed",
+                                  top: `${actionMenuPosition.top}px`,
+                                  left: `${actionMenuPosition.left}px`,
+                                }}
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setOpenActionId(null);
+                                    bukaDetail(item);
+                                  }}
+                                >
+                                  👁️ Detail
+                                </button>
+
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setOpenActionId(null);
+                                    bukaFormEdit(item);
+                                  }}
+                                >
+                                  ✏️ Edit
+                                </button>
+
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setOpenActionId(null);
+                                    kembalikanAktif(item);
+                                  }}
+                                >
+                                  ↩️ Kembalikan Aktif
+                                </button>
+
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setOpenActionId(null);
+                                    handleDelete(item.id);
+                                  }}
+                                  className="danger"
+                                >
+                                  🗑️ Hapus
+                                </button>
+                              </div>
+                            )}
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
             </div>
           )}
 
@@ -1808,10 +2067,10 @@ function DataWarga() {
                                   type="button"
                                   onClick={() => {
                                     setOpenActionId(null);
-                                    tandaiMeninggal(item);
+                                    kembalikanAktif(item);
                                   }}
                                 >
-                                  🕊️ Tandai Meninggal
+                                  ↩️ Kembalikan Aktif
                                 </button>
 
                                 <button
@@ -1873,11 +2132,14 @@ function DataWarga() {
                   ) : (
                     daftarKKFiltered.map((keluarga, index) => {
                       const kepala = keluarga.anggota.find((item) => {
-                        const status = String(item.statusKeluarga || "")
+                        const statusKeluarga = String(item.statusKeluarga || "")
                           .trim()
                           .toLowerCase();
 
-                        return status === "kepala keluarga";
+                        return (
+                          statusKeluarga === "kepala keluarga" &&
+                          item.status === "Aktif"
+                        );
                       });
 
                       return (
@@ -1888,7 +2150,15 @@ function DataWarga() {
                             <strong>{keluarga.nomor}</strong>
                           </td>
 
-                          <td>{kepala?.nama || "-"}</td>
+                          <td>
+                            {kepala ? (
+                              kepala.nama
+                            ) : (
+                              <span className="kepala-belum-ditentukan">
+                                Belum ditentukan
+                              </span>
+                            )}
+                          </td>
 
                           <td>{keluarga.anggota.length}</td>
 
@@ -1974,12 +2244,16 @@ function DataWarga() {
                       className={
                         selectedWarga.status === "Meninggal"
                           ? "status-badge deceased"
-                          : "status-badge active"
+                          : selectedWarga.status === "Pindah"
+                            ? "status-badge pindah"
+                            : "status-badge active"
                       }
                     >
                       {selectedWarga.status === "Meninggal"
                         ? "Meninggal"
-                        : "Aktif"}
+                        : selectedWarga.status === "Pindah"
+                          ? "Pindah"
+                          : "Aktif"}
                     </span>
 
                     {selectedWarga.statusKeluarga && (
@@ -2220,12 +2494,16 @@ function DataWarga() {
                           className={
                             anggota.status === "Meninggal"
                               ? "status-badge deceased"
-                              : "status-badge active"
+                              : anggota.status === "Pindah"
+                                ? "status-badge pindah"
+                                : "status-badge active"
                           }
                         >
                           {anggota.status === "Meninggal"
                             ? "Meninggal"
-                            : "Aktif"}
+                            : anggota.status === "Pindah"
+                              ? "Pindah"
+                              : "Aktif"}
                         </span>
                       </div>
                     ))}
@@ -2288,16 +2566,33 @@ function DataWarga() {
                       <span>{anggota.statusKeluarga || "-"}</span>
 
                       <small>NIK: {anggota.nik || "-"}</small>
+
+                      {anggota.status === "Aktif" &&
+                        anggota.statusKeluarga !== "Kepala Keluarga" && (
+                          <button
+                            type="button"
+                            className="btn-jadikan-kepala"
+                            onClick={() => jadikanKepalaKeluarga(anggota)}
+                          >
+                            👑 Jadikan Kepala Keluarga
+                          </button>
+                        )}
                     </div>
 
                     <span
                       className={
                         anggota.status === "Meninggal"
                           ? "status-badge deceased"
-                          : "status-badge active"
+                          : anggota.status === "Pindah"
+                            ? "status-badge pindah"
+                            : "status-badge active"
                       }
                     >
-                      {anggota.status === "Meninggal" ? "Meninggal" : "Aktif"}
+                      {anggota.status === "Meninggal"
+                        ? "Meninggal"
+                        : anggota.status === "Pindah"
+                          ? "Pindah"
+                          : "Aktif"}
                     </span>
                   </div>
                 ))}
