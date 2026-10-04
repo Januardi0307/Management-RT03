@@ -556,14 +556,26 @@ textarea {
 }
 
 @media (max-width: 700px) {
+
   .app {
     display: block;
-  }
-
-  .sidebar {
     width: 100%;
     min-width: 0;
+  }
+
+  /* SIDEBAR MENJADI NAVIGASI HORIZONTAL */
+  .sidebar {
+    position: relative;
+    left: auto;
+    top: auto;
+    bottom: auto;
+
+    width: 100%;
+    min-width: 0;
+    height: auto;
     min-height: auto;
+
+    display: block;
   }
 
   .logo-area {
@@ -575,26 +587,67 @@ textarea {
   }
 
   .menu {
+    display: flex;
     flex-direction: row;
+
+    width: 100%;
+    max-width: 100%;
+
     overflow-x: auto;
+    overflow-y: hidden;
+
     padding: 8px 10px 10px;
+    gap: 5px;
+
+    -webkit-overflow-scrolling: touch;
   }
 
   .menu-item {
     width: auto;
     min-width: max-content;
+    flex-shrink: 0;
   }
 
   .sidebar-bottom {
     display: none;
   }
 
+  /* MAIN */
+  .main-content {
+    width: 100%;
+    min-width: 0;
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   .topbar {
+    width: 100%;
+    height: 60px;
     padding: 0 15px;
   }
 
+  .topbar h1 {
+    font-size: 18px;
+  }
+
+  .content {
+    width: 100%;
+    padding: 12px;
+  }
+
+  /* DASHBOARD */
   .dashboard-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .stat-card {
+    min-width: 0;
+    padding: 11px 9px;
+  }
+
+  .stat-info strong {
+    font-size: 22px;
   }
 
   .welcome {
@@ -736,4 +789,122 @@ textarea {
   .category-table td {
     padding: 9px 10px;
   }
+}
+
+/* =========================================
+   RESPONSIVE MOBILE
+   ========================================= */
+
+@media (max-width: 768px) {
+
+  /* ================================
+     HALAMAN UTAMA
+     ================================ */
+
+  html,
+  body,
+  #root {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .app {
+    width: 100%;
+    min-width: 0;
+    overflow-x: hidden;
+  }
+
+  .main-content {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+
+  .content {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+    overflow-x: hidden;
+  }
+
+
+  /* ================================
+     TOPBAR
+     ================================ */
+
+  .topbar {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px;
+  }
+
+
+  /* ================================
+     DASHBOARD
+     ================================ */
+
+  .dashboard-grid {
+    width: 100%;
+    max-width: 100%;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .stat-card {
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .stat-info {
+    min-width: 0;
+  }
+
+  .stat-info strong {
+    font-size: 22px;
+  }
+
+
+  /* ================================
+     MODAL
+     ================================ */
+
+  .category-modal,
+  .birthday-modal {
+    width: calc(100vw - 24px);
+    max-width: calc(100vw - 24px);
+    box-sizing: border-box;
+  }
+
+  .category-modal-body,
+  .birthday-modal-body {
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow-x: auto;
+  }
+
+
+  /* ================================
+     TABEL KATEGORI
+     ================================ */
+
+  .category-table-wrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .category-table {
+    min-width: 800px;
+    font-size: 13px;
+  }
+
+  .category-table th,
+  .category-table td {
+    padding: 9px 10px;
+  }
+
 }
