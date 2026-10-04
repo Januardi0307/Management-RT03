@@ -226,6 +226,48 @@ function Dashboard() {
     return usia !== null && usia >= 60;
   });
 
+  const wargaTidakMasukKategori = wargaRT03.filter((item) => {
+  const usia = hitungUsia(item.tanggalLahir);
+
+  const masukBalita = usia !== null && usia >= 0 && usia <= 5;
+  const masukAnak = usia !== null && usia >= 6 && usia <= 10;
+
+  const belumMenikah =
+    item.statusPerkawinan === "Belum Kawin" ||
+    item.statusPerkawinan === "BELUM KAWIN" ||
+    item.statusPerkawinan === "belum kawin";
+
+  const masukRemaja =
+    usia !== null && usia >= 11 && usia <= 21 && belumMenikah;
+
+  const masukDewasa =
+    usia !== null && usia >= 22 && usia <= 59;
+
+  const masukLansia =
+    usia !== null && usia >= 60;
+
+  return !(
+    masukBalita ||
+    masukAnak ||
+    masukRemaja ||
+    masukDewasa ||
+    masukLansia
+  );
+});
+
+console.log("=== WARGA TIDAK MASUK KATEGORI USIA ===");
+console.log("Jumlah:", wargaTidakMasukKategori.length);
+console.table(
+  wargaTidakMasukKategori.map((item) => ({
+    nama: item.nama,
+    tanggalLahir: item.tanggalLahir,
+    usia: hitungUsia(item.tanggalLahir),
+    statusPerkawinan: item.statusPerkawinan,
+    status: item.status,
+    statusKependudukan: item.statusKependudukan,
+  }))
+);
+
   const statistikBalita = hitungStatistik(dataBalita);
   const statistikAnakAnak = hitungStatistik(dataAnakAnak);
   const statistikRemaja = hitungStatistik(dataRemaja);

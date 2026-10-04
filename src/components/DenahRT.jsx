@@ -14,7 +14,7 @@ import { supabase } from "../lib/supabase";
 const dataAwal = [
   {
     id: "rumah-01",
-    nomor: 1,
+    nomor: 24,
     nama: "Bidang 01",
     tipe: "Rumah Tinggal",
     x: 166,
@@ -31,7 +31,7 @@ const dataAwal = [
 
   {
     id: "rumah-02",
-    nomor: 2,
+    nomor: 24,
     nama: "Bidang 02",
     tipe: "Kontrak",
     x: 256,
@@ -44,7 +44,7 @@ const dataAwal = [
 
   {
     id: "rumah-03",
-    nomor: 3,
+    nomor: 25,
     nama: "Bidang 03",
     tipe: "Rumah Tinggal",
     x: 329,
@@ -61,7 +61,7 @@ const dataAwal = [
 
   {
     id: "rumah-04",
-    nomor: 4,
+    nomor: 26,
     nama: "Bidang 04",
     tipe: "Kontrak",
     x: 256,
@@ -74,7 +74,7 @@ const dataAwal = [
 
   {
     id: "rumah-05",
-    nomor: 5,
+    nomor: 26,
     nama: "Bidang 05",
     tipe: "Rumah Tinggal",
     x: 256,
@@ -90,7 +90,7 @@ const dataAwal = [
 
   {
     id: "rumah-06",
-    nomor: 6,
+    nomor: 26,
     nama: "Bidang 06",
     tipe: "Rumah Tinggal",
     x: 256,
@@ -105,7 +105,7 @@ const dataAwal = [
 
   {
     id: "rumah-07",
-    nomor: 7,
+    nomor: 27,
     nama: "Bidang 07",
     tipe: "Kontrak",
     x: 312,
@@ -131,7 +131,7 @@ const dataAwal = [
 
   {
     id: "rumah-09",
-    nomor: 9,
+    nomor: 23,
     nama: "Bidang 09",
     tipe: "Kost",
     x: 166,
@@ -144,7 +144,7 @@ const dataAwal = [
 
   {
     id: "rumah-10",
-    nomor: 10,
+    nomor: 28,
     nama: "Bidang 10",
     tipe: "Rumah Tinggal",
     x: 395,
@@ -157,7 +157,7 @@ const dataAwal = [
 
   {
     id: "rumah-11",
-    nomor: 11,
+    nomor: 29,
     nama: "Bidang 11",
     tipe: "Rumah Tinggal",
     x: 452,
@@ -170,7 +170,7 @@ const dataAwal = [
 
   {
     id: "rumah-12",
-    nomor: 12,
+    nomor: 21,
     nama: "Bidang 12",
     tipe: "Rumah Tinggal",
     x: 171,
@@ -185,7 +185,7 @@ const dataAwal = [
 
   {
     id: "rumah-13",
-    nomor: 13,
+    nomor: 21,
     nama: "Bidang 13",
     tipe: "Rumah Tinggal",
     x: 259,
@@ -202,7 +202,7 @@ const dataAwal = [
 
   {
     id: "rumah-14",
-    nomor: 14,
+    nomor: 30,
     nama: "Bidang 14",
     tipe: "Kontrak",
     x: 318,
@@ -219,7 +219,7 @@ const dataAwal = [
 
   {
     id: "rumah-51",
-    nomor: 51,
+    nomor: 21,
     nama: "Bidang 51",
     tipe: "Kontrak",
     x: 354,
@@ -232,7 +232,7 @@ const dataAwal = [
 
   {
     id: "rumah-15",
-    nomor: 15,
+    nomor: 21,
     nama: "Bidang 15",
     tipe: "Rumah Tinggal",
     x: 171,
@@ -247,7 +247,7 @@ const dataAwal = [
 
   {
     id: "rumah-16",
-    nomor: 16,
+    nomor: 21,
     nama: "Bidang 16",
     tipe: "Rumah Tinggal",
     x: 171,
@@ -262,7 +262,7 @@ const dataAwal = [
 
   {
     id: "rumah-17",
-    nomor: 17,
+    nomor: 20,
     nama: "Bidang 17",
     tipe: "Kontrak",
     x: 171,
@@ -275,7 +275,26 @@ const dataAwal = [
 
   {
     id: "rumah-18",
-    nomor: 18,
+    nomor: 19,
+    nama: "Bidang 18",
+    tipe: "Rumah Tinggal",
+    x: 171,
+    y: 478,
+    width: 87,
+    height: 25,
+    unit: [{ id: "unit-18-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    kk: [
+      { id: "3174020501095824", nama: "SULANTA R", noKK: "3174020501095824" },
+      { id: "3174023001200005", nama: "ZAINUDIN AHMAD", noKK: "3174023001200005" },
+      { id: "3174022407141002", nama: "AMENAH", noKK: "3174022407141002" },
+      { id: "3174020709220006", nama: "HENDRA", noKK: "3174020709220006" },
+      { id: "3174021101121001", nama: "UMIYENIA", noKK: "3174021101121001" },
+    ],
+  },
+
+  {
+    id: "rumah-18",
+    nomor: 19,
     nama: "Bidang 18",
     tipe: "Rumah Tinggal",
     x: 171,
@@ -307,19 +326,17 @@ const dataAwal = [
       { id: "3174020501095852", nama: "MUDJENI", noKK: "3174020501095852" },
     ],
   },
-
-  {
-    id: "rumah-20",
-    nomor: 20,
-    nama: "Bidang 20",
+{
+    id: "rumah-52",
+    nomor: 18,
+    nama: "Bidang 52",
     tipe: "Rumah Tinggal",
     x: 258,
     y: 477,
-    width: 67,
+    width: 33,
     height: 140,
-    unit: [{ id: "unit-20-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [{ id: "unit-52-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
     kk: [
-      { id: "3174022211160005", nama: "SYARIF HIDAYATULLAH", noKK: "3174022211160005" },
       { id: "3174021203190001", nama: "AMANI", noKK: "3174021203190001" },
       { id: "3174020601092554", nama: "ROMMY HERMANSYAH", noKK: "3174020601092554" },
       { id: "3174021310220015", nama: "QAMARUL AKHYAR DINAN", noKK: "3174021310220015" },
@@ -328,8 +345,23 @@ const dataAwal = [
   },
 
   {
+    id: "rumah-20",
+    nomor: 17,
+    nama: "Bidang 20",
+    tipe: "Rumah Tinggal",
+    x: 292,
+    y: 477,
+    width: 33,
+    height: 140,
+    unit: [{ id: "unit-20-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    kk: [
+      { id: "3174022211160005", nama: "SYARIF HIDAYATULLAH", noKK: "3174022211160005" },
+    ],
+  },
+
+  {
     id: "rumah-21",
-    nomor: 21,
+    nomor: 15,
     nama: "Bidang 21",
     tipe: "Kontrak",
     x: 325,
@@ -342,7 +374,7 @@ const dataAwal = [
 
   {
     id: "rumah-22",
-    nomor: 22,
+    nomor: 16,
     nama: "Bidang 22",
     tipe: "Kost",
     x: 357,
@@ -355,7 +387,7 @@ const dataAwal = [
 
   {
     id: "rumah-23",
-    nomor: 23,
+    nomor: 35,
     nama: "Bidang 23",
     tipe: "Rumah Tinggal",
     x: 325,
@@ -375,7 +407,7 @@ const dataAwal = [
 
   {
     id: "rumah-24",
-    nomor: 24,
+    nomor: 34,
     nama: "Bidang 24",
     tipe: "Rumah Tinggal",
     x: 325,
@@ -390,7 +422,7 @@ const dataAwal = [
 
   {
     id: "rumah-25",
-    nomor: 25,
+    nomor: 33,
     nama: "Bidang 25",
     tipe: "Rumah Tinggal",
     x: 325,
@@ -405,7 +437,7 @@ const dataAwal = [
 
   {
     id: "rumah-26",
-    nomor: 26,
+    nomor: 32,
     nama: "Bidang 26",
     tipe: "Kontrak",
     x: 325,
@@ -420,7 +452,7 @@ const dataAwal = [
 
   {
     id: "rumah-27",
-    nomor: 27,
+    nomor: 31,
     nama: "Bidang 27",
     tipe: "Rumah Tinggal",
     x: 325,
@@ -437,7 +469,7 @@ const dataAwal = [
 
   {
     id: "rumah-28",
-    nomor: 28,
+    nomor: 30,
     nama: "Bidang 28",
     tipe: "Rumah Tinggal",
     x: 320,
@@ -453,7 +485,7 @@ const dataAwal = [
 
   {
     id: "rumah-29",
-    nomor: 29,
+    nomor: 28,
     nama: "Bidang 29",
     tipe: "Rumah Tinggal",
     x: 411,
@@ -469,7 +501,7 @@ const dataAwal = [
 
   {
     id: "rumah-30",
-    nomor: 30,
+    nomor: 29,
     nama: "Bidang 30",
     tipe: "Kontrak",
     x: 459,
@@ -484,7 +516,7 @@ const dataAwal = [
 
   {
     id: "rumah-31",
-    nomor: 31,
+    nomor: 36,
     nama: "Bidang 31",
     tipe: "Kontrak",
     x: 418,
@@ -499,7 +531,7 @@ const dataAwal = [
 
   {
     id: "rumah-32",
-    nomor: 32,
+    nomor: 36,
     nama: "Bidang 32",
     tipe: "Kontrak",
     x: 418,
@@ -512,7 +544,7 @@ const dataAwal = [
 
   {
     id: "rumah-33",
-    nomor: 33,
+    nomor: 0,
     nama: "Bidang 33",
     tipe: "POS RT 03",
     x: 418,
@@ -525,7 +557,7 @@ const dataAwal = [
 
   {
     id: "rumah-34",
-    nomor: 34,
+    nomor: 38,
     nama: "Bidang 34",
     tipe: "Rumah Tinggal",
     x: 418,
@@ -543,7 +575,7 @@ const dataAwal = [
 
   {
     id: "rumah-35",
-    nomor: 35,
+    nomor: 39,
     nama: "Bidang 35",
     tipe: "Rumah Tinggal",
     x: 418,
@@ -559,7 +591,7 @@ const dataAwal = [
 
   {
     id: "rumah-36",
-    nomor: 36,
+    nomor: 40,
     nama: "Bidang 36",
     tipe: "Kontrak",
     x: 418,
@@ -574,7 +606,7 @@ const dataAwal = [
 
   {
     id: "rumah-37",
-    nomor: 37,
+    nomor: 41,
     nama: "Bidang 37",
     tipe: "Rumah Tinggal",
     x: 418,
@@ -591,7 +623,7 @@ const dataAwal = [
 
   {
     id: "rumah-38",
-    nomor: 38,
+    nomor: 14,
     nama: "Bidang 38",
     tipe: "Rumah Tinggal",
     x: 399,
@@ -607,7 +639,7 @@ const dataAwal = [
 
   {
     id: "rumah-39",
-    nomor: 39,
+    nomor: 12,
     nama: "Bidang 39",
     tipe: "Rumah Tinggal",
     x: 399,
@@ -623,7 +655,7 @@ const dataAwal = [
 
   {
     id: "rumah-40",
-    nomor: 40,
+    nomor: 11,
     nama: "Bidang 40",
     tipe: "Rumah Tinggal",
     x: 504,
@@ -640,7 +672,7 @@ const dataAwal = [
 
   {
     id: "rumah-41",
-    nomor: 41,
+    nomor: 10,
     nama: "Bidang 41",
     tipe: "Rumah Tinggal",
     x: 575,
@@ -656,7 +688,7 @@ const dataAwal = [
 
   {
     id: "rumah-42",
-    nomor: 42,
+    nomor: 10,
     nama: "Bidang 42",
     tipe: "Kontrak",
     x: 624,
@@ -671,7 +703,7 @@ const dataAwal = [
 
   {
     id: "rumah-43",
-    nomor: 43,
+    nomor: 41,
     nama: "Bidang 43",
     tipe: "Kost / Usaha",
     x: 534,
@@ -688,7 +720,7 @@ const dataAwal = [
 
   {
     id: "rumah-44",
-    nomor: 44,
+    nomor: 7,
     nama: "Bidang 44",
     tipe: "Rumah Tinggal",
     x: 477,
@@ -703,7 +735,7 @@ const dataAwal = [
 
   {
     id: "rumah-45",
-    nomor: 45,
+    nomor: 7,
     nama: "Bidang 45",
     tipe: "Bengkel",
     x: 430,
@@ -716,7 +748,7 @@ const dataAwal = [
 
   {
     id: "rumah-46",
-    nomor: 46,
+    nomor: 7,
     nama: "Bidang 46",
     tipe: "Kontrak",
     x: 381,
@@ -732,7 +764,7 @@ const dataAwal = [
 
   {
     id: "rumah-47",
-    nomor: 47,
+    nomor: 9,
     nama: "Bidang 47",
     tipe: "Kontrak",
     x: 380,
@@ -748,7 +780,7 @@ const dataAwal = [
 
   {
     id: "rumah-48",
-    nomor: 48,
+    nomor: 8,
     nama: "Bidang 48",
     tipe: "Rumah Tinggal / Kost",
     x: 257,
@@ -771,7 +803,7 @@ const dataAwal = [
 
   {
     id: "rumah-49",
-    nomor: 49,
+    nomor: 4,
     nama: "Bidang 49",
     tipe: "Rumah Tinggal",
     x: 212,
@@ -788,7 +820,7 @@ const dataAwal = [
 
   {
     id: "rumah-50",
-    nomor: 50,
+    nomor: 6,
     nama: "Bidang 50",
     tipe: "Kost",
     x: 257,
