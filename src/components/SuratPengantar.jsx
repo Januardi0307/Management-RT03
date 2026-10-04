@@ -1176,7 +1176,7 @@ const [wargaMeninggal, setWargaMeninggal] = useState([]);
       const nomor = parseInt(String(surat.nomorSurat || "").split("/")[0], 10);
 
       return isNaN(nomor) ? terbesar : Math.max(terbesar, nomor);
-    }, 0);
+    }, 23);
 
     const nomorUrut = String(nomorTerakhir + 1).padStart(3, "0");
 
