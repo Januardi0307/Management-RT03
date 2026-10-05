@@ -665,8 +665,8 @@
 }
 
 .preview-garis {
-  border-bottom: 2px solid #222;
-  margin: 10px 0 25px;
+  border-bottom: 2px solid #111;
+  margin: 8px 0 18px;
 }
 
 .preview-judul {
@@ -750,7 +750,7 @@
 .preview-kop-surat {
   text-align: center;
   color: #111;
-  line-height: 1.45;
+  line-height: 1.25;
 }
 
 .kop-baris {
@@ -761,19 +761,21 @@
 .kop-baris-2,
 .kop-baris-3 {
   font-weight: bold;
-  font-size: 16px;
 }
 
 .kop-baris-1 {
-  margin-bottom: 2px;
+  font-size: 18px;
+  margin-bottom: 1px;
 }
 
 .kop-baris-2 {
-  margin-bottom: 2px;
+  font-size: 14px;
+  margin-bottom: 1px;
 }
 
 .kop-baris-3 {
-  margin-bottom: 4px;
+  font-size: 14px;
+  margin-bottom: 3px;
 }
 
 .kop-baris-4 {
@@ -802,12 +804,13 @@
 
 .preview-judul-surat {
   text-align: center;
-  margin-bottom: 28px;
+  margin-top: 22px;
+  margin-bottom: 24px;
 }
 
 .preview-judul-surat h2 {
-  margin: 0 0 7px;
-  font-size: 17px;
+  margin: 0 0 4px;
+  font-size: 16px;
   font-weight: bold;
   text-decoration: underline;
 }
@@ -815,13 +818,17 @@
 .preview-nomor-surat {
   text-align: center;
   font-size: 13px;
-  margin-top: 2px;
+  margin-top: 0;
 }
 
 .preview-isi-surat {
   font-size: 13px;
   line-height: 1.65;
   text-align: left;
+}
+
+.preview-isi-surat p {
+  margin: 0 0 12px;
 }
 /* =========================
    IDENTITAS WARGA
@@ -833,9 +840,26 @@
 
 .identitas-row {
   display: grid;
-  grid-template-columns: 180px 30px 1fr;
+  grid-template-columns: 180px 20px 1fr;
   align-items: start;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.identitas-row > span {
+  white-space: nowrap;
+}
+
+.identitas-row > b {
+  text-align: left;
+  font-weight: normal;
+}
+
+.identitas-row > strong {
+  text-align: left;
+  font-weight: normal;
+  min-width: 0;
 }
 
 .identitas-row > span {
@@ -1058,24 +1082,24 @@
   }
 
   .kop-baris {
-    text-align: center !important;
-    line-height: 1.3 !important;
-  }
+  text-align: center !important;
+  line-height: 1.25 !important;
+}
 
   .kop-baris-1 {
-    font-size: 20px !important;
-    font-weight: 700 !important;
-  }
+  font-size: 18px !important;
+  font-weight: 700 !important;
+}
 
-  .kop-baris-2 {
-    font-size: 15px !important;
-    font-weight: 600 !important;
-  }
+.kop-baris-2 {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
 
-  .kop-baris-3 {
-    font-size: 15px !important;
-    font-weight: 600 !important;
-  }
+.kop-baris-3 {
+  font-size: 14px !important;
+  font-weight: 700 !important;
+}
 
   .kop-baris-4 {
     display: flex !important;
@@ -1102,33 +1126,35 @@
      GARIS KOP
   */
   .preview-garis {
-    width: 100% !important;
+  width: 100% !important;
 
-    border-bottom: 3px solid #000 !important;
+  border-bottom: 2px solid #000 !important;
 
-    margin-top: 8px !important;
-    margin-bottom: 20px !important;
-  }
+  margin-top: 7px !important;
+  margin-bottom: 16px !important;
+}
 
   /*
      JUDUL SURAT
   */
   .preview-judul-surat {
-    text-align: center !important;
-    margin-bottom: 28px !important;
-  }
+  text-align: center !important;
+  margin-top: 18px !important;
+  margin-bottom: 18px !important;
+}
 
-  .preview-judul-surat h2 {
-    margin: 0 0 7px !important;
-    font-size: 17px !important;
-    font-weight: bold !important;
-    text-decoration: underline !important;
-  }
+.preview-judul-surat h2 {
+  margin: 0 0 4px !important;
+  font-size: 16px !important;
+  font-weight: bold !important;
+  text-decoration: underline !important;
+}
 
-  .preview-nomor-surat {
-    text-align: center !important;
-    font-size: 13px !important;
-  }
+.preview-nomor-surat {
+  text-align: center !important;
+  font-size: 13px !important;
+  margin-top: 0 !important;
+}
 
   /*
      ISI SURAT
@@ -1138,6 +1164,9 @@
     line-height: 1.65 !important;
     text-align: left !important;
   }
+  .preview-isi-surat p {
+  margin: 0 0 12px !important;
+}
 
   /*
      IDENTITAS WARGA
@@ -1147,13 +1176,31 @@
   }
 
   .identitas-row {
-    display: grid !important;
-    grid-template-columns: 180px 30px 1fr !important;
+  display: grid !important;
+  grid-template-columns: 180px 20px 1fr !important;
 
-    align-items: start !important;
+  align-items: start !important;
 
-    margin-bottom: 6px !important;
-  }
+  margin-bottom: 5px !important;
+
+  font-size: 13px !important;
+  line-height: 1.5 !important;
+}
+
+.identitas-row > span {
+  white-space: nowrap !important;
+}
+
+.identitas-row > b {
+  text-align: left !important;
+  font-weight: normal !important;
+}
+
+.identitas-row > strong {
+  text-align: left !important;
+  font-weight: normal !important;
+  min-width: 0 !important;
+}
 
   /*
      PENUTUP

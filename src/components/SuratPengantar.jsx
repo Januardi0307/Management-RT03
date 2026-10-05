@@ -18,7 +18,6 @@ const JENIS_SURAT = [
   "Surat Keterangan",
 ];
 
-
 /* =======================================================
    DATA KELUARGA UNTUK SURAT KETERANGAN KELAHIRAN
 ======================================================= */
@@ -34,6 +33,20 @@ function getDataOrangTuaKelahiran(bayi, daftarWarga) {
   const anggotaKeluarga = daftarWarga.filter(
     (item) => String(item.kk || "").trim() === String(bayi.kk || "").trim(),
   );
+
+
+  console.log("=== CEK ANGGOTA KK KELAHIRAN ===");
+console.log("KK BAYI:", bayi?.kk);
+
+console.table(
+  anggotaKeluarga.map((item) => ({
+    id: item.id,
+    nama: item.nama,
+    nik: item.nik,
+    kk: item.kk,
+    statusKeluarga: item.statusKeluarga,
+  }))
+);
 
   const ayah = anggotaKeluarga.find(
     (item) =>
@@ -106,7 +119,6 @@ function getAlamatDomisiliPendatang(pendatang, daftarKost = []) {
   ===================================================== */
 
   if (jenisTinggal.toLowerCase() === "kost") {
-
     const namaKost = String(pendatang.tempatKostNama || "").trim();
 
     const kost = daftarKost.find(
@@ -146,8 +158,6 @@ function getAlamatDomisiliPendatang(pendatang, daftarKost = []) {
   };
 }
 
-
-
 /* =========================================================
    FORMAT TANGGAL
 ========================================================= */
@@ -160,7 +170,22 @@ function formatTanggal(tanggal) {
   if (parts.length === 3) {
     const [tahun, bulan, hari] = parts;
 
-    return `${hari}/${bulan}/${tahun}`;
+    const namaBulan = [
+      "Januari",
+      "Februari",
+      "Maret",
+      "April",
+      "Mei",
+      "Juni",
+      "Juli",
+      "Agustus",
+      "September",
+      "Oktober",
+      "November",
+      "Desember",
+    ];
+
+    return `${hari} ${namaBulan[Number(bulan) - 1]} ${tahun}`;
   }
 
   return tanggal;
@@ -329,15 +354,13 @@ function getIsiSurat(surat, daftarWarga = []) {
         ],
         ["Tempat", surat?.tempatLahirBayi || ""],
 
-        ["Nama Ayah Kandung", surat?.ayahNama || ""],
-        ["NIK Ayah", surat?.ayahNik || ""],
-
-        ["Nama Ibu Kandung", surat?.ibuNama || ""],
-        ["NIK Ibu", surat?.ibuNik || ""],
-
-        ["Nomor Kartu Keluarga", surat?.nomorKK || ""],
-        ["Anak Ke", surat?.anakKe || ""],
-        ["Alamat", surat?.alamatKelahiran || ""],
+        ["Nama Ayah Kandung", surat?.namaAyah || surat?.ayahNama || ""],
+["NIK Ayah", surat?.nikAyah || surat?.ayahNik || ""],
+["Nama Ibu Kandung", surat?.namaIbu || surat?.ibuNama || ""],
+["NIK Ibu", surat?.nikIbu || surat?.ibuNik || ""],
+["Nomor Kartu Keluarga", surat?.kk || surat?.nomorKK || ""],
+["Anak Ke", surat?.anakKe || ""],
+["Alamat", surat?.alamat || surat?.alamatKelahiran || ""],
       ],
 
       penutup:
@@ -682,33 +705,39 @@ function getIsiSurat(surat, daftarWarga = []) {
   // SURAT PENGANTAR UMUM
   // =========================================================
   if (surat.jenisSurat === "Surat Pengantar") {
-    return {
-      judul: "SURAT PENGANTAR",
+  return {
+    judul: "SURAT PENGANTAR",
 
-      pembuka:
-        "Yang bertanda tangan dibawah ini, Ketua RT/RW : 03/07, Kelurahan Karet, Kecamatan Setiabudi, dengan ini menerangkan bahwa :",
+    pembuka:
+      "Yang bertanda tangan di bawah ini, menerangkan bahwa:",
 
-      data: [
-        ["Nama", nama],
-        ["NIK", nik],
-        ["KK", kk],
-        [
-          "Tempat / Tanggal Lahir",
-          `${tempatLahir}${
-            tanggalLahir ? `, ${formatTanggal(tanggalLahir)}` : ""
-          }`,
-        ],
-        ["Jenis Kelamin", jenisKelamin],
-        ["Pekerjaan", pekerjaan],
-        ["Agama", agama],
-        ["Status Perkawinan", statusPerkawinan],
-        ["Kewarganegaraan", kewarganegaraan],
-        ["Alamat", alamat],
+    data: [
+      ["Nama", nama],
+
+      [
+        "Tempat/Tgl. Lahir",
+        `${tempatLahir}${
+          tanggalLahir ? `, ${formatTanggal(tanggalLahir)}` : ""
+        }`,
       ],
 
-      penutup: `Orang tersebut diatas memang benar adalah warga kami. Surat Pengantar ini dibuat sebagai kelengkapan pengurusan ${keperluan}.`,
-    };
-  }
+      ["Jenis Kelamin", jenisKelamin],
+
+      ["Agama", agama],
+
+      ["Pekerjaan", pekerjaan],
+
+      ["Nomor KTP", nik],
+
+      ["Alamat", alamat],
+
+      ["Keperluan", keperluan],
+    ],
+
+    penutup:
+      "Demikian surat pengantar ini dibuat untuk dapat dipergunakan sebagaimana mestinya dan yang berkepentingan untuk menjadi maklum.",
+  };
+}
 
   // =========================================================
   // SURAT KETERANGAN UMUM
@@ -900,202 +929,183 @@ function SuratPengantar() {
     loadDaftarSurat();
   }, []);
 
- const [wargaAktif, setWargaAktif] = useState([]);
-const [wargaMeninggal, setWargaMeninggal] = useState([]);
+  const [wargaAktif, setWargaAktif] = useState([]);
+  const [wargaMeninggal, setWargaMeninggal] = useState([]);
   const [daftarKost, setDaftarKost] = useState([]);
 
   useEffect(() => {
-  async function loadDataTempatKostUntukSurat() {
-    try {
-      console.log(
-        "MEMUAT DATA TEMPAT KOST UNTUK SURAT DARI SUPABASE..."
-      );
+    async function loadDataTempatKostUntukSurat() {
+      try {
+        console.log("MEMUAT DATA TEMPAT KOST UNTUK SURAT DARI SUPABASE...");
 
-      const { data, error } = await supabase
-        .from("tempat_kost")
-        .select("*")
-        .eq("status", "Aktif")
-        .order("nama_kost", { ascending: true });
+        const { data, error } = await supabase
+          .from("tempat_kost")
+          .select("*")
+          .eq("status", "Aktif")
+          .order("nama_kost", { ascending: true });
 
-      if (error) {
-        console.error(
-          "GAGAL MEMUAT DATA TEMPAT KOST UNTUK SURAT DARI SUPABASE:",
-          error
+        if (error) {
+          console.error(
+            "GAGAL MEMUAT DATA TEMPAT KOST UNTUK SURAT DARI SUPABASE:",
+            error,
+          );
+
+          setDaftarKost([]);
+          return;
+        }
+
+        const dataKost = data.map((item) => ({
+          id: item.id,
+          namaKost: item.nama_kost || "",
+          alamat: item.alamat || "",
+          jumlahKamar: Number(item.jumlah_kamar || 0),
+          jumlahAnakKost: Number(item.jumlah_anak_kost || 0),
+          distribusiPerOrang: Number(item.distribusi_per_orang || 0),
+          totalDistribusi: Number(item.total_distribusi || 0),
+          status: item.status || "Aktif",
+        }));
+
+        setDaftarKost(dataKost);
+
+        console.log(
+          `BERHASIL MEMUAT ${dataKost.length} TEMPAT KOST UNTUK SURAT DARI SUPABASE.`,
         );
+      } catch (error) {
+        console.error("ERROR MEMUAT DATA TEMPAT KOST UNTUK SURAT:", error);
 
         setDaftarKost([]);
-        return;
       }
-
-      const dataKost = data.map((item) => ({
-        id: item.id,
-        namaKost: item.nama_kost || "",
-        alamat: item.alamat || "",
-        jumlahKamar: Number(item.jumlah_kamar || 0),
-        jumlahAnakKost: Number(item.jumlah_anak_kost || 0),
-        distribusiPerOrang: Number(item.distribusi_per_orang || 0),
-        totalDistribusi: Number(item.total_distribusi || 0),
-        status: item.status || "Aktif",
-      }));
-
-      setDaftarKost(dataKost);
-
-      console.log(
-        `BERHASIL MEMUAT ${dataKost.length} TEMPAT KOST UNTUK SURAT DARI SUPABASE.`
-      );
-    } catch (error) {
-      console.error(
-        "ERROR MEMUAT DATA TEMPAT KOST UNTUK SURAT:",
-        error
-      );
-
-      setDaftarKost([]);
     }
-  }
 
-  loadDataTempatKostUntukSurat();
-}, []);
+    loadDataTempatKostUntukSurat();
+  }, []);
 
   useEffect(() => {
-  async function loadDataWargaUntukSurat() {
-    try {
-      console.log(
-        "MEMUAT DATA WARGA AKTIF DAN MENINGGAL DARI SUPABASE..."
-      );
+    async function loadDataWargaUntukSurat() {
+      try {
+        console.log("MEMUAT DATA WARGA AKTIF DAN MENINGGAL DARI SUPABASE...");
 
-      const { data, error } = await supabase
-        .from("warga")
-        .select("*")
-        .order("nama", { ascending: true });
+        const { data, error } = await supabase
+          .from("warga")
+          .select("*")
+          .order("nama", { ascending: true });
 
-      if (error) {
-        console.error(
-          "GAGAL MEMUAT DATA WARGA UNTUK SURAT DARI SUPABASE:",
-          error
+        if (error) {
+          console.error(
+            "GAGAL MEMUAT DATA WARGA UNTUK SURAT DARI SUPABASE:",
+            error,
+          );
+
+          setWargaAktif([]);
+          setWargaMeninggal([]);
+
+          return;
+        }
+
+        const dataWargaAktif = data
+          .filter(
+            (item) =>
+              String(item.status || "Aktif")
+                .trim()
+                .toLowerCase() === "aktif",
+          )
+          .map((item) => ({
+            id: item.id,
+            nama: item.nama || "",
+            nik: item.nik || "",
+            kk: item.kk || "",
+            jenisKelamin: item.jenis_kelamin || "",
+            tempatLahir: item.tempat_lahir || "",
+            tanggalLahir: item.tanggal_lahir || "",
+            agama: item.agama || "",
+            alamat: item.alamat || "",
+            pekerjaan: item.pekerjaan || "",
+            statusPerkawinan: item.status_perkawinan || "",
+            statusKeluarga: item.status_keluarga || "",
+            kewarganegaraan: item.kewarganegaraan || "",
+            rtRw: item.rt_rw || "03/07",
+            kelurahan: item.kelurahan || "Karet",
+            kecamatan: item.kecamatan || "Setiabudi",
+            status: item.status || "Aktif",
+            statusKependudukan: item.status_kependudukan || "Warga RT03",
+            statusTinggal: item.status_tinggal || "Tinggal di RT03",
+            jenisTinggal: item.jenis_tinggal || "",
+            tempatKostId: item.tempat_kost_id || "",
+            namaTempatKost: item.nama_tempat_kost || "",
+            alamatKontrak: item.alamat_kontrak || "",
+          }));
+
+        const dataWargaMeninggal = data
+          .filter(
+            (item) =>
+              String(item.status || "")
+                .trim()
+                .toLowerCase() === "meninggal",
+          )
+          .map((item) => ({
+            id: item.id,
+            nama: item.nama || "",
+            nik: item.nik || "",
+            kk: item.kk || "",
+            jenisKelamin: item.jenis_kelamin || "",
+            tempatLahir: item.tempat_lahir || "",
+            tanggalLahir: item.tanggal_lahir || "",
+            agama: item.agama || "",
+            alamat: item.alamat || "",
+            pekerjaan: item.pekerjaan || "",
+            statusPerkawinan: item.status_perkawinan || "",
+            statusKeluarga: item.status_keluarga || "",
+            kewarganegaraan: item.kewarganegaraan || "",
+            rtRw: item.rt_rw || "03/07",
+            kelurahan: item.kelurahan || "Karet",
+            kecamatan: item.kecamatan || "Setiabudi",
+            status: item.status || "Meninggal",
+            statusKependudukan: item.status_kependudukan || "Warga RT03",
+            statusTinggal: item.status_tinggal || "Tinggal di RT03",
+            jenisTinggal: item.jenis_tinggal || "",
+            tempatKostId: item.tempat_kost_id || "",
+            namaTempatKost: item.nama_tempat_kost || "",
+            alamatKontrak: item.alamat_kontrak || "",
+          }));
+
+        setWargaAktif(dataWargaAktif);
+        setWargaMeninggal(dataWargaMeninggal);
+
+        console.log(
+          `BERHASIL MEMUAT ${dataWargaAktif.length} WARGA AKTIF DAN ${dataWargaMeninggal.length} WARGA MENINGGAL DARI SUPABASE.`,
         );
+      } catch (error) {
+        console.error("ERROR MEMUAT DATA WARGA UNTUK SURAT:", error);
 
         setWargaAktif([]);
         setWargaMeninggal([]);
-
-        return;
       }
-
-      const dataWargaAktif = data
-        .filter(
-          (item) =>
-            String(item.status || "Aktif")
-              .trim()
-              .toLowerCase() === "aktif"
-        )
-        .map((item) => ({
-          id: item.id,
-          nama: item.nama || "",
-          nik: item.nik || "",
-          kk: item.kk || "",
-          jenisKelamin: item.jenis_kelamin || "",
-          tempatLahir: item.tempat_lahir || "",
-          tanggalLahir: item.tanggal_lahir || "",
-          agama: item.agama || "",
-          alamat: item.alamat || "",
-          pekerjaan: item.pekerjaan || "",
-          statusPerkawinan: item.status_perkawinan || "",
-          statusKeluarga: item.status_keluarga || "",
-          kewarganegaraan: item.kewarganegaraan || "",
-          rtRw: item.rt_rw || "03/07",
-          kelurahan: item.kelurahan || "Karet",
-          kecamatan: item.kecamatan || "Setiabudi",
-          status: item.status || "Aktif",
-          statusKependudukan:
-            item.status_kependudukan || "Warga RT03",
-          statusTinggal:
-            item.status_tinggal || "Tinggal di RT03",
-          jenisTinggal: item.jenis_tinggal || "",
-          tempatKostId: item.tempat_kost_id || "",
-          namaTempatKost: item.nama_tempat_kost || "",
-          alamatKontrak: item.alamat_kontrak || "",
-        }));
-
-      const dataWargaMeninggal = data
-        .filter(
-          (item) =>
-            String(item.status || "")
-              .trim()
-              .toLowerCase() === "meninggal"
-        )
-        .map((item) => ({
-          id: item.id,
-          nama: item.nama || "",
-          nik: item.nik || "",
-          kk: item.kk || "",
-          jenisKelamin: item.jenis_kelamin || "",
-          tempatLahir: item.tempat_lahir || "",
-          tanggalLahir: item.tanggal_lahir || "",
-          agama: item.agama || "",
-          alamat: item.alamat || "",
-          pekerjaan: item.pekerjaan || "",
-          statusPerkawinan: item.status_perkawinan || "",
-          statusKeluarga: item.status_keluarga || "",
-          kewarganegaraan: item.kewarganegaraan || "",
-          rtRw: item.rt_rw || "03/07",
-          kelurahan: item.kelurahan || "Karet",
-          kecamatan: item.kecamatan || "Setiabudi",
-          status: item.status || "Meninggal",
-          statusKependudukan:
-            item.status_kependudukan || "Warga RT03",
-          statusTinggal:
-            item.status_tinggal || "Tinggal di RT03",
-          jenisTinggal: item.jenis_tinggal || "",
-          tempatKostId: item.tempat_kost_id || "",
-          namaTempatKost: item.nama_tempat_kost || "",
-          alamatKontrak: item.alamat_kontrak || "",
-        }));
-
-      setWargaAktif(dataWargaAktif);
-      setWargaMeninggal(dataWargaMeninggal);
-
-      console.log(
-        `BERHASIL MEMUAT ${dataWargaAktif.length} WARGA AKTIF DAN ${dataWargaMeninggal.length} WARGA MENINGGAL DARI SUPABASE.`
-      );
-    } catch (error) {
-      console.error(
-        "ERROR MEMUAT DATA WARGA UNTUK SURAT:",
-        error
-      );
-
-      setWargaAktif([]);
-      setWargaMeninggal([]);
     }
-  }
 
-  loadDataWargaUntukSurat();
-}, []);
-
+    loadDataWargaUntukSurat();
+  }, []);
 
   const [pendatangAktif, setPendatangAktif] = useState([]);
 
   useEffect(() => {
-  const dataPendatangAktif = wargaAktif
-    .filter(
-      (item) =>
-        String(item.status || "Aktif")
-          .trim()
-          .toLowerCase() === "aktif" &&
-        String(item.statusKependudukan || "")
-          .trim()
-          .toLowerCase() === "pendatang"
-    )
-    .sort((a, b) =>
-      String(a.nama || "").localeCompare(
-        String(b.nama || ""),
-        "id",
-        {
-          sensitivity: "base",
-        }
+    const dataPendatangAktif = wargaAktif
+      .filter(
+        (item) =>
+          String(item.status || "Aktif")
+            .trim()
+            .toLowerCase() === "aktif" &&
+          String(item.statusKependudukan || "")
+            .trim()
+            .toLowerCase() === "pendatang",
       )
-    );
+      .sort((a, b) =>
+        String(a.nama || "").localeCompare(String(b.nama || ""), "id", {
+          sensitivity: "base",
+        }),
+      );
 
-  setPendatangAktif(dataPendatangAktif);
-}, [wargaAktif]);
+    setPendatangAktif(dataPendatangAktif);
+  }, [wargaAktif]);
 
   const [form, setForm] = useState({
     nomorSurat: "",
@@ -1354,686 +1364,656 @@ const [wargaMeninggal, setWargaMeninggal] = useState([]);
    SIMPAN SURAT BIASA
 ======================================================= */
 
-async function handleSimpanSurat() {
-  if (!form.nomorSurat.trim()) {
-    alert("Nomor surat harus diisi.");
-    return;
-  }
+  async function handleSimpanSurat() {
+    if (!form.nomorSurat.trim()) {
+      alert("Nomor surat harus diisi.");
+      return;
+    }
 
-  if (!form.jenisSurat) {
-    alert("Jenis surat harus dipilih.");
-    return;
-  }
+    if (!form.jenisSurat) {
+      alert("Jenis surat harus dipilih.");
+      return;
+    }
 
-  if (!form.wargaId) {
-    alert("Warga harus dipilih.");
-    return;
-  }
+    if (!form.wargaId) {
+      alert("Warga harus dipilih.");
+      return;
+    }
 
-  if (form.jenisSurat === "Surat Keterangan Kelahiran" && !anakKe) {
-    alert("Anak Ke harus diisi.");
-    return;
-  }
+    if (form.jenisSurat === "Surat Keterangan Kelahiran" && !anakKe) {
+      alert("Anak Ke harus diisi.");
+      return;
+    }
 
-  /* =====================================================
+    /* =====================================================
      DATA ORANG TUA SURAT PENGANTAR NIKAH
-  ===================================================== */
+       ===================================================== */
 
-  let dataAyah = {
-    ayahId: "",
-    namaAyah: "",
-    nikAyah: "",
-  };
-
-  let dataIbu = {
-    ibuId: "",
-    namaIbu: "",
-    nikIbu: "",
-  };
-
-  let dataAhliWaris = {
-    ahliWarisMode: "",
-    almarhumId: "",
-    namaAlmarhum: "",
-    nikAlmarhum: "",
-    hubunganKeluarga: "",
-  };
-
-  if (form.jenisSurat === "Surat Pengantar Ahli Waris") {
-    dataAhliWaris = {
-      ahliWarisMode: form.ahliWarisMode || "warga",
-      almarhumId: form.almarhumId || "",
-      namaAlmarhum: form.namaAlmarhum?.trim() || "",
-      nikAlmarhum: form.nikAlmarhum?.trim() || "",
-      hubunganKeluarga: form.hubunganKeluarga?.trim() || "",
+    let dataAyah = {
+      ayahId: "",
+      namaAyah: "",
+      nikAyah: "",
     };
-  }
 
-  if (form.jenisSurat === "Surat Pengantar Nikah") {
-    /* -------------------------------
-       AYAH
-    ------------------------------- */
+    let dataIbu = {
+      ibuId: "",
+      namaIbu: "",
+      nikIbu: "",
+    };
 
-    if (form.ayahNikahMode === "warga") {
-      dataAyah = {
-        ayahId: form.ayahId || "",
-        namaAyah: ayahNikahTerpilih?.nama || "",
-        nikAyah: ayahNikahTerpilih?.nik || "",
-      };
-    } else {
-      dataAyah = {
-        ayahId: "",
-        namaAyah: form.namaAyah?.trim() || "",
-        nikAyah: form.nikAyah?.trim() || "",
-      };
-    }
+    let dataAhliWaris = {
+      ahliWarisMode: "",
+      almarhumId: "",
+      namaAlmarhum: "",
+      nikAlmarhum: "",
+      hubunganKeluarga: "",
+    };
 
-    /* -------------------------------
-       IBU
-    ------------------------------- */
-
-    if (form.ibuNikahMode === "warga") {
-      dataIbu = {
-        ibuId: form.ibuId || "",
-        namaIbu: ibuNikahTerpilih?.nama || "",
-        nikIbu: ibuNikahTerpilih?.nik || "",
-      };
-    } else {
-      dataIbu = {
-        ibuId: "",
-        namaIbu: form.namaIbu?.trim() || "",
-        nikIbu: form.nikIbu?.trim() || "",
+    if (form.jenisSurat === "Surat Pengantar Ahli Waris") {
+      dataAhliWaris = {
+        ahliWarisMode: form.ahliWarisMode || "warga",
+        almarhumId: form.almarhumId || "",
+        namaAlmarhum: form.namaAlmarhum?.trim() || "",
+        nikAlmarhum: form.nikAlmarhum?.trim() || "",
+        hubunganKeluarga: form.hubunganKeluarga?.trim() || "",
       };
     }
-  }
 
-  /* =====================================================
+    if (form.jenisSurat === "Surat Pengantar Nikah") {
+      if (form.ayahNikahMode === "warga") {
+        dataAyah = {
+          ayahId: form.ayahId || "",
+          namaAyah: ayahNikahTerpilih?.nama || "",
+          nikAyah: ayahNikahTerpilih?.nik || "",
+        };
+      } else {
+        dataAyah = {
+          ayahId: "",
+          namaAyah: form.namaAyah?.trim() || "",
+          nikAyah: form.nikAyah?.trim() || "",
+        };
+      }
+
+      if (form.ibuNikahMode === "warga") {
+        dataIbu = {
+          ibuId: form.ibuId || "",
+          namaIbu: ibuNikahTerpilih?.nama || "",
+          nikIbu: ibuNikahTerpilih?.nik || "",
+        };
+      } else {
+        dataIbu = {
+          ibuId: "",
+          namaIbu: form.namaIbu?.trim() || "",
+          nikIbu: form.nikIbu?.trim() || "",
+        };
+      }
+    }
+    /* =====================================================
      WARGA YANG DIPILIH
-  ===================================================== */
+   ===================================================== */
 
-  const warga =
-    wargaTerpilih ||
-    wargaAktif.find(
-      (item) => String(item.id) === String(form.wargaId),
-    ) ||
-    pendatangAktif.find(
-      (item) => String(item.id) === String(form.wargaId),
-    ) ||
-    null;
+    const warga =
+      wargaTerpilih ||
+      wargaAktif.find((item) => String(item.id) === String(form.wargaId)) ||
+      pendatangAktif.find((item) => String(item.id) === String(form.wargaId)) ||
+      null;
 
-  if (!warga) {
-    alert("Data warga tidak ditemukan.");
-    return;
-  }
+    if (!warga) {
+      alert("Data warga tidak ditemukan.");
+      return;
+    }
+    console.log("=== CEK KELAHIRAN SEBELUM DATA ORANG TUA ===");
+    console.log("warga:", warga);
+    console.log("wargaTerpilih:", wargaTerpilih);
+    console.log("ayahTerpilih:", ayahTerpilih);
+    console.log("ibuTerpilih:", ibuTerpilih);
+    /* =========================================================
+   DATA ORANG TUA - SURAT KETERANGAN KELAHIRAN
+    ========================================================= */
+    if (form.jenisSurat === "Surat Keterangan Kelahiran") {
+      // Cari ulang orang tua berdasarkan KK warga yang dipilih
+      const dataOrangTua = getDataOrangTuaKelahiran(warga, wargaAktif);
 
-  /* =====================================================
+      const ayahKelahiran = ayahTerpilih || dataOrangTua.ayah || null;
+
+      const ibuKelahiran = ibuTerpilih || dataOrangTua.ibu || null;
+
+      dataAyah = {
+        ayahId: ayahKelahiran?.id || "",
+        namaAyah: ayahKelahiran?.nama || "",
+        nikAyah: ayahKelahiran?.nik || "",
+      };
+
+      dataIbu = {
+        ibuId: ibuKelahiran?.id || "",
+        namaIbu: ibuKelahiran?.nama || "",
+        nikIbu: ibuKelahiran?.nik || "",
+      };
+
+      console.log("=== DATA ORANG TUA KELAHIRAN SAAT SIMPAN ===");
+      console.log("AYAH:", JSON.stringify(dataAyah, null, 2));
+      console.log("IBU:", JSON.stringify(dataIbu, null, 2));
+    }
+
+    /* =====================================================
      DATA SURAT BIASA
-  ===================================================== */
+    ===================================================== */
 
-  const suratBaru = {
-    id: Date.now(),
+    const suratBaru = {
+      id: Date.now(),
 
-    nomorSurat: form.nomorSurat.trim(),
-    tanggalSurat: form.tanggalSurat || null,
-    jenisSurat: form.jenisSurat,
+      nomorSurat: form.nomorSurat.trim(),
+      tanggalSurat: form.tanggalSurat || null,
+      jenisSurat: form.jenisSurat,
 
-    wargaId: form.wargaId,
-    namaWarga: warga.nama || "",
-    nik: warga.nik || "",
-    kk: warga.kk || "",
-    tempatLahir: warga.tempatLahir || "",
-    tanggalLahir: warga.tanggalLahir || "",
-    jenisKelamin: warga.jenisKelamin || "",
-    agama: warga.agama || "",
-    pekerjaan: warga.pekerjaan || "",
-    statusPerkawinan: warga.statusPerkawinan || "",
-    kewarganegaraan: warga.kewarganegaraan || "",
-    alamat: warga.alamat || "",
-    rtRw: warga.rtRw || "03/07",
+      wargaId: form.wargaId,
+      namaWarga: warga.nama || "",
+      nik: warga.nik || "",
+      kk: warga.kk || "",
+      tempatLahir: warga.tempatLahir || "",
+      tanggalLahir: warga.tanggalLahir || "",
+      jenisKelamin: warga.jenisKelamin || "",
+      agama: warga.agama || "",
+      pekerjaan: warga.pekerjaan || "",
+      statusPerkawinan: warga.statusPerkawinan || "",
+      kewarganegaraan: warga.kewarganegaraan || "",
+      alamat: warga.alamat || "",
+      rtRw: warga.rtRw || "03/07",
 
-    keperluan: form.keperluan?.trim() || "",
+      keperluan: form.keperluan?.trim() || "",
 
-    /* DATA KELAHIRAN */
+      /* DATA KELAHIRAN */
 
-    namaBayi: form.namaBayi?.trim() || "",
-    jenisKelaminBayi: form.jenisKelaminBayi || "",
-    tanggalLahirBayi: form.tanggalLahirBayi || "",
-    hariLahirBayi: form.hariLahirBayi || "",
-    tempatLahirBayi: form.tempatLahirBayi || "",
-    anakKe: anakKe || "",
+      namaBayi: form.namaBayi?.trim() || "",
+      jenisKelaminBayi: form.jenisKelaminBayi || "",
+      tanggalLahirBayi: form.tanggalLahirBayi || "",
+      hariLahirBayi: form.hariLahirBayi || "",
+      tempatLahirBayi: form.tempatLahirBayi || "",
+      anakKe: anakKe || "",
 
-    /* DATA ORANG TUA */
+      /* DATA ORANG TUA */
 
-    ayahId: dataAyah.ayahId,
-    namaAyah: dataAyah.namaAyah,
-    nikAyah: dataAyah.nikAyah,
+      ayahId: dataAyah.ayahId,
+      namaAyah: dataAyah.namaAyah,
+      nikAyah: dataAyah.nikAyah,
 
-    ibuId: dataIbu.ibuId,
-    namaIbu: dataIbu.namaIbu,
-    nikIbu: dataIbu.nikIbu,
+      ibuId: dataIbu.ibuId,
+      namaIbu: dataIbu.namaIbu,
+      nikIbu: dataIbu.nikIbu,
 
-    /* DATA AHLI WARIS */
+      /* DATA AHLI WARIS */
 
-    ahliWarisMode: dataAhliWaris.ahliWarisMode,
-    almarhumId: dataAhliWaris.almarhumId,
-    namaAlmarhum: dataAhliWaris.namaAlmarhum,
-    nikAlmarhum: dataAhliWaris.nikAlmarhum,
-    hubunganKeluarga: dataAhliWaris.hubunganKeluarga,
+      ahliWarisMode: dataAhliWaris.ahliWarisMode,
+      almarhumId: dataAhliWaris.almarhumId,
+      namaAlmarhum: dataAhliWaris.namaAlmarhum,
+      nikAlmarhum: dataAhliWaris.nikAlmarhum,
+      hubunganKeluarga: dataAhliWaris.hubunganKeluarga,
 
-    createdAt: new Date().toISOString(),
-  };
+      createdAt: new Date().toISOString(),
+    };
 
-  console.log("=== SURAT BIASA BARU SEBELUM DISIMPAN ===");
-  console.log(suratBaru);
+    console.log("=== SURAT BIASA BARU SEBELUM DISIMPAN ===");
+    console.log(suratBaru);
 
-  /* =====================================================
+    /* =====================================================
      SIMPAN KE SUPABASE
-  ===================================================== */
+    ===================================================== */
+let suratTersimpan;
+let error;
 
-  const { data: suratTersimpan, error } = await supabase
+const dataSurat = {
+  nomor_surat: suratBaru.nomorSurat,
+  tanggal_surat: suratBaru.tanggalSurat || null,
+  jenis_surat: suratBaru.jenisSurat,
+
+  warga_id: suratBaru.wargaId,
+  nama_warga: suratBaru.namaWarga,
+  nik: suratBaru.nik,
+  kk: suratBaru.kk,
+  tempat_lahir: suratBaru.tempatLahir,
+  tanggal_lahir: suratBaru.tanggalLahir || null,
+  jenis_kelamin: suratBaru.jenisKelamin,
+  agama: suratBaru.agama,
+  pekerjaan: suratBaru.pekerjaan,
+  status_perkawinan: suratBaru.statusPerkawinan,
+  kewarganegaraan: suratBaru.kewarganegaraan,
+  alamat: suratBaru.alamat,
+  rt_rw: suratBaru.rtRw,
+
+  keperluan: suratBaru.keperluan,
+
+  nama_bayi: suratBaru.namaBayi,
+  jenis_kelamin_bayi: suratBaru.jenisKelaminBayi,
+  tanggal_lahir_bayi: suratBaru.tanggalLahirBayi || null,
+  hari_lahir_bayi: suratBaru.hariLahirBayi,
+  tempat_lahir_bayi: suratBaru.tempatLahirBayi,
+  anak_ke: suratBaru.anakKe,
+
+  ayah_id: suratBaru.ayahId,
+  nama_ayah: suratBaru.namaAyah,
+  nik_ayah: suratBaru.nikAyah,
+
+  ibu_id: suratBaru.ibuId,
+  nama_ibu: suratBaru.namaIbu,
+  nik_ibu: suratBaru.nikIbu,
+
+  ahli_waris_mode: suratBaru.ahliWarisMode,
+  almarhum_id: suratBaru.almarhumId,
+  nama_almarhum: suratBaru.namaAlmarhum,
+  nik_almarhum: suratBaru.nikAlmarhum,
+  hubungan_keluarga: suratBaru.hubunganKeluarga,
+};
+
+if (editSuratId) {
+  console.log("=== UPDATE SURAT ===");
+  console.log("ID:", editSuratId);
+
+  const hasil = await supabase
+    .from("surat_pengantar")
+    .update(dataSurat)
+    .eq("id", editSuratId)
+    .select()
+    .single();
+
+  suratTersimpan = hasil.data;
+  error = hasil.error;
+} else {
+  console.log("=== INSERT SURAT BARU ===");
+
+  const hasil = await supabase
     .from("surat_pengantar")
     .insert([
       {
         id: suratBaru.id,
-
-        nomor_surat: suratBaru.nomorSurat,
-        tanggal_surat: suratBaru.tanggalSurat || null,
-        jenis_surat: suratBaru.jenisSurat,
-
-        warga_id: suratBaru.wargaId,
-        nama_warga: suratBaru.namaWarga,
-        nik: suratBaru.nik,
-        kk: suratBaru.kk,
-        tempat_lahir: suratBaru.tempatLahir,
-        tanggal_lahir: suratBaru.tanggalLahir || null,
-        jenis_kelamin: suratBaru.jenisKelamin,
-        agama: suratBaru.agama,
-        pekerjaan: suratBaru.pekerjaan,
-        status_perkawinan: suratBaru.statusPerkawinan,
-        kewarganegaraan: suratBaru.kewarganegaraan,
-        alamat: suratBaru.alamat,
-        rt_rw: suratBaru.rtRw,
-
-        keperluan: suratBaru.keperluan,
-
-        nama_bayi: suratBaru.namaBayi,
-        jenis_kelamin_bayi: suratBaru.jenisKelaminBayi,
-        tanggal_lahir_bayi: suratBaru.tanggalLahirBayi || null,
-        hari_lahir_bayi: suratBaru.hariLahirBayi,
-        tempat_lahir_bayi: suratBaru.tempatLahirBayi,
-        anak_ke: suratBaru.anakKe,
-
-        ayah_id: suratBaru.ayahId,
-        nama_ayah: suratBaru.namaAyah,
-        nik_ayah: suratBaru.nikAyah,
-
-        ibu_id: suratBaru.ibuId,
-        nama_ibu: suratBaru.namaIbu,
-        nik_ibu: suratBaru.nikIbu,
-
-        ahli_waris_mode: suratBaru.ahliWarisMode,
-        almarhum_id: suratBaru.almarhumId,
-        nama_almarhum: suratBaru.namaAlmarhum,
-        nik_almarhum: suratBaru.nikAlmarhum,
-        hubungan_keluarga: suratBaru.hubunganKeluarga,
+        ...dataSurat,
       },
     ])
     .select()
     .single();
 
-  if (error) {
-    console.error(
-      "GAGAL MENYIMPAN SURAT BIASA KE SUPABASE:",
-      error,
-    );
-
-    alert(
-      "Gagal menyimpan surat ke Supabase.\n\n" +
-        error.message,
-    );
-
-    return;
-  }
-
-  console.log("SURAT BIASA BERHASIL DISIMPAN KE SUPABASE:");
-  console.log(suratTersimpan);
-
-  /* =====================================================
-     MASUKKAN HASIL SUPABASE KE STATE
-  ===================================================== */
-
-  const suratBaruSupabase = {
-    id: suratTersimpan.id,
-
-    nomorSurat: suratTersimpan.nomor_surat || "",
-    tanggalSurat: suratTersimpan.tanggal_surat || "",
-    jenisSurat: suratTersimpan.jenis_surat || "",
-
-    wargaId: suratTersimpan.warga_id || "",
-    namaWarga: suratTersimpan.nama_warga || "",
-    nik: suratTersimpan.nik || "",
-    kk: suratTersimpan.kk || "",
-    tempatLahir: suratTersimpan.tempat_lahir || "",
-    tanggalLahir: suratTersimpan.tanggal_lahir || "",
-    jenisKelamin: suratTersimpan.jenis_kelamin || "",
-    agama: suratTersimpan.agama || "",
-    pekerjaan: suratTersimpan.pekerjaan || "",
-    statusPerkawinan: suratTersimpan.status_perkawinan || "",
-    kewarganegaraan: suratTersimpan.kewarganegaraan || "",
-    alamat: suratTersimpan.alamat || "",
-    rtRw: suratTersimpan.rt_rw || "",
-
-    keperluan: suratTersimpan.keperluan || "",
-
-    namaBayi: suratTersimpan.nama_bayi || "",
-    jenisKelaminBayi: suratTersimpan.jenis_kelamin_bayi || "",
-    tanggalLahirBayi: suratTersimpan.tanggal_lahir_bayi || "",
-    hariLahirBayi: suratTersimpan.hari_lahir_bayi || "",
-    tempatLahirBayi: suratTersimpan.tempat_lahir_bayi || "",
-    anakKe: suratTersimpan.anak_ke || "",
-
-    ayahId: suratTersimpan.ayah_id || "",
-    namaAyah: suratTersimpan.nama_ayah || "",
-    nikAyah: suratTersimpan.nik_ayah || "",
-
-    ibuId: suratTersimpan.ibu_id || "",
-    namaIbu: suratTersimpan.nama_ibu || "",
-    nikIbu: suratTersimpan.nik_ibu || "",
-
-    ahliWarisMode: suratTersimpan.ahli_waris_mode || "",
-    almarhumId: suratTersimpan.almarhum_id || "",
-    namaAlmarhum: suratTersimpan.nama_almarhum || "",
-    nikAlmarhum: suratTersimpan.nik_almarhum || "",
-    hubunganKeluarga: suratTersimpan.hubungan_keluarga || "",
-
-    createdAt: suratTersimpan.created_at || "",
-  };
-
-  setDaftarSurat((prev) => [
-    suratBaruSupabase,
-    ...prev,
-  ]);
-
-  setShowForm(false);
-  setWargaTerpilih(null);
-  setSearchWarga("");
-  setAyahNikahTerpilih(null);
-  setIbuNikahTerpilih(null);
-  setAyahTerpilih(null);
-  setIbuTerpilih(null);
-  setAnakKe("");
-  setEditSuratId(null);
-
-  alert("Surat berhasil disimpan.");
+  suratTersimpan = hasil.data;
+  error = hasil.error;
 }
-
-
-/* =======================================================
-   SIMPAN SURAT KEMATIAN
-======================================================= */
-
-async function handleSimpanSuratKematian() {
-  if (!formKematian.pelaporId) {
-    alert("Silakan pilih pelapor.");
-    return;
-  }
-
-  if (!formKematian.hubunganPelapor) {
-    alert(
-      "Silakan pilih hubungan pelapor dengan yang meninggal.",
-    );
-    return;
-  }
-
-  if (!formKematian.meninggalId) {
-    alert("Silakan pilih warga yang meninggal.");
-    return;
-  }
-
-  if (!formKematian.tanggalMeninggal) {
-    alert("Silakan isi tanggal meninggal.");
-    return;
-  }
-
-  if (!formKematian.tempatMeninggal.trim()) {
-    alert("Silakan isi tempat meninggal.");
-    return;
-  }
-
-  const pelapor =
-    wargaAktif.find(
-      (item) =>
-        String(item.id) ===
-        String(formKematian.pelaporId),
-    ) || null;
-
-  const meninggal =
-    wargaAktif.find(
-      (item) =>
-        String(item.id) ===
-        String(formKematian.meninggalId),
-    ) || null;
-
-  if (!meninggal) {
-    alert("Data warga yang meninggal tidak ditemukan.");
-    return;
-  }
-
-  /* =====================================================
-     DATA SURAT
-  ===================================================== */
-
-  const dataSurat = {
-    nomorSurat: formKematian.nomorSurat.trim(),
-    tanggalSurat: formKematian.tanggalSurat,
-    jenisSurat: "Surat Pengantar Kematian",
-
-    pelaporId: formKematian.pelaporId,
-    hubunganPelapor: formKematian.hubunganPelapor,
-
-    meninggalId: formKematian.meninggalId,
-    tanggalMeninggal: formKematian.tanggalMeninggal,
-    tempatMeninggal:
-      formKematian.tempatMeninggal.trim(),
-    keterangan:
-      formKematian.keterangan.trim(),
-
-    /* SNAPSHOT YANG MENINGGAL */
-
-    namaWarga: meninggal.nama || "",
-    nik: meninggal.nik || "",
-    kk: meninggal.kk || "",
-    tempatLahir: meninggal.tempatLahir || "",
-    tanggalLahir: meninggal.tanggalLahir || "",
-    jenisKelamin: meninggal.jenisKelamin || "",
-    agama: meninggal.agama || "",
-    pekerjaan: meninggal.pekerjaan || "",
-    alamat: meninggal.alamat || "",
-    rtRw: meninggal.rtRw || "03/07",
-
-    /* SNAPSHOT PELAPOR */
-
-    pelaporNama: pelapor?.nama || "",
-    pelaporNik: pelapor?.nik || "",
-    pelaporAlamat: pelapor?.alamat || "",
-
-    createdAt: new Date().toISOString(),
-  };
-
-  /* =====================================================
-     MODE EDIT SURAT KEMATIAN
-     UPDATE KE SUPABASE
-  ===================================================== */
-
-  if (editSuratId) {
-    console.log(
-      "=== UPDATE SURAT KEMATIAN KE SUPABASE ===",
-    );
-    console.log("ID SURAT:", editSuratId);
-    console.log("DATA EDIT:", dataSurat);
-
-    const {
-      data: suratDiperbarui,
-      error,
-    } = await supabase
-      .from("surat_pengantar")
-      .update({
-        nomor_surat: dataSurat.nomorSurat,
-        tanggal_surat:
-          dataSurat.tanggalSurat || null,
-        jenis_surat: dataSurat.jenisSurat,
-
-        nama_warga: dataSurat.namaWarga,
-        nik: dataSurat.nik,
-        kk: dataSurat.kk,
-        tempat_lahir: dataSurat.tempatLahir,
-        tanggal_lahir:
-          dataSurat.tanggalLahir || null,
-        jenis_kelamin: dataSurat.jenisKelamin,
-        agama: dataSurat.agama,
-        pekerjaan: dataSurat.pekerjaan,
-        alamat: dataSurat.alamat,
-        rt_rw: dataSurat.rtRw,
-
-        pelapor_id: dataSurat.pelaporId,
-        pelapor_nama: dataSurat.pelaporNama,
-        pelapor_nik: dataSurat.pelaporNik,
-        pelapor_alamat: dataSurat.pelaporAlamat,
-        hubungan_pelapor:
-          dataSurat.hubunganPelapor,
-
-        meninggal_id: dataSurat.meninggalId,
-        tanggal_meninggal:
-          dataSurat.tanggalMeninggal || null,
-        tempat_meninggal:
-          dataSurat.tempatMeninggal,
-        keterangan: dataSurat.keterangan,
-      })
-      .eq("id", editSuratId)
-      .select()
-      .single();
-
     if (error) {
-      console.error(
-        "GAGAL UPDATE SURAT KEMATIAN DI SUPABASE:",
-        error,
-      );
+      console.error("GAGAL MENYIMPAN SURAT BIASA KE SUPABASE:", error);
 
-      alert(
-        "Gagal memperbarui Surat Kematian di Supabase.\n\n" +
-          error.message,
-      );
+      alert("Gagal menyimpan surat ke Supabase.\n\n" + error.message);
 
       return;
     }
 
-    console.log(
-      "SURAT KEMATIAN BERHASIL DIPERBARUI DI SUPABASE:",
-    );
-    console.log(suratDiperbarui);
+    console.log("SURAT BIASA BERHASIL DISIMPAN KE SUPABASE:");
+    console.log(suratTersimpan);
 
-    const dataBaru = daftarSurat.map((surat) => {
-      if (
-        String(surat.id) !==
-        String(editSuratId)
-      ) {
-        return surat;
+    /* =====================================================
+     MASUKKAN HASIL SUPABASE KE STATE
+  ===================================================== */
+
+    const suratBaruSupabase = {
+      id: suratTersimpan.id,
+
+      nomorSurat: suratTersimpan.nomor_surat || "",
+      tanggalSurat: suratTersimpan.tanggal_surat || "",
+      jenisSurat: suratTersimpan.jenis_surat || "",
+
+      wargaId: suratTersimpan.warga_id || "",
+      namaWarga: suratTersimpan.nama_warga || "",
+      nik: suratTersimpan.nik || "",
+      kk: suratTersimpan.kk || "",
+      tempatLahir: suratTersimpan.tempat_lahir || "",
+      tanggalLahir: suratTersimpan.tanggal_lahir || "",
+      jenisKelamin: suratTersimpan.jenis_kelamin || "",
+      agama: suratTersimpan.agama || "",
+      pekerjaan: suratTersimpan.pekerjaan || "",
+      statusPerkawinan: suratTersimpan.status_perkawinan || "",
+      kewarganegaraan: suratTersimpan.kewarganegaraan || "",
+      alamat: suratTersimpan.alamat || "",
+      rtRw: suratTersimpan.rt_rw || "",
+
+      keperluan: suratTersimpan.keperluan || "",
+
+      namaBayi: suratTersimpan.nama_bayi || "",
+      jenisKelaminBayi: suratTersimpan.jenis_kelamin_bayi || "",
+      tanggalLahirBayi: suratTersimpan.tanggal_lahir_bayi || "",
+      hariLahirBayi: suratTersimpan.hari_lahir_bayi || "",
+      tempatLahirBayi: suratTersimpan.tempat_lahir_bayi || "",
+      anakKe: suratTersimpan.anak_ke || "",
+
+      ayahId: suratTersimpan.ayah_id || "",
+      namaAyah: suratTersimpan.nama_ayah || "",
+      nikAyah: suratTersimpan.nik_ayah || "",
+
+      ibuId: suratTersimpan.ibu_id || "",
+      namaIbu: suratTersimpan.nama_ibu || "",
+      nikIbu: suratTersimpan.nik_ibu || "",
+
+      ahliWarisMode: suratTersimpan.ahli_waris_mode || "",
+      almarhumId: suratTersimpan.almarhum_id || "",
+      namaAlmarhum: suratTersimpan.nama_almarhum || "",
+      nikAlmarhum: suratTersimpan.nik_almarhum || "",
+      hubunganKeluarga: suratTersimpan.hubungan_keluarga || "",
+
+      createdAt: suratTersimpan.created_at || "",
+    };
+
+   if (editSuratId) {
+  setDaftarSurat((prev) =>
+    prev.map((item) =>
+      String(item.id) === String(editSuratId)
+        ? suratBaruSupabase
+        : item
+    )
+  );
+} else {
+  setDaftarSurat((prev) => [
+    suratBaruSupabase,
+    ...prev,
+  ]);
+}
+
+    setShowForm(false);
+    setWargaTerpilih(null);
+    setSearchWarga("");
+    setAyahNikahTerpilih(null);
+    setIbuNikahTerpilih(null);
+    setAyahTerpilih(null);
+    setIbuTerpilih(null);
+    setAnakKe("");
+    setEditSuratId(null);
+
+    alert("Surat berhasil disimpan.");
+  }
+
+  /* =======================================================
+   SIMPAN SURAT KEMATIAN
+   ======================================================= */
+
+  async function handleSimpanSuratKematian() {
+    if (!formKematian.pelaporId) {
+      alert("Silakan pilih pelapor.");
+      return;
+    }
+
+    if (!formKematian.hubunganPelapor) {
+      alert("Silakan pilih hubungan pelapor dengan yang meninggal.");
+      return;
+    }
+
+    if (!formKematian.meninggalId) {
+      alert("Silakan pilih warga yang meninggal.");
+      return;
+    }
+
+    if (!formKematian.tanggalMeninggal) {
+      alert("Silakan isi tanggal meninggal.");
+      return;
+    }
+
+    if (!formKematian.tempatMeninggal.trim()) {
+      alert("Silakan isi tempat meninggal.");
+      return;
+    }
+
+    const pelapor =
+      wargaAktif.find(
+        (item) => String(item.id) === String(formKematian.pelaporId),
+      ) || null;
+
+    const meninggal =
+      wargaAktif.find(
+        (item) => String(item.id) === String(formKematian.meninggalId),
+      ) || null;
+
+    if (!meninggal) {
+      alert("Data warga yang meninggal tidak ditemukan.");
+      return;
+    }
+
+    /* =====================================================
+     DATA SURAT
+      ===================================================== */
+
+    const dataSurat = {
+      nomorSurat: formKematian.nomorSurat.trim(),
+      tanggalSurat: formKematian.tanggalSurat,
+      jenisSurat: "Surat Pengantar Kematian",
+
+      pelaporId: formKematian.pelaporId,
+      hubunganPelapor: formKematian.hubunganPelapor,
+
+      meninggalId: formKematian.meninggalId,
+      tanggalMeninggal: formKematian.tanggalMeninggal,
+      tempatMeninggal: formKematian.tempatMeninggal.trim(),
+      keterangan: formKematian.keterangan.trim(),
+
+      /* SNAPSHOT YANG MENINGGAL */
+
+      namaWarga: meninggal.nama || "",
+      nik: meninggal.nik || "",
+      kk: meninggal.kk || "",
+      tempatLahir: meninggal.tempatLahir || "",
+      tanggalLahir: meninggal.tanggalLahir || "",
+      jenisKelamin: meninggal.jenisKelamin || "",
+      agama: meninggal.agama || "",
+      pekerjaan: meninggal.pekerjaan || "",
+      alamat: meninggal.alamat || "",
+      rtRw: meninggal.rtRw || "03/07",
+
+      /* SNAPSHOT PELAPOR */
+
+      pelaporNama: pelapor?.nama || "",
+      pelaporNik: pelapor?.nik || "",
+      pelaporAlamat: pelapor?.alamat || "",
+
+      createdAt: new Date().toISOString(),
+    };
+
+    /* =====================================================
+     MODE EDIT SURAT KEMATIAN
+     UPDATE KE SUPABASE
+       ===================================================== */
+
+    if (editSuratId) {
+      console.log("=== UPDATE SURAT KEMATIAN KE SUPABASE ===");
+      console.log("ID SURAT:", editSuratId);
+      console.log("DATA EDIT:", dataSurat);
+
+      const { data: suratDiperbarui, error } = await supabase
+        .from("surat_pengantar")
+        .update({
+          nomor_surat: dataSurat.nomorSurat,
+          tanggal_surat: dataSurat.tanggalSurat || null,
+          jenis_surat: dataSurat.jenisSurat,
+
+          nama_warga: dataSurat.namaWarga,
+          nik: dataSurat.nik,
+          kk: dataSurat.kk,
+          tempat_lahir: dataSurat.tempatLahir,
+          tanggal_lahir: dataSurat.tanggalLahir || null,
+          jenis_kelamin: dataSurat.jenisKelamin,
+          agama: dataSurat.agama,
+          pekerjaan: dataSurat.pekerjaan,
+          alamat: dataSurat.alamat,
+          rt_rw: dataSurat.rtRw,
+
+          pelapor_id: dataSurat.pelaporId,
+          pelapor_nama: dataSurat.pelaporNama,
+          pelapor_nik: dataSurat.pelaporNik,
+          pelapor_alamat: dataSurat.pelaporAlamat,
+          hubungan_pelapor: dataSurat.hubunganPelapor,
+
+          meninggal_id: dataSurat.meninggalId,
+          tanggal_meninggal: dataSurat.tanggalMeninggal || null,
+          tempat_meninggal: dataSurat.tempatMeninggal,
+          keterangan: dataSurat.keterangan,
+        })
+        .eq("id", editSuratId)
+        .select()
+        .single();
+
+      if (error) {
+        console.error("GAGAL UPDATE SURAT KEMATIAN DI SUPABASE:", error);
+
+        alert(
+          "Gagal memperbarui Surat Kematian di Supabase.\n\n" + error.message,
+        );
+
+        return;
       }
 
-      return {
-        ...surat,
+      console.log("SURAT KEMATIAN BERHASIL DIPERBARUI DI SUPABASE:");
+      console.log(suratDiperbarui);
 
-        nomorSurat:
-          suratDiperbarui.nomor_surat,
-        tanggalSurat:
-          suratDiperbarui.tanggal_surat,
-        jenisSurat:
-          suratDiperbarui.jenis_surat,
+      const dataBaru = daftarSurat.map((surat) => {
+        if (String(surat.id) !== String(editSuratId)) {
+          return surat;
+        }
 
-        namaWarga:
-          suratDiperbarui.nama_warga,
-        nik: suratDiperbarui.nik,
-        kk: suratDiperbarui.kk,
-        tempatLahir:
-          suratDiperbarui.tempat_lahir,
-        tanggalLahir:
-          suratDiperbarui.tanggal_lahir,
-        jenisKelamin:
-          suratDiperbarui.jenis_kelamin,
-        agama: suratDiperbarui.agama,
-        pekerjaan:
-          suratDiperbarui.pekerjaan,
-        alamat: suratDiperbarui.alamat,
-        rtRw: suratDiperbarui.rt_rw,
+        return {
+          ...surat,
 
-        pelaporId:
-          suratDiperbarui.pelapor_id,
-        pelaporNama:
-          suratDiperbarui.pelapor_nama,
-        pelaporNik:
-          suratDiperbarui.pelapor_nik,
-        pelaporAlamat:
-          suratDiperbarui.pelapor_alamat,
-        hubunganPelapor:
-          suratDiperbarui.hubungan_pelapor,
+          nomorSurat: suratDiperbarui.nomor_surat,
+          tanggalSurat: suratDiperbarui.tanggal_surat,
+          jenisSurat: suratDiperbarui.jenis_surat,
 
-        meninggalId:
-          suratDiperbarui.meninggal_id,
-        tanggalMeninggal:
-          suratDiperbarui.tanggal_meninggal,
-        tempatMeninggal:
-          suratDiperbarui.tempat_meninggal,
-        keterangan:
-          suratDiperbarui.keterangan,
-      };
-    });
+          namaWarga: suratDiperbarui.nama_warga,
+          nik: suratDiperbarui.nik,
+          kk: suratDiperbarui.kk,
+          tempatLahir: suratDiperbarui.tempat_lahir,
+          tanggalLahir: suratDiperbarui.tanggal_lahir,
+          jenisKelamin: suratDiperbarui.jenis_kelamin,
+          agama: suratDiperbarui.agama,
+          pekerjaan: suratDiperbarui.pekerjaan,
+          alamat: suratDiperbarui.alamat,
+          rtRw: suratDiperbarui.rt_rw,
 
-    setDaftarSurat(dataBaru);
+          pelaporId: suratDiperbarui.pelapor_id,
+          pelaporNama: suratDiperbarui.pelapor_nama,
+          pelaporNik: suratDiperbarui.pelapor_nik,
+          pelaporAlamat: suratDiperbarui.pelapor_alamat,
+          hubunganPelapor: suratDiperbarui.hubungan_pelapor,
+
+          meninggalId: suratDiperbarui.meninggal_id,
+          tanggalMeninggal: suratDiperbarui.tanggal_meninggal,
+          tempatMeninggal: suratDiperbarui.tempat_meninggal,
+          keterangan: suratDiperbarui.keterangan,
+        };
+      });
+
+      setDaftarSurat(dataBaru);
+
+      setShowFormKematian(false);
+      setPelaporTerpilih(null);
+      setMeninggalTerpilih(null);
+      setEditSuratId(null);
+
+      alert("Surat Kematian berhasil diperbarui.");
+
+      return;
+    }
+
+    /* =====================================================
+     SURAT KEMATIAN BARU
+     SIMPAN KE SUPABASE
+     ===================================================== */
+
+    const suratBaru = {
+      id: Date.now(),
+      ...dataSurat,
+    };
+
+    console.log("=== SURAT KEMATIAN BARU SEBELUM DISIMPAN ===");
+    console.log(suratBaru);
+
+    const { data: suratTersimpan, error } = await supabase
+      .from("surat_pengantar")
+      .insert([
+        {
+          id: suratBaru.id,
+
+          nomor_surat: suratBaru.nomorSurat,
+          tanggal_surat: suratBaru.tanggalSurat || null,
+          jenis_surat: suratBaru.jenisSurat,
+
+          nama_warga: suratBaru.namaWarga,
+          nik: suratBaru.nik,
+          kk: suratBaru.kk,
+
+          tempat_lahir: suratBaru.tempatLahir,
+          tanggal_lahir: suratBaru.tanggalLahir || null,
+          jenis_kelamin: suratBaru.jenisKelamin,
+          agama: suratBaru.agama,
+          pekerjaan: suratBaru.pekerjaan,
+
+          alamat: suratBaru.alamat,
+          rt_rw: suratBaru.rtRw,
+
+          pelapor_id: suratBaru.pelaporId,
+          pelapor_nama: suratBaru.pelaporNama,
+          pelapor_nik: suratBaru.pelaporNik,
+          pelapor_alamat: suratBaru.pelaporAlamat,
+          hubungan_pelapor: suratBaru.hubunganPelapor,
+
+          meninggal_id: suratBaru.meninggalId,
+          tanggal_meninggal: suratBaru.tanggalMeninggal || null,
+          tempat_meninggal: suratBaru.tempatMeninggal,
+          keterangan: suratBaru.keterangan,
+        },
+      ])
+      .select()
+      .single();
+
+    if (error) {
+      console.error("GAGAL MENYIMPAN SURAT KEMATIAN KE SUPABASE:", error);
+
+      alert("Gagal menyimpan Surat Kematian ke Supabase.\n\n" + error.message);
+
+      return;
+    }
+
+    console.log("SURAT KEMATIAN BERHASIL DISIMPAN KE SUPABASE:");
+    console.log(suratTersimpan);
+
+    setDaftarSurat((prev) => [
+      {
+        id: suratTersimpan.id,
+        nomorSurat: suratTersimpan.nomor_surat || "",
+        tanggalSurat: suratTersimpan.tanggal_surat || "",
+        jenisSurat: suratTersimpan.jenis_surat || "",
+        namaWarga: suratTersimpan.nama_warga || "",
+        nik: suratTersimpan.nik || "",
+        kk: suratTersimpan.kk || "",
+        tempatLahir: suratTersimpan.tempat_lahir || "",
+        tanggalLahir: suratTersimpan.tanggal_lahir || "",
+        jenisKelamin: suratTersimpan.jenis_kelamin || "",
+        agama: suratTersimpan.agama || "",
+        pekerjaan: suratTersimpan.pekerjaan || "",
+        alamat: suratTersimpan.alamat || "",
+        rtRw: suratTersimpan.rt_rw || "",
+        pelaporId: suratTersimpan.pelapor_id || "",
+        pelaporNama: suratTersimpan.pelapor_nama || "",
+        pelaporNik: suratTersimpan.pelapor_nik || "",
+        pelaporAlamat: suratTersimpan.pelapor_alamat || "",
+        hubunganPelapor: suratTersimpan.hubungan_pelapor || "",
+        meninggalId: suratTersimpan.meninggal_id || "",
+        tanggalMeninggal: suratTersimpan.tanggal_meninggal || "",
+        tempatMeninggal: suratTersimpan.tempat_meninggal || "",
+        keterangan: suratTersimpan.keterangan || "",
+      },
+      ...prev,
+    ]);
 
     setShowFormKematian(false);
     setPelaporTerpilih(null);
     setMeninggalTerpilih(null);
     setEditSuratId(null);
 
-    alert("Surat Kematian berhasil diperbarui.");
-
-    return;
+    alert("Surat Kematian berhasil disimpan.");
   }
-
-  /* =====================================================
-     SURAT KEMATIAN BARU
-     SIMPAN KE SUPABASE
-  ===================================================== */
-
-  const suratBaru = {
-    id: Date.now(),
-    ...dataSurat,
-  };
-
-  console.log(
-    "=== SURAT KEMATIAN BARU SEBELUM DISIMPAN ===",
-  );
-  console.log(suratBaru);
-
-  const {
-    data: suratTersimpan,
-    error,
-  } = await supabase
-    .from("surat_pengantar")
-    .insert([
-      {
-        id: suratBaru.id,
-
-        nomor_surat: suratBaru.nomorSurat,
-        tanggal_surat:
-          suratBaru.tanggalSurat || null,
-        jenis_surat: suratBaru.jenisSurat,
-
-        nama_warga: suratBaru.namaWarga,
-        nik: suratBaru.nik,
-        kk: suratBaru.kk,
-
-        tempat_lahir:
-          suratBaru.tempatLahir,
-        tanggal_lahir:
-          suratBaru.tanggalLahir || null,
-        jenis_kelamin:
-          suratBaru.jenisKelamin,
-        agama: suratBaru.agama,
-        pekerjaan:
-          suratBaru.pekerjaan,
-
-        alamat: suratBaru.alamat,
-        rt_rw: suratBaru.rtRw,
-
-        pelapor_id:
-          suratBaru.pelaporId,
-        pelapor_nama:
-          suratBaru.pelaporNama,
-        pelapor_nik:
-          suratBaru.pelaporNik,
-        pelapor_alamat:
-          suratBaru.pelaporAlamat,
-        hubungan_pelapor:
-          suratBaru.hubunganPelapor,
-
-        meninggal_id:
-          suratBaru.meninggalId,
-        tanggal_meninggal:
-          suratBaru.tanggalMeninggal || null,
-        tempat_meninggal:
-          suratBaru.tempatMeninggal,
-        keterangan:
-          suratBaru.keterangan,
-      },
-    ])
-    .select()
-    .single();
-
-  if (error) {
-    console.error(
-      "GAGAL MENYIMPAN SURAT KEMATIAN KE SUPABASE:",
-      error,
-    );
-
-    alert(
-      "Gagal menyimpan Surat Kematian ke Supabase.\n\n" +
-        error.message,
-    );
-
-    return;
-  }
-
-  console.log(
-    "SURAT KEMATIAN BERHASIL DISIMPAN KE SUPABASE:",
-  );
-  console.log(suratTersimpan);
-
-  setDaftarSurat((prev) => [
-  {
-    id: suratTersimpan.id,
-    nomorSurat: suratTersimpan.nomor_surat || "",
-    tanggalSurat: suratTersimpan.tanggal_surat || "",
-    jenisSurat: suratTersimpan.jenis_surat || "",
-    namaWarga: suratTersimpan.nama_warga || "",
-    nik: suratTersimpan.nik || "",
-    kk: suratTersimpan.kk || "",
-    tempatLahir: suratTersimpan.tempat_lahir || "",
-    tanggalLahir: suratTersimpan.tanggal_lahir || "",
-    jenisKelamin: suratTersimpan.jenis_kelamin || "",
-    agama: suratTersimpan.agama || "",
-    pekerjaan: suratTersimpan.pekerjaan || "",
-    alamat: suratTersimpan.alamat || "",
-    rtRw: suratTersimpan.rt_rw || "",
-    pelaporId: suratTersimpan.pelapor_id || "",
-    pelaporNama: suratTersimpan.pelapor_nama || "",
-    pelaporNik: suratTersimpan.pelapor_nik || "",
-    pelaporAlamat: suratTersimpan.pelapor_alamat || "",
-    hubunganPelapor:
-      suratTersimpan.hubungan_pelapor || "",
-    meninggalId:
-      suratTersimpan.meninggal_id || "",
-    tanggalMeninggal:
-      suratTersimpan.tanggal_meninggal || "",
-    tempatMeninggal:
-      suratTersimpan.tempat_meninggal || "",
-    keterangan:
-      suratTersimpan.keterangan || "",
-  },
-  ...prev,
-]);
-
-setShowFormKematian(false);
-setPelaporTerpilih(null);
-setMeninggalTerpilih(null);
-setEditSuratId(null);
-
-alert("Surat Kematian berhasil disimpan.");
-}
 
   /* =======================================================
      DETAIL
-  ======================================================= */
+     ======================================================= */
 
   function bukaDetailSurat(surat) {
     console.log("=== DATA SURAT YANG AKAN DIPREVIEW ===");
@@ -2047,9 +2027,12 @@ alert("Surat Kematian berhasil disimpan.");
   ======================================================= */
 
   function bukaPreviewSurat(surat) {
-    setSuratPreview(surat);
-    setOpenActionId(null);
-  }
+  console.log("DATA SURAT YANG DIPREVIEW:", surat);
+  console.log("KEPERLUAN:", surat?.keperluan);
+
+  setSuratPreview(surat);
+  setOpenActionId(null);
+}
 
   /* =======================================================
      EDIT
@@ -2232,66 +2215,46 @@ alert("Surat Kematian berhasil disimpan.");
      HAPUS
   ======================================================= */
 
-async function hapusSurat(surat) {
-  const yakin = window.confirm(
-    `Apakah Anda yakin ingin menghapus surat ${surat.nomorSurat}?`,
-  );
-
-  if (!yakin) {
-    return;
-  }
-
-  console.log("=== HAPUS SURAT ===");
-  console.log("ID SURAT:", surat.id);
-  console.log("NOMOR SURAT:", surat.nomorSurat);
-
-  const {
-    data: suratTerhapus,
-    error,
-  } = await supabase
-    .from("surat_pengantar")
-    .delete()
-    .eq("id", surat.id)
-    .select()
-    .single();
-
-  if (error) {
-    console.error(
-      "GAGAL MENGHAPUS SURAT DARI SUPABASE:",
-      error,
+  async function hapusSurat(surat) {
+    const yakin = window.confirm(
+      `Apakah Anda yakin ingin menghapus surat ${surat.nomorSurat}?`,
     );
 
-    alert(
-      "Surat tidak berhasil dihapus dari Supabase.\n\n" +
-        error.message,
+    if (!yakin) {
+      return;
+    }
+
+    console.log("=== HAPUS SURAT ===");
+    console.log("ID SURAT:", surat.id);
+    console.log("NOMOR SURAT:", surat.nomorSurat);
+
+    const { data: suratTerhapus, error } = await supabase
+      .from("surat_pengantar")
+      .delete()
+      .eq("id", surat.id)
+      .select()
+      .single();
+
+    if (error) {
+      console.error("GAGAL MENGHAPUS SURAT DARI SUPABASE:", error);
+
+      alert("Surat tidak berhasil dihapus dari Supabase.\n\n" + error.message);
+
+      return;
+    }
+
+    console.log("HASIL DELETE DARI SUPABASE:", suratTerhapus);
+
+    console.log("SURAT BENAR-BENAR TERHAPUS DARI SUPABASE:", suratTerhapus.id);
+
+    setDaftarSurat((prev) =>
+      prev.filter((item) => String(item.id) !== String(surat.id)),
     );
 
-    return;
+    setOpenActionId(null);
+
+    alert("Surat berhasil dihapus.");
   }
-
-  console.log(
-    "HASIL DELETE DARI SUPABASE:",
-    suratTerhapus,
-  );
-
-  console.log(
-    "SURAT BENAR-BENAR TERHAPUS DARI SUPABASE:",
-    suratTerhapus.id,
-  );
-
-  setDaftarSurat((prev) =>
-    prev.filter(
-      (item) =>
-        String(item.id) !== String(surat.id),
-    ),
-  );
-
-  setOpenActionId(null);
-
-  alert("Surat berhasil dihapus.");
-}
-
-
 
   /* =======================================================
      ACTION MENU
@@ -2351,14 +2314,6 @@ async function hapusSurat(surat) {
             onClick={bukaFormSurat}
           >
             + Buat Surat
-          </button>
-
-          <button
-            type="button"
-            className="btn-tambah-surat btn-surat-kematian"
-            onClick={bukaFormKematian}
-          >
-            + Surat Kematian
           </button>
         </div>
       </div>
@@ -2709,20 +2664,18 @@ async function hapusSurat(surat) {
                 <label>Jenis Surat</label>
 
                 <select
-                  name="jenisSurat"
-                  value={form.jenisSurat}
-                  onChange={handleChange}
-                >
-                  <option value="">-- Pilih Jenis Surat --</option>
+  name="jenisSurat"
+  value={form.jenisSurat}
+  onChange={handleChange}
+>
+  <option value="">-- Pilih Jenis Surat --</option>
 
-                  {JENIS_SURAT.filter(
-                    (jenis) => jenis !== "Surat Pengantar Kematian",
-                  ).map((jenis) => (
-                    <option key={jenis} value={jenis}>
-                      {jenis}
-                    </option>
-                  ))}
-                </select>
+  {JENIS_SURAT.map((jenis) => (
+    <option key={jenis} value={jenis}>
+      {jenis}
+    </option>
+  ))}
+</select>
               </div>
             </div>
           </div>
@@ -3104,9 +3057,9 @@ async function hapusSurat(surat) {
             wargaTerpilih &&
             (() => {
               const domisili = getAlamatDomisiliPendatang(
-  wargaTerpilih,
-  daftarKost
-);
+                wargaTerpilih,
+                daftarKost,
+              );
               return (
                 <div className="info-domisili-pendatang">
                   <div className="info-domisili-row">
@@ -3789,231 +3742,101 @@ async function hapusSurat(surat) {
             ====================================================== */}
 
                   <div className="preview-judul-surat">
-                    <h2>
-                      {isKematian
-                        ? "SURAT KETERANGAN KEMATIAN"
-                        : isiSurat.judul}
-                    </h2>
+  <h2>SURAT PENGANTAR</h2>
 
-                    <div className="preview-nomor-surat">
-                      Nomor : {suratPreview.nomorSurat}
-                    </div>
-                  </div>
+  <div className="preview-nomor-surat">
+    Nomor : {suratPreview.nomorSurat}
+  </div>
+</div>
 
-                  {/* =====================================================
-                ISI SURAT
-            ====================================================== */}
 
-                  <div className="preview-isi-surat">
-                    {/* =================================================
-       SURAT KEMATIAN
-     ================================================== */}
+{/* =====================================================
+    ISI SURAT — SATU FORMAT UNTUK SEMUA JENIS SURAT
+====================================================== */}
 
-                    {isKematian ? (
-                      <>
-                        <p>
-                          Yang bertanda tangan di bawah ini, menerangkan bahwa
-                          berdasarkan laporan pihak keluarga / kerabat:
-                        </p>
+<div className="preview-isi-surat">
 
-                        {/* DATA PELAPOR */}
+  <p>
+    Yang bertanda tangan di bawah ini, menerangkan bahwa:
+  </p>
 
-                        <div className="preview-identitas-warga">
-                          <div className="identitas-row">
-                            <span>Nama Pelapor</span>
-                            <b>:</b>
-                            <strong>{wargaSurat.pelaporNama || "-"}</strong>
-                          </div>
+  <div className="preview-identitas-warga">
 
-                          <div className="identitas-row">
-                            <span>NIK Pelapor</span>
-                            <b>:</b>
-                            <strong>{wargaSurat.pelaporNik || "-"}</strong>
-                          </div>
+    <div className="identitas-row">
+      <span>Nama</span>
+      <b>:</b>
+      <strong>{wargaSurat.nama || "-"}</strong>
+    </div>
 
-                          <div className="identitas-row">
-                            <span>Hubungan dengan Yang Meninggal</span>
-                            <b>:</b>
-                            <strong>{wargaSurat.hubunganPelapor || "-"}</strong>
-                          </div>
-                        </div>
+    <div className="identitas-row">
+      <span>Tempat/Tgl. Lahir</span>
+      <b>:</b>
+      <strong>
+        {wargaSurat.tempatLahir || "-"}
+        {wargaSurat.tanggalLahir
+          ? `, ${formatTanggal(wargaSurat.tanggalLahir)}`
+          : ""}
+      </strong>
+    </div>
 
-                        <p>Melaporkan bahwa keluarga / kerabat:</p>
+    <div className="identitas-row">
+      <span>Jenis Kelamin</span>
+      <b>:</b>
+      <strong>{wargaSurat.jenisKelamin || "-"}</strong>
+    </div>
 
-                        {/* DATA YANG MENINGGAL */}
+    <div className="identitas-row">
+      <span>Agama</span>
+      <b>:</b>
+      <strong>{wargaSurat.agama || "-"}</strong>
+    </div>
 
-                        <div className="preview-identitas-warga">
-                          <div className="identitas-row">
-                            <span>Nama</span>
-                            <b>:</b>
-                            <strong>{wargaSurat.nama || "-"}</strong>
-                          </div>
+    <div className="identitas-row">
+      <span>Pekerjaan</span>
+      <b>:</b>
+      <strong>{wargaSurat.pekerjaan || "-"}</strong>
+    </div>
 
-                          <div className="identitas-row">
-                            <span>Tempat/Tgl Lahir</span>
-                            <b>:</b>
-                            <strong>
-                              {wargaSurat.tempatLahir || "-"}
-                              {wargaSurat.tanggalLahir
-                                ? `, ${formatTanggal(wargaSurat.tanggalLahir)}`
-                                : ""}
-                            </strong>
-                          </div>
+    <div className="identitas-row">
+      <span>Nomor KTP</span>
+      <b>:</b>
+      <strong>{wargaSurat.nik || "-"}</strong>
+    </div>
 
-                          <div className="identitas-row">
-                            <span>Jenis Kelamin</span>
-                            <b>:</b>
-                            <strong>{wargaSurat.jenisKelamin || "-"}</strong>
-                          </div>
+    <div className="identitas-row identitas-alamat">
+      <span>Alamat</span>
+      <b>:</b>
+      <strong>
+        {wargaSurat.alamat || "-"}
 
-                          <div className="identitas-row">
-                            <span>Agama</span>
-                            <b>:</b>
-                            <strong>{wargaSurat.agama || "-"}</strong>
-                          </div>
+        {String(wargaSurat.statusKependudukan || "")
+          .trim()
+          .toLowerCase() !== "pendatang" && (
+          <>
+            <br />
+            KELURAHAN KARET, KECAMATAN SETIABUDI JAKARTA SELATAN
+          </>
+        )}
+      </strong>
+    </div>
 
-                          <div className="identitas-row">
-                            <span>Pekerjaan</span>
-                            <b>:</b>
-                            <strong>{wargaSurat.pekerjaan || "-"}</strong>
-                          </div>
+    <div className="identitas-row identitas-keperluan">
+  <span>Keperluan</span>
+  <b>:</b>
+  <strong>
+    {String(suratPreview.keperluan || "-")
+      .replace(/^KEPERLUAN\s*:\s*/i, "")
+      .trim() || "-"}
+  </strong>
+</div>
+</div>
 
-                          <div className="identitas-row">
-                            <span>Nomor KTP</span>
-                            <b>:</b>
-                            <strong>{wargaSurat.nik || "-"}</strong>
-                          </div>
+  <p className="preview-penutup">
+    Demikian surat pengantar ini dibuat untuk dapat dipergunakan
+    sebagaimana mestinya dan yang berkepentingan untuk menjadi maklum.
+  </p>
 
-                          <div className="identitas-row identitas-alamat">
-                            <span>Alamat</span>
-                            <b>:</b>
-
-                            <strong>
-                              {wargaSurat.alamat || "-"}
-
-                              {String(wargaSurat.statusKependudukan || "")
-                                .trim()
-                                .toLowerCase() !== "pendatang" && (
-                                <>
-                                  <br />
-                                  KELURAHAN KARET, KECAMATAN SETIABUDI JAKARTA
-                                  SELATAN
-                                </>
-                              )}
-                            </strong>
-                          </div>
-
-                          <div className="identitas-row">
-                            <span>Tanggal Meninggal</span>
-                            <b>:</b>
-                            <strong>
-                              {suratPreview.tanggalMeninggal
-                                ? formatTanggal(suratPreview.tanggalMeninggal)
-                                : "-"}
-                            </strong>
-                          </div>
-
-                          <div className="identitas-row">
-                            <span>Tempat Meninggal</span>
-                            <b>:</b>
-                            <strong>
-                              {suratPreview.tempatMeninggal || "-"}
-                            </strong>
-                          </div>
-                        </div>
-
-                        {/* PENUTUP KEMATIAN */}
-
-                        <p className="preview-penutup">
-                          {suratPreview.keterangan ||
-                            "Surat keterangan ini dibuat berdasarkan laporan keluarga untuk dapat dipergunakan sebagaimana mestinya dan yang berkepentingan untuk menjadi maklum."}
-                        </p>
-                      </>
-                    ) : suratPreview.jenisSurat === "Surat Pengantar Nikah" ? (
-                      /* =================================================
-       SURAT PENGANTAR NIKAH
-       ================================================== */
-
-                      <>
-                        {/* PEMBUKA */}
-
-                        <p>{isiSurat.pembuka}</p>
-
-                        {/* DATA PEMOHON */}
-
-                        <div className="preview-identitas-warga">
-                          {isiSurat.data?.map(([label, value], index) => (
-                            <div className="identitas-row" key={index}>
-                              <span>{label}</span>
-                              <b>:</b>
-                              <strong>{value || "-"}</strong>
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* KETERANGAN SETELAH DATA PEMOHON */}
-
-                        <p>{isiSurat.keteranganNikah}</p>
-
-                        {/* DATA ORANG TUA */}
-
-                        <div className="preview-identitas-warga">
-                          {isiSurat.dataOrangTua?.map(
-                            ([label, value], index) => (
-                              <div className="identitas-row" key={index}>
-                                <span>{label}</span>
-                                <b>:</b>
-                                <strong>{value || "-"}</strong>
-                              </div>
-                            ),
-                          )}
-                        </div>
-
-                        {/* PENUTUP SURAT NIKAH — SATU KALI SAJA */}
-
-                        <p className="preview-penutup">{isiSurat.penutup}</p>
-                      </>
-                    ) : (
-                      /* =================================================
-       SEMUA SURAT SELAIN KEMATIAN & NIKAH
-       ================================================== */
-
-                      <>
-                        {/* PEMBUKA DARI TEMPLATE */}
-
-                        <p>{isiSurat.pembuka}</p>
-
-                        {/* DATA DARI TEMPLATE */}
-
-                        <div className="preview-identitas-warga">
-                          {isiSurat.data?.map(([label, value], index) => (
-                            <div className="identitas-row" key={index}>
-                              <span>{label}</span>
-
-                              <b>:</b>
-
-                              <strong>{value || "-"}</strong>
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* PENUTUP DARI TEMPLATE */}
-
-                        <p className="preview-penutup">{isiSurat.penutup}</p>
-
-                        {/* PENUTUP UMUM */}
-
-                        {suratPreview.jenisSurat !==
-                          "Surat Keterangan Kelahiran" && (
-                          <p className="preview-penutup">
-                            Demikian Surat Keterangan ini dibuat dengan
-                            sebenarnya, agar dapat dipergunakan sebagai mana
-                            mestinya.
-                          </p>
-                        )}
-                      </>
-                    )}
-                  </div>
+</div>
 
                   {/* =====================================================
                 TANDA TANGAN
