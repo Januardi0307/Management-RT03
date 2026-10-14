@@ -21,11 +21,21 @@ const dataAwal = [
     y: 168,
     width: 87,
     height: 55,
-    unit: [{ id: "unit-01-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-01-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
       { id: "3174022204141001", nama: "ROSYAHDAN", noKK: "3174022204141001" },
-      { id: "3174020109210006", nama: "ROSMAN PONIK", noKK: "3174020109210006" },
-      { id: "3174020501093431", nama: "RADITIO WAHYU", noKK: "3174020501093431" },
+      {
+        id: "3174020109210006",
+        nama: "ROSMAN PONIK",
+        noKK: "3174020109210006",
+      },
+      {
+        id: "3174020501093431",
+        nama: "RADITIO WAHYU",
+        noKK: "3174020501093431",
+      },
     ],
   },
 
@@ -51,11 +61,21 @@ const dataAwal = [
     y: 168,
     width: 50,
     height: 27,
-    unit: [{ id: "unit-03-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-03-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
-      { id: "3174020710200001", nama: "WAHYU NUR HIDAYAT", noKK: "3174020710200001" },
+      {
+        id: "3174020710200001",
+        nama: "WAHYU NUR HIDAYAT",
+        noKK: "3174020710200001",
+      },
       { id: "3174020501095868", nama: "SUTARMAN", noKK: "3174020501095868" },
-      { id: "3174020705121009", nama: "JOKO TRI HARJANTO", noKK: "3174020705121009" },
+      {
+        id: "3174020705121009",
+        nama: "JOKO TRI HARJANTO",
+        noKK: "3174020705121009",
+      },
     ],
   },
 
@@ -81,10 +101,20 @@ const dataAwal = [
     y: 221,
     width: 123,
     height: 29,
-    unit: [{ id: "unit-05-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-05-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
-      { id: "3174021412220010", nama: "ALBERT JAKA YUNIARTHA", noKK: "3174021412220010" },
-      { id: "3174020607230009", nama: "ENDANG SRI MAWARTI RR", noKK: "3174020607230009" },
+      {
+        id: "3174021412220010",
+        nama: "ALBERT JAKA YUNIARTHA",
+        noKK: "3174021412220010",
+      },
+      {
+        id: "3174020607230009",
+        nama: "ENDANG SRI MAWARTI RR",
+        noKK: "3174020607230009",
+      },
     ],
   },
 
@@ -97,9 +127,15 @@ const dataAwal = [
     y: 248,
     width: 123,
     height: 29,
-    unit: [{ id: "unit-06-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-06-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
-      { id: "3174020501098317", nama: "FX TOTO SARWOWINOTO", noKK: "3174020501098317" },
+      {
+        id: "3174020501098317",
+        nama: "FX TOTO SARWOWINOTO",
+        noKK: "3174020501098317",
+      },
     ],
   },
 
@@ -151,7 +187,9 @@ const dataAwal = [
     y: 277,
     width: 52,
     height: 69,
-    unit: [{ id: "unit-10-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-10-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [],
   },
 
@@ -164,7 +202,9 @@ const dataAwal = [
     y: 277,
     width: 47,
     height: 69,
-    unit: [{ id: "unit-11-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-11-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [],
   },
 
@@ -177,7 +217,9 @@ const dataAwal = [
     y: 359,
     width: 87,
     height: 36,
-    unit: [{ id: "unit-12-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-12-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
       { id: "3174022408210019", nama: "MAISAROH", noKK: "3174022408210019" },
     ],
@@ -192,10 +234,20 @@ const dataAwal = [
     y: 359,
     width: 57,
     height: 36,
-    unit: [{ id: "unit-13-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-13-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
-      { id: "3174021002141005", nama: "JANUARDI PRATOMO", noKK: "3174021002141005" },
-      { id: "3174020402210011", nama: "GEMAH RIZKIANA", noKK: "3174020402210011" },
+      {
+        id: "3174021002141005",
+        nama: "JANUARDI PRATOMO",
+        noKK: "3174021002141005",
+      },
+      {
+        id: "3174020402210011",
+        nama: "GEMAH RIZKIANA",
+        noKK: "3174020402210011",
+      },
       { id: "3174020302200008", nama: "MAIMUNAH", noKK: "3174020302200008" },
     ],
   },
@@ -211,9 +263,17 @@ const dataAwal = [
     height: 35,
     unit: [{ id: "unit-14-01", nama: "Kontrak", fungsi: "Kontrak" }],
     kk: [
-      { id: "3174021110110001", nama: "DENNY CH PANGEMANAN", noKK: "3174021110110001" },
+      {
+        id: "3174021110110001",
+        nama: "DENNY CH PANGEMANAN",
+        noKK: "3174021110110001",
+      },
       { id: "3174020501095798", nama: "NURYATI", noKK: "3174020501095798" },
-      { id: "3174022505220010", nama: "PANDU SULAKSONO", noKK: "3174022505220010" },
+      {
+        id: "3174022505220010",
+        nama: "PANDU SULAKSONO",
+        noKK: "3174022505220010",
+      },
     ],
   },
 
@@ -239,7 +299,9 @@ const dataAwal = [
     y: 397,
     width: 145,
     height: 28,
-    unit: [{ id: "unit-15-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-15-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
       { id: "3174022405131002", nama: "MARYANAH", noKK: "3174022405131002" },
     ],
@@ -254,9 +316,15 @@ const dataAwal = [
     y: 427,
     width: 145,
     height: 26,
-    unit: [{ id: "unit-16-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-16-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
-      { id: "3174020606111006", nama: "HERRY DARMAWAN", noKK: "3174020606111006" },
+      {
+        id: "3174020606111006",
+        nama: "HERRY DARMAWAN",
+        noKK: "3174020606111006",
+      },
     ],
   },
 
@@ -282,29 +350,16 @@ const dataAwal = [
     y: 478,
     width: 87,
     height: 25,
-    unit: [{ id: "unit-18-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
-    kk: [
-      { id: "3174020501095824", nama: "SULANTA R", noKK: "3174020501095824" },
-      { id: "3174023001200005", nama: "ZAINUDIN AHMAD", noKK: "3174023001200005" },
-      { id: "3174022407141002", nama: "AMENAH", noKK: "3174022407141002" },
-      { id: "3174020709220006", nama: "HENDRA", noKK: "3174020709220006" },
-      { id: "3174021101121001", nama: "UMIYENIA", noKK: "3174021101121001" },
+    unit: [
+      { id: "unit-18-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
     ],
-  },
-
-  {
-    id: "rumah-18",
-    nomor: 19,
-    nama: "Bidang 18",
-    tipe: "Rumah Tinggal",
-    x: 171,
-    y: 478,
-    width: 87,
-    height: 25,
-    unit: [{ id: "unit-18-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
     kk: [
       { id: "3174020501095824", nama: "SULANTA R", noKK: "3174020501095824" },
-      { id: "3174023001200005", nama: "ZAINUDIN AHMAD", noKK: "3174023001200005" },
+      {
+        id: "3174023001200005",
+        nama: "ZAINUDIN AHMAD",
+        noKK: "3174023001200005",
+      },
       { id: "3174022407141002", nama: "AMENAH", noKK: "3174022407141002" },
       { id: "3174020709220006", nama: "HENDRA", noKK: "3174020709220006" },
       { id: "3174021101121001", nama: "UMIYENIA", noKK: "3174021101121001" },
@@ -320,13 +375,19 @@ const dataAwal = [
     y: 503,
     width: 87,
     height: 29,
-    unit: [{ id: "unit-19-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-19-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
-      { id: "3174021711220002", nama: "BAMBANG SETIAWAN", noKK: "3174021711220002" },
+      {
+        id: "3174021711220002",
+        nama: "BAMBANG SETIAWAN",
+        noKK: "3174021711220002",
+      },
       { id: "3174020501095852", nama: "MUDJENI", noKK: "3174020501095852" },
     ],
   },
-{
+  {
     id: "rumah-52",
     nomor: 18,
     nama: "Bidang 52",
@@ -335,11 +396,21 @@ const dataAwal = [
     y: 477,
     width: 33,
     height: 140,
-    unit: [{ id: "unit-52-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-52-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
       { id: "3174021203190001", nama: "AMANI", noKK: "3174021203190001" },
-      { id: "3174020601092554", nama: "ROMMY HERMANSYAH", noKK: "3174020601092554" },
-      { id: "3174021310220015", nama: "QAMARUL AKHYAR DINAN", noKK: "3174021310220015" },
+      {
+        id: "3174020601092554",
+        nama: "ROMMY HERMANSYAH",
+        noKK: "3174020601092554",
+      },
+      {
+        id: "3174021310220015",
+        nama: "QAMARUL AKHYAR DINAN",
+        noKK: "3174021310220015",
+      },
       { id: "3174020601092373", nama: "SARTONO", noKK: "3174020601092373" },
     ],
   },
@@ -353,9 +424,15 @@ const dataAwal = [
     y: 477,
     width: 33,
     height: 140,
-    unit: [{ id: "unit-20-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-20-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
-      { id: "3174022211160005", nama: "SYARIF HIDAYATULLAH", noKK: "3174022211160005" },
+      {
+        id: "3174022211160005",
+        nama: "SYARIF HIDAYATULLAH",
+        noKK: "3174022211160005",
+      },
     ],
   },
 
@@ -394,13 +471,27 @@ const dataAwal = [
     y: 544,
     width: 31,
     height: 26,
-    unit: [{ id: "unit-23-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-23-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
       { id: "3174020501095832", nama: "NURYADIN", noKK: "3174020501095832" },
-      { id: "3174020803190031", nama: "ACHMAD SANUSI INDRAWAN", noKK: "3174020803190031" },
-      { id: "3174020501098253", nama: "AGUS WAHYUDI", noKK: "3174020501098253" },
+      {
+        id: "3174020803190031",
+        nama: "ACHMAD SANUSI INDRAWAN",
+        noKK: "3174020803190031",
+      },
+      {
+        id: "3174020501098253",
+        nama: "AGUS WAHYUDI",
+        noKK: "3174020501098253",
+      },
       { id: "3174020501097936", nama: "SAMBAS", noKK: "3174020501097936" },
-      { id: "3174022006141009", nama: "UMAR MUKHTAR", noKK: "3174022006141009" },
+      {
+        id: "3174022006141009",
+        nama: "UMAR MUKHTAR",
+        noKK: "3174022006141009",
+      },
       { id: "3174020601092492", nama: "INDRIYATIE", noKK: "3174020601092492" },
     ],
   },
@@ -414,9 +505,15 @@ const dataAwal = [
     y: 516,
     width: 48,
     height: 27,
-    unit: [{ id: "unit-24-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-24-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
-      { id: "3174020601092786", nama: "IWAN SETIAWAN", noKK: "3174020601092786" },
+      {
+        id: "3174020601092786",
+        nama: "IWAN SETIAWAN",
+        noKK: "3174020601092786",
+      },
     ],
   },
 
@@ -429,9 +526,9 @@ const dataAwal = [
     y: 488,
     width: 48,
     height: 28,
-    unit: [{ id: "unit-25-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [{ id: "unit-25-01", nama: "Kontrak", fungsi: "Tempat Tinggal" }],
     kk: [
-      { id: "3174020107190004", nama: "EVAN ELIAN SETIAWAN", noKK: "3174020107190004" },
+      { id: "3174022301141009", nama: "EFRIL YADI", noKK: "3174022301141009" },
     ],
   },
 
@@ -444,9 +541,13 @@ const dataAwal = [
     y: 459,
     width: 48,
     height: 28,
-    unit: [{ id: "unit-26-01", nama: "Kontrak", fungsi: "Kontrak" }],
+    unit: [{ id: "unit-26-01", nama: "Rumah Tinggal", fungsi: "Kontrak" }],
     kk: [
-      { id: "3174022301141009", nama: "EFRIL YADI", noKK: "3174022301141009" },
+      {
+        id: "3174020107190004",
+        nama: "EVAN ELIAN SETIAWAN",
+        noKK: "3174020107190004",
+      },
     ],
   },
 
@@ -459,11 +560,25 @@ const dataAwal = [
     y: 432,
     width: 48,
     height: 27,
-    unit: [{ id: "unit-27-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-27-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
-      { id: "3174020907131008", nama: "MOCHAMAD DENDI", noKK: "3174020907131008" },
-      { id: "3174020601091523", nama: "MUHAMMAD FADLI", noKK: "3174020601091523" },
-      { id: "3174020501095825", nama: "NINO ACHMAD ZAINO", noKK: "3174020501095825" },
+      {
+        id: "3174020907131008",
+        nama: "MOCHAMAD DENDI",
+        noKK: "3174020907131008",
+      },
+      {
+        id: "3174020601091523",
+        nama: "MUHAMMAD FADLI",
+        noKK: "3174020601091523",
+      },
+      {
+        id: "3174020501095825",
+        nama: "NINO ACHMAD ZAINO",
+        noKK: "3174020501095825",
+      },
     ],
   },
 
@@ -476,10 +591,20 @@ const dataAwal = [
     y: 398,
     width: 84,
     height: 32,
-    unit: [{ id: "unit-28-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-28-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
-      { id: "3174022411230016", nama: "MUHAMMAD ADAM RAMADHAN NOOR", noKK: "3174022411230016" },
-      { id: "3174020501098353", nama: "HAMDARIYANSYAH", noKK: "3174020501098353" },
+      {
+        id: "3174022411230016",
+        nama: "MUHAMMAD ADAM RAMADHAN NOOR",
+        noKK: "3174022411230016",
+      },
+      {
+        id: "3174020501098353",
+        nama: "HAMDARIYANSYAH",
+        noKK: "3174020501098353",
+      },
     ],
   },
 
@@ -492,10 +617,20 @@ const dataAwal = [
     y: 361,
     width: 45,
     height: 42,
-    unit: [{ id: "unit-29-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-29-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
-      { id: "3174020501098279", nama: "BUDI SANTOSO", noKK: "3174020501098279" },
-      { id: "3174021510110018", nama: "TEGUH WAHYONO", noKK: "3174021510110018" },
+      {
+        id: "3174020501098279",
+        nama: "BUDI SANTOSO",
+        noKK: "3174020501098279",
+      },
+      {
+        id: "3174021510110018",
+        nama: "TEGUH WAHYONO",
+        noKK: "3174021510110018",
+      },
     ],
   },
 
@@ -510,7 +645,11 @@ const dataAwal = [
     height: 42,
     unit: [{ id: "unit-30-01", nama: "Kontrak", fungsi: "Kontrak" }],
     kk: [
-      { id: "7371111301250022", nama: "RIFHIAL ADHINUGRAHA", noKK: "7371111301250022" },
+      {
+        id: "7371111301250022",
+        nama: "RIFHIAL ADHINUGRAHA",
+        noKK: "7371111301250022",
+      },
     ],
   },
 
@@ -525,7 +664,11 @@ const dataAwal = [
     height: 29,
     unit: [{ id: "unit-31-01", nama: "Kontrak", fungsi: "Kontrak" }],
     kk: [
-      { id: "7371102602160010", nama: "CRISYE EDWARD KALEB JUNAID SH", noKK: "7371102602160010" },
+      {
+        id: "7371102602160010",
+        nama: "CRISYE EDWARD KALEB JUNAID SH",
+        noKK: "7371102602160010",
+      },
     ],
   },
 
@@ -564,12 +707,18 @@ const dataAwal = [
     y: 496,
     width: 84,
     height: 29,
-    unit: [{ id: "unit-34-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-34-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
       { id: "3174020501098708", nama: "TAJUDIN", noKK: "3174020501098708" },
       { id: "3174020601092321", nama: "NGADINO", noKK: "3174020601092321" },
       { id: "3174021904240002", nama: "SUTRISNO", noKK: "3174021904240002" },
-      { id: "3174022706240014", nama: "TRI TRISNOWATI", noKK: "3174022706240014" },
+      {
+        id: "3174022706240014",
+        nama: "TRI TRISNOWATI",
+        noKK: "3174022706240014",
+      },
     ],
   },
 
@@ -582,7 +731,9 @@ const dataAwal = [
     y: 526,
     width: 84,
     height: 29,
-    unit: [{ id: "unit-35-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-35-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
       { id: "3174020501095863", nama: "ANAS YUSUP", noKK: "3174020501095863" },
       { id: "3174020808121010", nama: "HAMDANI", noKK: "3174020808121010" },
@@ -613,9 +764,15 @@ const dataAwal = [
     y: 586,
     width: 84,
     height: 39,
-    unit: [{ id: "unit-37-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-37-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
-      { id: "3174020601090832", nama: "IWAN SETIAWAN", noKK: "3174020601090832" },
+      {
+        id: "3174020601090832",
+        nama: "IWAN SETIAWAN",
+        noKK: "3174020601090832",
+      },
       { id: "3174020501095819", nama: "KASIR", noKK: "3174020501095819" },
       { id: "3174020501099623", nama: "RISBIANTORO", noKK: "3174020501099623" },
     ],
@@ -630,10 +787,20 @@ const dataAwal = [
     y: 632,
     width: 102,
     height: 70,
-    unit: [{ id: "unit-38-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-38-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
-      { id: "3174020701190005", nama: "SRI RETNO KILATSIH", noKK: "3174020701190005" },
-      { id: "3174020601090891", nama: "SRI RETNO KUMARYATI", noKK: "3174020601090891" },
+      {
+        id: "3174020701190005",
+        nama: "SRI RETNO KILATSIH",
+        noKK: "3174020701190005",
+      },
+      {
+        id: "3174020601090891",
+        nama: "SRI RETNO KUMARYATI",
+        noKK: "3174020601090891",
+      },
     ],
   },
 
@@ -646,9 +813,15 @@ const dataAwal = [
     y: 704,
     width: 102,
     height: 43,
-    unit: [{ id: "unit-39-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-39-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
-      { id: "3174020601091369", nama: "YANWAR ARIADI", noKK: "3174020601091369" },
+      {
+        id: "3174020601091369",
+        nama: "YANWAR ARIADI",
+        noKK: "3174020601091369",
+      },
       { id: "3174020601091365", nama: "MARDEH", noKK: "3174020601091365" },
     ],
   },
@@ -662,11 +835,21 @@ const dataAwal = [
     y: 704,
     width: 68,
     height: 43,
-    unit: [{ id: "unit-40-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-40-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
       { id: "3174020601091777", nama: "WIDJANARKO", noKK: "3174020601091777" },
-      { id: "3174020804141002", nama: "FERDINANDO XANDORS SIREGAR", noKK: "3174020804141002" },
-      { id: "3174020906220021", nama: "RENA LARASATI", noKK: "3174020906220021" },
+      {
+        id: "3174020804141002",
+        nama: "FERDINANDO XANDORS SIREGAR",
+        noKK: "3174020804141002",
+      },
+      {
+        id: "3174020906220021",
+        nama: "RENA LARASATI",
+        noKK: "3174020906220021",
+      },
     ],
   },
 
@@ -679,10 +862,20 @@ const dataAwal = [
     y: 704,
     width: 47,
     height: 43,
-    unit: [{ id: "unit-41-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-41-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
-      { id: "3174022707170009", nama: "JOE NIANDHIKA BASKORO", noKK: "3174022707170009" },
-      { id: "3174020501095820", nama: "JOEL TOTOK APRIYANTO", noKK: "3174020501095820" },
+      {
+        id: "3174022707170009",
+        nama: "JOE NIANDHIKA BASKORO",
+        noKK: "3174022707170009",
+      },
+      {
+        id: "3174020501095820",
+        nama: "JOEL TOTOK APRIYANTO",
+        noKK: "3174020501095820",
+      },
     ],
   },
 
@@ -696,9 +889,7 @@ const dataAwal = [
     width: 30,
     height: 43,
     unit: [{ id: "unit-42-01", nama: "Kontrak", fungsi: "Kontrak" }],
-    kk: [
-      { id: "3174022312160009", nama: "SOLIHIN", noKK: "3174022312160009" },
-    ],
+    kk: [{ id: "3174022312160009", nama: "SOLIHIN", noKK: "3174022312160009" }],
   },
 
   {
@@ -727,10 +918,10 @@ const dataAwal = [
     y: 789,
     width: 40,
     height: 31,
-    unit: [{ id: "unit-44-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
-    kk: [
-      { id: "3174020501095809", nama: "YUSUF", noKK: "3174020501095809" },
+    unit: [
+      { id: "unit-44-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
     ],
+    kk: [{ id: "3174020501095809", nama: "YUSUF", noKK: "3174020501095809" }],
   },
 
   {
@@ -773,7 +964,11 @@ const dataAwal = [
     height: 27,
     unit: [{ id: "unit-47-01", nama: "Kontrak", fungsi: "Kontrak" }],
     kk: [
-      { id: "3174020909190005", nama: "RENI MARWANTI", noKK: "3174020909190005" },
+      {
+        id: "3174020909190005",
+        nama: "RENI MARWANTI",
+        noKK: "3174020909190005",
+      },
       { id: "3174020510220013", nama: "TEJO SUROJO", noKK: "3174020510220013" },
     ],
   },
@@ -793,11 +988,31 @@ const dataAwal = [
     ],
     kk: [
       { id: "3174020501095861", nama: "ABDUL GANI", noKK: "3174020501095861" },
-      { id: "3174020501098329", nama: "I MADE WIBAWA KUSUMA", noKK: "3174020501098329" },
-      { id: "3174020102240013", nama: "ASTARI DESQUAMILA", noKK: "3174020102240013" },
-      { id: "3174020501098794", nama: "I PUTU SUARDIKA", noKK: "3174020501098794" },
-      { id: "3174023105131004", nama: "I KETUT MERTHA YASA", noKK: "3174023105131004" },
-      { id: "3174020501095862", nama: "NI WAYAN SRI UTAMI", noKK: "3174020501095862" },
+      {
+        id: "3174020501098329",
+        nama: "I MADE WIBAWA KUSUMA",
+        noKK: "3174020501098329",
+      },
+      {
+        id: "3174020102240013",
+        nama: "ASTARI DESQUAMILA",
+        noKK: "3174020102240013",
+      },
+      {
+        id: "3174020501098794",
+        nama: "I PUTU SUARDIKA",
+        noKK: "3174020501098794",
+      },
+      {
+        id: "3174023105131004",
+        nama: "I KETUT MERTHA YASA",
+        noKK: "3174023105131004",
+      },
+      {
+        id: "3174020501095862",
+        nama: "NI WAYAN SRI UTAMI",
+        noKK: "3174020501095862",
+      },
     ],
   },
 
@@ -810,10 +1025,16 @@ const dataAwal = [
     y: 634,
     width: 45,
     height: 186,
-    unit: [{ id: "unit-49-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" }],
+    unit: [
+      { id: "unit-49-01", nama: "Rumah Tinggal", fungsi: "Tempat Tinggal" },
+    ],
     kk: [
       { id: "3174022111180013", nama: "SUSHERYANI", noKK: "3174022111180013" },
-      { id: "3174021911200014", nama: "NISA BINTA SAKRI", noKK: "3174021911200014" },
+      {
+        id: "3174021911200014",
+        nama: "NISA BINTA SAKRI",
+        noKK: "3174021911200014",
+      },
       { id: "3174021310210002", nama: "ROKASIH", noKK: "3174021310210002" },
     ],
   },
@@ -832,9 +1053,12 @@ const dataAwal = [
   },
 ];
 
-
 function DenahRT() {
   const [bidang, setBidang] = useState(dataAwal);
+  // STATUS PENYIMPANAN DENAH RT
+  const [memuatDenah, setMemuatDenah] = useState(true);
+  const [menyimpanDenah, setMenyimpanDenah] = useState(false);
+  const [pesanDenah, setPesanDenah] = useState("");
   const [bidangDipilih, setBidangDipilih] = useState(null);
   const [modalPilihKK, setModalPilihKK] = useState(false);
   const [modalPindahKK, setModalPindahKK] = useState(false);
@@ -842,49 +1066,75 @@ function DenahRT() {
 
   const [daftarKK, setDaftarKK] = useState([]);
 
-useEffect(() => {
-  async function loadDaftarKK() {
-    try {
-      console.log("MEMUAT DAFTAR KEPALA KELUARGA UNTUK DENAH...");
+  // MEMUAT DENAH RT DARI SUPABASE
+  useEffect(() => {
+    async function muatDenah() {
+      try {
+        const { data, error } = await supabase
+          .from("denah_rt")
+          .select("data")
+          .eq("id", "utama")
+          .maybeSingle();
 
-      const { data, error } = await supabase
-        .from("warga")
-        .select("id, nama, kk, status, status_keluarga")
-        .eq("status", "Aktif")
-        .eq("status_keluarga", "Kepala Keluarga")
-        .not("kk", "is", null)
-        .neq("kk", "")
-        .order("nama", { ascending: true });
+        if (error) throw error;
 
-      if (error) {
-        console.error(
-          "GAGAL MEMUAT DAFTAR KEPALA KELUARGA UNTUK DENAH:",
-          error
-        );
-        return;
+        if (data?.data && Array.isArray(data.data)) {
+          setBidang(data.data);
+        }
+      } catch (error) {
+        console.error("GAGAL MEMUAT DENAH:", error);
+        setPesanDenah("Denah gagal dimuat dari database.");
+      } finally {
+        setMemuatDenah(false);
       }
-
-      const dataKK = data.map((item) => ({
-        id: item.id,
-        nama: item.nama || "",
-        noKK: item.kk || "",
-      }));
-
-      setDaftarKK(dataKK);
-
-      console.log(
-        `BERHASIL MEMUAT ${dataKK.length} KEPALA KELUARGA UNTUK DENAH.`
-      );
-    } catch (error) {
-      console.error(
-        "ERROR MEMUAT DAFTAR KEPALA KELUARGA UNTUK DENAH:",
-        error
-      );
     }
-  }
 
-  loadDaftarKK();
-}, []);
+    muatDenah();
+  }, []);
+
+  useEffect(() => {
+    async function loadDaftarKK() {
+      try {
+        console.log("MEMUAT DAFTAR KEPALA KELUARGA UNTUK DENAH...");
+
+        const { data, error } = await supabase
+          .from("warga")
+          .select("id, nama, kk, status, status_keluarga")
+          .eq("status", "Aktif")
+          .eq("status_keluarga", "Kepala Keluarga")
+          .not("kk", "is", null)
+          .neq("kk", "")
+          .order("nama", { ascending: true });
+
+        if (error) {
+          console.error(
+            "GAGAL MEMUAT DAFTAR KEPALA KELUARGA UNTUK DENAH:",
+            error,
+          );
+          return;
+        }
+
+        const dataKK = data.map((item) => ({
+          id: item.id,
+          nama: item.nama || "",
+          noKK: item.kk || "",
+        }));
+
+        setDaftarKK(dataKK);
+
+        console.log(
+          `BERHASIL MEMUAT ${dataKK.length} KEPALA KELUARGA UNTUK DENAH.`,
+        );
+      } catch (error) {
+        console.error(
+          "ERROR MEMUAT DAFTAR KEPALA KELUARGA UNTUK DENAH:",
+          error,
+        );
+      }
+    }
+
+    loadDaftarKK();
+  }, []);
 
   const pilihBidang = (item) => setBidangDipilih(item);
   const tutupDetail = () => setBidangDipilih(null);
@@ -905,7 +1155,7 @@ useEffect(() => {
     const sudahAdaDiBidangLain = bidang.some(
       (item) =>
         item.id !== bidangDipilih.id &&
-        item.kk.some((kk) => kk.id === warga.id)
+        item.kk.some((kk) => kk.id === warga.id),
     );
 
     if (sudahAdaDiBidangLain) {
@@ -914,15 +1164,15 @@ useEffect(() => {
     }
 
     const kkBaru = {
-  id: warga.id,
-  nama: warga.nama,
-  noKK: warga.noKK,
-};
+      id: warga.id,
+      nama: warga.nama,
+      noKK: warga.noKK,
+    };
 
     const dataBaru = bidang.map((item) =>
       item.id === bidangDipilih.id
         ? { ...item, kk: [...item.kk, kkBaru] }
-        : item
+        : item,
     );
 
     setBidang(dataBaru);
@@ -936,7 +1186,7 @@ useEffect(() => {
     const dataBaru = bidang.map((item) =>
       item.id === bidangDipilih.id
         ? { ...item, kk: item.kk.filter((kk) => kk.id !== kkId) }
-        : item
+        : item,
     );
 
     setBidang(dataBaru);
@@ -993,7 +1243,7 @@ useEffect(() => {
     const dataBaru = bidang.map((item) =>
       item.id === bidangDipilih.id
         ? { ...item, unit: [...item.unit, unitBaru] }
-        : item
+        : item,
     );
 
     setBidang(dataBaru);
@@ -1009,7 +1259,7 @@ useEffect(() => {
     const dataBaru = bidang.map((item) =>
       item.id === bidangDipilih.id
         ? { ...item, unit: item.unit.filter((unit) => unit.id !== unitId) }
-        : item
+        : item,
     );
 
     setBidang(dataBaru);
@@ -1019,16 +1269,82 @@ useEffect(() => {
     });
   };
 
+  // SIMPAN DENAH RT KE SUPABASE
+  const simpanDenah = async () => {
+    setMenyimpanDenah(true);
+    setPesanDenah("");
+
+    try {
+      
+const { data: sesiData, error: sesiError } =
+  await supabase.auth.getSession();
+
+console.log("SESI SUPABASE:", sesiData?.session?.user?.id);
+console.log("ERROR SESI:", sesiError);
+
+const { data: adminData, error: adminError } =
+  await supabase.rpc("is_admin_rt03");
+
+console.log("STATUS ADMIN RT:", adminData);
+console.log("ERROR PEMERIKSAAN ADMIN:", adminError);
+
+      const { error } = await supabase.from("denah_rt").upsert(
+        {
+          id: "utama",
+          data: bidang,
+          updated_at: new Date().toISOString(),
+        },
+        { onConflict: "id" },
+      );
+
+      if (error) throw error;
+
+      setPesanDenah("Denah berhasil disimpan.");
+    } catch (error) {
+  console.error("GAGAL MENYIMPAN DENAH:", error);
+
+  setPesanDenah(
+    error.message || "Denah gagal disimpan."
+  );
+} finally {
+      setMenyimpanDenah(false);
+    }
+  };
+
   return (
     <div style={styles.container}>
-      <div style={styles.header}>
+      <div
+        style={{
+          ...styles.header,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: "12px",
+          flexWrap: "wrap",
+        }}
+      >
         <div>
           <h2 style={styles.title}>Denah RT 03 / RW 07</h2>
           <p style={styles.subtitle}>
             Klik nomor rumah pada denah untuk melihat dan mengelola data.
           </p>
         </div>
+
+        <button
+          type="button"
+          onClick={simpanDenah}
+          disabled={menyimpanDenah || memuatDenah}
+          style={styles.addButton}
+        >
+          {memuatDenah
+            ? "Memuat Denah..."
+            : menyimpanDenah
+              ? "Menyimpan..."
+              : "Simpan Denah"}
+        </button>
       </div>
+
+      {pesanDenah && <p role="status">{pesanDenah}</p>}
 
       <div style={styles.mapWrapper}>
         <div style={styles.map}>
@@ -1062,15 +1378,17 @@ useEffect(() => {
           <div style={styles.modal} onClick={(e) => e.stopPropagation()}>
             <div style={styles.modalHeader}>
               <div>
-                <h2 style={styles.modalTitle}>
-                  {bidangDipilih.nama}
-                </h2>
+                <h2 style={styles.modalTitle}>{bidangDipilih.nama}</h2>
                 <div style={styles.modalSubTitle}>
                   {bidangDipilih.tipe} • {bidangDipilih.kk.length} KK
                 </div>
               </div>
 
-              <button type="button" onClick={tutupDetail} style={styles.closeButton}>
+              <button
+                type="button"
+                onClick={tutupDetail}
+                style={styles.closeButton}
+              >
                 ×
               </button>
             </div>
@@ -1078,7 +1396,11 @@ useEffect(() => {
             <div style={styles.section}>
               <div style={styles.sectionHeader}>
                 <h3 style={styles.sectionTitle}>Unit / Fungsi</h3>
-                <button type="button" style={styles.addButton} onClick={tambahUnit}>
+                <button
+                  type="button"
+                  style={styles.addButton}
+                  onClick={tambahUnit}
+                >
                   + Tambah Unit
                 </button>
               </div>
@@ -1111,7 +1433,11 @@ useEffect(() => {
                 <h3 style={styles.sectionTitle}>
                   Kepala Keluarga ({bidangDipilih.kk.length})
                 </h3>
-                <button type="button" style={styles.addButton} onClick={tambahKK}>
+                <button
+                  type="button"
+                  style={styles.addButton}
+                  onClick={tambahKK}
+                >
                   + Tambah KK
                 </button>
               </div>
@@ -1123,11 +1449,11 @@ useEffect(() => {
                   {bidangDipilih.kk.map((kk) => (
                     <div key={kk.id} style={styles.listItem}>
                       <div>
-  <strong>{kk.nama}</strong>
-  <div style={styles.smallText}>
-    No. KK: {kk.noKK || kk.id}
-  </div>
-</div>
+                        <strong>{kk.nama}</strong>
+                        <div style={styles.smallText}>
+                          No. KK: {kk.noKK || kk.id}
+                        </div>
+                      </div>
 
                       <div style={styles.actions}>
                         <button
@@ -1152,9 +1478,10 @@ useEffect(() => {
             </div>
 
             <div style={styles.info}>
-              <strong>Catatan:</strong><br />
-              Posisi klik mengikuti area nomor pada gambar denah asli.
-              Data saat ini masih berada di state React dan belum tersimpan ke database.
+              <strong>Catatan:</strong>
+              <br />
+              Posisi klik mengikuti area nomor pada gambar denah asli. Data saat
+              ini masih berada di state React dan belum tersimpan ke database.
             </div>
           </div>
         </div>
@@ -1181,77 +1508,74 @@ useEffect(() => {
 
             <div style={styles.list}>
               {daftarKK
-  .filter(
-    (warga) =>
-      !bidang.some((item) =>
-        item.kk.some(
-          (kk) =>
-            String(kk.noKK || kk.id) === String(warga.noKK)
-        )
-      )
-  )
-  .map((warga) => {
-                const sudahDiBidangIni = bidangDipilih.kk.some(
-  (kk) =>
-    String(kk.noKK || kk.id) === String(warga.noKK)
-);
+                .filter(
+                  (warga) =>
+                    !bidang.some((item) =>
+                      item.kk.some(
+                        (kk) => String(kk.noKK || kk.id) === String(warga.noKK),
+                      ),
+                    ),
+                )
+                .map((warga) => {
+                  const sudahDiBidangIni = bidangDipilih.kk.some(
+                    (kk) => String(kk.noKK || kk.id) === String(warga.noKK),
+                  );
 
                   console.log(
-  "CEK KK:",
-  warga.nama,
-  "ID Supabase:",
-  warga.id,
-  "KK di bidang:",
-  bidangDipilih.kk.map((kk) => ({
-    nama: kk.nama,
-    id: kk.id,
-  }))
-);
+                    "CEK KK:",
+                    warga.nama,
+                    "ID Supabase:",
+                    warga.id,
+                    "KK di bidang:",
+                    bidangDipilih.kk.map((kk) => ({
+                      nama: kk.nama,
+                      id: kk.id,
+                    })),
+                  );
 
-                const sudahDiBidangLain = bidang.some(
-  (item) =>
-    item.id !== bidangDipilih.id &&
-    item.kk.some(
-      (kk) =>
-        String(kk.noKK || kk.id) === String(warga.noKK)
-    )
-);
-                const disabled = sudahDiBidangIni || sudahDiBidangLain;
+                  const sudahDiBidangLain = bidang.some(
+                    (item) =>
+                      item.id !== bidangDipilih.id &&
+                      item.kk.some(
+                        (kk) => String(kk.noKK || kk.id) === String(warga.noKK),
+                      ),
+                  );
+                  const disabled = sudahDiBidangIni || sudahDiBidangLain;
 
-                if (warga.nama === "ABDUL GANI") {
-  console.log("=== CEK ABDUL GANI ===");
-  console.log("ID Supabase:", warga.id);
-  console.log("No KK Supabase:", warga.noKK);
-  console.log("Sudah di bidang ini:", sudahDiBidangIni);
-  console.log("Sudah di bidang lain:", sudahDiBidangLain);
-}
+                  if (warga.nama === "ABDUL GANI") {
+                    console.log("=== CEK ABDUL GANI ===");
+                    console.log("ID Supabase:", warga.id);
+                    console.log("No KK Supabase:", warga.noKK);
+                    console.log("Sudah di bidang ini:", sudahDiBidangIni);
+                    console.log("Sudah di bidang lain:", sudahDiBidangLain);
+                  }
 
-                return (
-                  <button
-                    key={warga.id}
-                    type="button"
-                    disabled={disabled}
-                    onClick={() => pilihKK(warga)}
-                    style={{
-                      ...styles.pilihKKItem,
-                      opacity: disabled ? 0.45 : 1,
-                      cursor: disabled ? "not-allowed" : "pointer",
-                    }}
-                  >
-                    <div style={{ textAlign: "left" }}>
-                      <strong>{warga.nama}</strong>
-                      <div style={styles.smallText}>ID: {warga.id}</div>
-                    </div>
-                    <span>
-                      {sudahDiBidangIni
-                        ? "Sudah di rumah ini"
-                        : sudahDiBidangLain
-                          ? "Sudah di rumah lain"
-                          : "Pilih"}
-                    </span>
-                  </button>
-                );
-              })}
+                  return (
+                    <button
+                      key={warga.id}
+                      type="button"
+                      disabled={disabled}
+                      onClick={() => pilihKK(warga)}
+                      style={{
+                        ...styles.pilihKKItem,
+                        opacity: disabled ? 0.45 : 1,
+                        cursor: disabled ? "not-allowed" : "pointer",
+                      }}
+                    >
+                      <div style={{ textAlign: "left" }}>
+                        <strong>{warga.nama}</strong>
+                        <div style={styles.smallText}>ID: {warga.id}</div>
+                      </div>
+                      <span>
+                        {sudahDiBidangIni
+                          ? "Sudah di rumah ini"
+                          : sudahDiBidangLain
+                            ? "Sudah di rumah lain"
+                            : "Pilih"}
+                      </span>
+                    </button>
+                  );
+                })}
             </div>
           </div>
         </div>

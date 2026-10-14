@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
+import LoginAdmin from "./components/LoginAdmin";
 import DenahRT from "./components/DenahRT";
 import DataWarga from "./components/DataWarga";
 import WargaPendatang from "./components/WargaPendatang";
@@ -648,6 +649,101 @@ function EmptyPage({ icon, title, description }) {
 
 function App() {
   const [activeMenu, setActiveMenu] = useState("Dashboard");
+  
+  const [sessionAdmin, setSessionAdmin] = useState(null);
+  const [authChecking, setAuthChecking] = useState(true);
+  const [adminAuthenticated, setAdminAuthenticated] = useState(false);
+
+  
+  // PEMERIKSAAN SESI LOGIN ADMIN
+  useEffect(() => {
+    let masihAktif = true;
+
+    const periksaSesi = async () => {
+      const { data, error } = await supabase.auth.getSession();
+
+      if (!masihAktif) return;
+
+      if (error || !data.session) {
+        setSessionAdmin(null);
+        setAdminAuthenticated(false);
+        setAuthChecking(false);
+        return;
+      }
+
+      setSessionAdmin(data.session);
+
+      const { data: statusAdmin, error: errorAdmin } =
+        await supabase.rpc("is_admin_rt03");
+
+      if (!masihAktif) return;
+
+      if (errorAdmin || statusAdmin !== true) {
+        await supabase.auth.signOut();
+
+        if (!masihAktif) return;
+
+        setSessionAdmin(null);
+        setAdminAuthenticated(false);
+      } else {
+        setAdminAuthenticated(true);
+      }
+
+      setAuthChecking(false);
+    };
+
+    void periksaSesi();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!masihAktif) return;
+
+      setSessionAdmin(session);
+
+      if (!session) {
+        setAdminAuthenticated(false);
+        setAuthChecking(false);
+      }
+    });
+
+    return () => {
+      masihAktif = false;
+      subscription.unsubscribe();
+    };
+  }, []);
+
+
+  // TAMPILKAN LOGIN SEBELUM DASHBOARD
+  if (authChecking) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontFamily: "Arial, sans-serif",
+          color: "#334155",
+        }}
+      >
+        Memeriksa sesi admin...
+      </div>
+    );
+  }
+
+  if (!adminAuthenticated) {
+    return (
+      <LoginAdmin
+        onLoginSuccess={(session) => {
+          setSessionAdmin(session);
+          setAdminAuthenticated(true);
+          setAuthChecking(false);
+        }}
+      />
+    );
+  }
+
 
   const menuItems = [
     {
