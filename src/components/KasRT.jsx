@@ -5,6 +5,14 @@ import "./KasRT.css";
 function KasRT() {
   const [tabAktif, setTabAktif] = useState("pemasukan");
 
+  // =========================================================
+  // LAPORAN KAS RT TERPERINCI
+  // =========================================================
+  const [tampilkanLaporanTerperinci, setTampilkanLaporanTerperinci] =
+    useState(false);
+
+  const [bulanLaporanTerperinci, setBulanLaporanTerperinci] = useState("semua");
+
   const [dataPemasukan, setDataPemasukan] = useState([]);
   const [loadingPemasukan, setLoadingPemasukan] = useState(false);
   const [error, setError] = useState("");
@@ -438,6 +446,25 @@ function KasRT() {
   function cetakLaporanKas() {
     window.print();
   }
+
+  // =====================================================
+  // CETAK BUKU KAS TAHUNAN
+  // =====================================================
+
+  function cetakBukuKasTahunan() {
+    const bersihkanModeCetak = () => {
+      document.body.classList.remove("cetak-buku-kas");
+    };
+
+    document.body.classList.add("cetak-buku-kas");
+
+    window.addEventListener("afterprint", bersihkanModeCetak, {
+      once: true,
+    });
+
+    window.print();
+  }
+
   function getTanggalCetak() {
     return new Date().toLocaleDateString("id-ID", {
       day: "2-digit",
@@ -772,6 +799,78 @@ function KasRT() {
     );
   }, [saldoAwal, pemasukanLaporan, pengeluaranLaporan]);
 
+  // =====================================================
+  // DATA BUKU KAS TAHUNAN
+  // Menggabungkan pemasukan dan pengeluaran berdasarkan tanggal
+  // =====================================================
+  const transaksiBukuKas = useMemo(() => {
+    const awalTahun = `${tahunLaporan}-01-01`;
+    const akhirTahun = `${tahunLaporan}-12-31`;
+
+    const pemasukan = dataPemasukan
+      .filter(
+        (item) =>
+          item.tanggal &&
+          item.tanggal >= awalTahun &&
+          item.tanggal <= akhirTahun,
+      )
+      .map((item) => ({
+        id: `masuk-${item.id}`,
+        tanggal: item.tanggal,
+        uraian:
+          [item.sumber, item.keterangan].filter(Boolean).join(" - ") ||
+          "Pemasukan",
+        pemasukan: Number(item.jumlah || 0),
+        pengeluaran: 0,
+        jenis: "masuk",
+      }));
+
+    const pengeluaran = dataPengeluaran
+      .filter(
+        (item) =>
+          item.tanggal &&
+          item.tanggal >= awalTahun &&
+          item.tanggal <= akhirTahun,
+      )
+      .map((item) => ({
+        id: `keluar-${item.id}`,
+        tanggal: item.tanggal,
+        uraian:
+          [item.judul_acara, item.keperluan, item.keterangan]
+            .filter(Boolean)
+            .join(" - ") || "Pengeluaran",
+        pemasukan: 0,
+        pengeluaran: Number(item.jumlah || 0),
+        jenis: "keluar",
+      }));
+
+    const semuaTransaksi = [...pemasukan, ...pengeluaran];
+
+    semuaTransaksi.sort((a, b) => {
+      const selisihTanggal = a.tanggal.localeCompare(b.tanggal);
+
+      if (selisihTanggal !== 0) return selisihTanggal;
+
+      // Jika tanggal sama, tampilkan pemasukan lebih dahulu.
+      if (a.jenis !== b.jenis) {
+        return a.jenis === "masuk" ? -1 : 1;
+      }
+
+      return String(a.id).localeCompare(String(b.id));
+    });
+
+    let saldoBerjalan = Number(saldoAwal || 0);
+
+    return semuaTransaksi.map((item) => {
+      saldoBerjalan += item.pemasukan - item.pengeluaran;
+
+      return {
+        ...item,
+        saldo: saldoBerjalan,
+      };
+    });
+  }, [dataPemasukan, dataPengeluaran, tahunLaporan, saldoAwal]);
+
   return (
     <div className="kas-rt-container">
       <div className="kas-rt-header">
@@ -782,8 +881,8 @@ function KasRT() {
       </div>
 
       {/* =====================================================
-          TAB
-      ===================================================== */}
+    TAB KAS RT 03
+===================================================== */}
 
       <div className="kas-rt-tabs">
         <button
@@ -808,6 +907,14 @@ function KasRT() {
           onClick={() => setTabAktif("laporan")}
         >
           Laporan
+        </button>
+
+        <button
+          type="button"
+          className={tabAktif === "terperinci" ? "active" : ""}
+          onClick={() => setTabAktif("terperinci")}
+        >
+          Laporan Terperinci
         </button>
       </div>
 
@@ -1331,7 +1438,9 @@ function KasRT() {
             </div>
           </div>
 
-          {/* TAMBAHKAN BLOK INI TEPAT DI SINI */}
+          {/* =====================================================
+              LAPORAN KAS RT TERPERINCI
+          ===================================================== */}
 
           <div className="kas-rt-card kas-rt-laporan-bulanan">
             <div className="kas-rt-laporan-bulanan-header">
@@ -1401,6 +1510,223 @@ function KasRT() {
                 </table>
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* =====================================================
+    TAB LAPORAN TERPERINCI
+===================================================== */}
+
+      {tabAktif === "terperinci" && (
+        <div className="kas-rt-section">
+          <div className="kas-rt-card kas-rt-detail">
+            <div className="kas-rt-card-header">
+              <div>
+                <h3>Laporan Terperinci Kas RT</h3>
+                <span>
+                  Rincian pemasukan dan pengeluaran tahun {tahunLaporan}
+                </span>
+              </div>
+
+              <button
+                type="button"
+                className="kas-rt-btn-primary"
+                onClick={cetakBukuKasTahunan}
+              >
+                Cetak Buku Kas Tahunan
+              </button>
+            </div>
+
+            <div className="kas-rt-form-grid">
+              <div className="kas-rt-form-group">
+                <label>Tahun Laporan</label>
+                <select
+                  value={tahunLaporan}
+                  onChange={(e) => setTahunLaporan(Number(e.target.value))}
+                >
+                  {Array.from(
+                    { length: 10 },
+                    (_, index) => new Date().getFullYear() - 5 + index,
+                  ).map((tahun) => (
+                    <option key={tahun} value={tahun}>
+                      {tahun}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <div className="kas-rt-form-group">
+                <label>Filter Bulan</label>
+                <select
+                  value={bulanLaporanTerperinci}
+                  onChange={(e) => setBulanLaporanTerperinci(e.target.value)}
+                >
+                  <option value="semua">Semua Bulan</option>
+                  {[
+                    "Januari",
+                    "Februari",
+                    "Maret",
+                    "April",
+                    "Mei",
+                    "Juni",
+                    "Juli",
+                    "Agustus",
+                    "September",
+                    "Oktober",
+                    "November",
+                    "Desember",
+                  ].map((nama, index) => (
+                    <option
+                      key={index + 1}
+                      value={String(index + 1).padStart(2, "0")}
+                    >
+                      {nama}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <h4>Rincian Pemasukan</h4>
+
+            {(() => {
+              const rincianMasuk = dataPemasukan
+                .filter((item) => {
+                  if (!item.tanggal) return false;
+
+                  const tahun = item.tanggal.slice(0, 4);
+                  const bulan = item.tanggal.slice(5, 7);
+
+                  return (
+                    tahun === String(tahunLaporan) &&
+                    (bulanLaporanTerperinci === "semua" ||
+                      bulan === bulanLaporanTerperinci)
+                  );
+                })
+                .sort((a, b) => a.tanggal.localeCompare(b.tanggal));
+
+              const totalMasuk = rincianMasuk.reduce(
+                (total, item) => total + Number(item.jumlah || 0),
+                0,
+              );
+
+              return (
+                <>
+                  {rincianMasuk.length === 0 ? (
+                    <p>Belum ada transaksi pemasukan pada periode ini.</p>
+                  ) : (
+                    <div className="kas-rt-table-wrapper">
+                      <table className="kas-rt-table">
+                        <thead>
+                          <tr>
+                            <th>No</th>
+                            <th>Tanggal</th>
+                            <th>Sumber</th>
+                            <th>Keterangan</th>
+                            <th>Jumlah</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rincianMasuk.map((item, index) => (
+                            <tr key={item.id}>
+                              <td>{index + 1}</td>
+                              <td>
+                                {new Date(
+                                  `${item.tanggal}T00:00:00`,
+                                ).toLocaleDateString("id-ID")}
+                              </td>
+                              <td>{item.sumber || "-"}</td>
+                              <td>{item.keterangan || "-"}</td>
+                              <td className="kas-rt-jumlah">
+                                {formatRupiah(item.jumlah)}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <th colSpan="4">TOTAL PEMASUKAN</th>
+                            <th>{formatRupiah(totalMasuk)}</th>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                  )}
+                </>
+              );
+            })()}
+
+            <h4>Rincian Pengeluaran</h4>
+
+            {(() => {
+              const rincianKeluar = dataPengeluaran
+                .filter((item) => {
+                  if (!item.tanggal) return false;
+
+                  const tahun = item.tanggal.slice(0, 4);
+                  const bulan = item.tanggal.slice(5, 7);
+
+                  return (
+                    tahun === String(tahunLaporan) &&
+                    (bulanLaporanTerperinci === "semua" ||
+                      bulan === bulanLaporanTerperinci)
+                  );
+                })
+                .sort((a, b) => a.tanggal.localeCompare(b.tanggal));
+
+              const totalKeluar = rincianKeluar.reduce(
+                (total, item) => total + Number(item.jumlah || 0),
+                0,
+              );
+
+              return (
+                <>
+                  {rincianKeluar.length === 0 ? (
+                    <p>Belum ada transaksi pengeluaran pada periode ini.</p>
+                  ) : (
+                    <div className="kas-rt-table-wrapper">
+                      <table className="kas-rt-table">
+                        <thead>
+                          <tr>
+                            <th>No</th>
+                            <th>Tanggal</th>
+                            <th>Acara / Kegiatan</th>
+                            <th>Keperluan</th>
+                            <th>Keterangan</th>
+                            <th>Jumlah</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {rincianKeluar.map((item, index) => (
+                            <tr key={item.id}>
+                              <td>{index + 1}</td>
+                              <td>
+                                {new Date(
+                                  `${item.tanggal}T00:00:00`,
+                                ).toLocaleDateString("id-ID")}
+                              </td>
+                              <td>{item.judul_acara || "-"}</td>
+                              <td>{item.keperluan || "-"}</td>
+                              <td>{item.keterangan || "-"}</td>
+                              <td className="kas-rt-jumlah">
+                                {formatRupiah(item.jumlah)}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                        <tfoot>
+                          <tr>
+                            <th colSpan="5">TOTAL PENGELUARAN</th>
+                            <th>{formatRupiah(totalKeluar)}</th>
+                          </tr>
+                        </tfoot>
+                      </table>
+                    </div>
+                  )}
+                </>
+              );
+            })()}
           </div>
         </div>
       )}
@@ -1514,6 +1840,110 @@ function KasRT() {
 
             <div className="ttd-space"></div>
 
+            <strong>( Januardi Pratomo )</strong>
+          </div>
+        </div>
+      </div>
+
+      {/* =====================================================
+          DOKUMEN KHUSUS CETAK BUKU KAS TAHUNAN
+          ===================================================== */}
+      <div className="kas-rt-buku-kas-print">
+        <div className="preview-kop-surat">
+          <div className="kop-baris kop-baris-1">RUKUN TETANGGA 003/07</div>
+          <div className="kop-baris kop-baris-2">
+            KELURAHAN KARET &nbsp;&nbsp;&nbsp; KECAMATAN SETIABUDI
+          </div>
+          <div className="kop-baris kop-baris-3">
+            KOTA ADMINISTRASI JAKARTA SELATAN
+          </div>
+          <div className="kop-baris kop-baris-4">
+            <span>Sekretariat : Jalan Setiabudi 1 No. 21</span>
+            <span className="kop-kontak">082113197811</span>
+            <span className="kop-kontak">rt.003.07.stb@gmail.com</span>
+          </div>
+          <div className="kop-baris kop-baris-5">
+            JAKARTA &nbsp;&nbsp;-&nbsp;&nbsp; Kode Pos : 12920
+          </div>
+        </div>
+
+        <div className="preview-garis"></div>
+
+        <div className="kas-rt-print-header">
+          <h1>BUKU KAS RT 03 / RW 07</h1>
+          <h2>KARET – SETIABUDI &nbsp;&nbsp; TAHUN {tahunLaporan}</h2>
+        </div>
+
+        <div className="kas-rt-buku-kas-ringkasan">
+          <p>
+            Saldo Awal Tahun: <strong>{formatRupiah(saldoAwal)}</strong>
+          </p>
+          <p>
+            Total Pemasukan: <strong>{formatRupiah(pemasukanLaporan)}</strong>
+          </p>
+          <p>
+            Total Pengeluaran:{" "}
+            <strong>{formatRupiah(pengeluaranLaporan)}</strong>
+          </p>
+          <p>
+            Saldo Akhir Tahun: <strong>{formatRupiah(saldoAkhir)}</strong>
+          </p>
+        </div>
+
+        <table className="kas-rt-buku-kas-table">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Tanggal</th>
+              <th>Uraian Transaksi</th>
+              <th>Pemasukan (Rp)</th>
+              <th>Pengeluaran (Rp)</th>
+              <th>Saldo (Rp)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colSpan="3">
+                <strong>Saldo Awal Tahun</strong>
+              </td>
+              <td>-</td>
+              <td>-</td>
+              <td>{formatRupiah(saldoAwal)}</td>
+            </tr>
+
+            {transaksiBukuKas.map((item, index) => (
+              <tr key={item.id}>
+                <td>{index + 1}</td>
+                <td>
+                  {new Date(`${item.tanggal}T00:00:00`).toLocaleDateString(
+                    "id-ID",
+                  )}
+                </td>
+                <td>{item.uraian}</td>
+                <td>{item.pemasukan ? formatRupiah(item.pemasukan) : "-"}</td>
+                <td>
+                  {item.pengeluaran ? formatRupiah(item.pengeluaran) : "-"}
+                </td>
+                <td>{formatRupiah(item.saldo)}</td>
+              </tr>
+            ))}
+          </tbody>
+          <tfoot>
+            <tr>
+              <th colSpan="3">TOTAL</th>
+              <th>{formatRupiah(pemasukanLaporan)}</th>
+              <th>{formatRupiah(pengeluaranLaporan)}</th>
+              <th>{formatRupiah(saldoAkhir)}</th>
+            </tr>
+          </tfoot>
+        </table>
+
+        <div className="kas-rt-print-footer">
+          <div className="kas-rt-print-signature">
+            <p>Dicetak pada:</p>
+            <strong>{getTanggalCetak()}</strong>
+            <p className="ttd-jabatan">Ketua RT 03</p>
+            <div className="ttd-space"></div>
             <strong>( Januardi Pratomo )</strong>
           </div>
         </div>
