@@ -441,13 +441,26 @@
   text-align: center !important;
 }
 
+
 .ttd-jabatan {
-  margin-top: 25px !important;
+  margin-top: 10px !important;
 }
 
 .ttd-space {
-  height: 45px !important;
+  height: 20px !important;
 }
+
+.kas-rt-buku-kas-print .kas-rt-print-footer {
+  display: flex !important;
+  justify-content: flex-end !important;
+  align-items: flex-start !important;
+  width: 100% !important;
+  margin-top: 2px !important;
+  padding-top: 0 !important;
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+}
+
 .kas-rt-print-header {
   text-align: center !important;
   margin: 14px 0 18px !important;
@@ -506,6 +519,141 @@
 .print-tahun {
   font-weight: 600 !important;
 }
+
+
+  /* =========================================================
+     CETAK BUKU KAS TAHUNAN
+     ========================================================= */
+
+  body.cetak-buku-kas .kas-rt-print-area {
+    display: none !important;
+  }
+
+  body.cetak-buku-kas .kas-rt-buku-kas-print,
+  body.cetak-buku-kas .kas-rt-buku-kas-print * {
+    visibility: visible !important;
+  }
+
+  body.cetak-buku-kas .kas-rt-buku-kas-print {
+    display: block !important;
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #000 !important;
+    background: #fff !important;
+    font-size: 10px !important;
+  }
+
+  .kas-rt-buku-kas-table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+    table-layout: fixed !important;
+    font-size: 9px !important;
+  }
+
+  
+  /* Lebar kolom buku kas saat dicetak */
+  .kas-rt-buku-kas-table th:nth-child(1),
+  .kas-rt-buku-kas-table td:nth-child(1) {
+    width: 4% !important;
+  }
+
+  .kas-rt-buku-kas-table th:nth-child(2),
+  .kas-rt-buku-kas-table td:nth-child(2) {
+    width: 12% !important;
+  }
+
+  .kas-rt-buku-kas-table th:nth-child(3),
+  .kas-rt-buku-kas-table td:nth-child(3) {
+    width: 34% !important;
+  }
+
+  .kas-rt-buku-kas-table th:nth-child(4),
+  .kas-rt-buku-kas-table td:nth-child(4) {
+    width: 17% !important;
+  }
+
+  .kas-rt-buku-kas-table th:nth-child(5),
+  .kas-rt-buku-kas-table td:nth-child(5) {
+    width: 17% !important;
+  }
+
+  .kas-rt-buku-kas-table th:nth-child(6),
+  .kas-rt-buku-kas-table td:nth-child(6) {
+    width: 16% !important;
+  }
+
+
+  
+  .kas-rt-buku-kas-table th,
+  .kas-rt-buku-kas-table td {
+    border: 1px solid #000 !important;
+    padding: 2px 3px !important;
+    color: #000 !important;
+    font-size: 8px !important;
+    line-height: 1.15 !important;
+    overflow-wrap: anywhere !important;
+  }
+
+  .kas-rt-buku-kas-table tbody tr {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .kas-rt-buku-kas-ringkasan {
+    gap: 2px 10px !important;
+    margin: 4px 0 6px !important;
+  }
+
+  .kas-rt-buku-kas-ringkasan p {
+    margin: 0 !important;
+    font-size: 9px !important;
+    line-height: 1.15 !important;
+  }
+
+
+  .kas-rt-buku-kas-table th {
+    text-align: center !important;
+    vertical-align: middle !important;
+  }
+
+  .kas-rt-buku-kas-table td {
+    text-align: right !important;
+    vertical-align: top !important;
+  }
+
+  .kas-rt-buku-kas-table td:nth-child(1),
+  .kas-rt-buku-kas-table td:nth-child(2),
+  .kas-rt-buku-kas-table td:nth-child(3) {
+    text-align: left !important;
+  }
+
+  .kas-rt-buku-kas-table tfoot th {
+    font-weight: 700 !important;
+  }
+
+  .kas-rt-buku-kas-ringkasan {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 4px 16px !important;
+    margin: 8px 0 12px !important;
+  }
+
+  .kas-rt-buku-kas-ringkasan p {
+    margin: 0 !important;
+    font-size: 10px !important;
+  }
+
+  .kas-rt-buku-kas-print .preview-kop-surat,
+  .kas-rt-buku-kas-print .preview-garis,
+  .kas-rt-buku-kas-print .kas-rt-print-header,
+  .kas-rt-buku-kas-print .kas-rt-print-footer {
+    display: block !important;
+  }
+
 
   @page {
     size: A4 portrait;
