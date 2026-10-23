@@ -920,10 +920,16 @@
   margin-bottom: 19px;
 }
 
-.rt-tanggal {
+.ttd-rt-tanggal {
   height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   text-align: center;
   margin-bottom: 19px;
+  padding-top: 19px;
+  box-sizing: border-box;
+  
 }
 
 .ttd-jabatan {
@@ -939,6 +945,10 @@
 .ttd-rt strong {
   font-weight: normal;
   white-space: nowrap;
+}
+
+.jarak-nama-ttd {
+  display: none;
 }
 
 /* =========================
@@ -979,14 +989,6 @@
     font-size: 10px;
   }
 }
-
-/* =====================================================
-   CETAK SURAT - KERTAS A4
-   ===================================================== */
-
-/* =====================================================
-   CETAK SURAT PENGANTAR
-   ===================================================== */
 
 /* =====================================================
    CETAK SURAT PENGANTAR - A4
@@ -1209,49 +1211,41 @@
     margin-top: 28px !important;
     text-align: left !important;
   }
+.ttd-rt-tanggal {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: flex-start !important;
+  width: 100% !important;
+  height: 48px !important;
+  margin-top: 0 !important;
+  margin-bottom: 19px !important;
+  padding: 0 !important;
+  text-align: center !important;
+  line-height: 1.5 !important;
+  box-sizing: border-box !important;
+}
 
-  /*
-     TANDA TANGAN
-  */
-  .preview-tanda-tangan {
-    margin-top: 35px !important;
-
-    display: grid !important;
-
-    grid-template-columns: 1fr 1fr !important;
-
-    column-gap: 80px !important;
-
-    align-items: start !important;
-
-    font-size: 13px !important;
-    line-height: 1.5 !important;
-  }
-
-  .ttd-rw,
-  .ttd-rt {
-    text-align: center !important;
-  }
-
-  .rw-manual {
-    height: 48px !important;
-    margin-bottom: 19px !important;
-  }
-
-  .rt-tanggal {
-    height: 48px !important;
-    margin-bottom: 19px !important;
-  }
+.ttd-rt-tanggal > div {
+  position: relative !important;
+  top: 40px !important;
+}
 
   .ttd-jabatan {
     height: 42px !important;
     line-height: 1.5 !important;
   }
 
-  .ttd-space {
-    height: 80px !important;
-  }
+ .ttd-space {
+  display: block !important;
+  height: 139px !important;
+}
 
+.jarak-nama-ttd {
+  display: block !important;
+  height: 39px !important;
+  min-height: 39px !important;
+  flex: none !important;
+}
   /*
      WARNA / FONT SAAT PRINT
   */
