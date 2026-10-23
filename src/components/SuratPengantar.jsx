@@ -34,19 +34,18 @@ function getDataOrangTuaKelahiran(bayi, daftarWarga) {
     (item) => String(item.kk || "").trim() === String(bayi.kk || "").trim(),
   );
 
-
   console.log("=== CEK ANGGOTA KK KELAHIRAN ===");
-console.log("KK BAYI:", bayi?.kk);
+  console.log("KK BAYI:", bayi?.kk);
 
-console.table(
-  anggotaKeluarga.map((item) => ({
-    id: item.id,
-    nama: item.nama,
-    nik: item.nik,
-    kk: item.kk,
-    statusKeluarga: item.statusKeluarga,
-  }))
-);
+  console.table(
+    anggotaKeluarga.map((item) => ({
+      id: item.id,
+      nama: item.nama,
+      nik: item.nik,
+      kk: item.kk,
+      statusKeluarga: item.statusKeluarga,
+    })),
+  );
 
   const ayah = anggotaKeluarga.find(
     (item) =>
@@ -355,12 +354,12 @@ function getIsiSurat(surat, daftarWarga = []) {
         ["Tempat", surat?.tempatLahirBayi || ""],
 
         ["Nama Ayah Kandung", surat?.namaAyah || surat?.ayahNama || ""],
-["NIK Ayah", surat?.nikAyah || surat?.ayahNik || ""],
-["Nama Ibu Kandung", surat?.namaIbu || surat?.ibuNama || ""],
-["NIK Ibu", surat?.nikIbu || surat?.ibuNik || ""],
-["Nomor Kartu Keluarga", surat?.kk || surat?.nomorKK || ""],
-["Anak Ke", surat?.anakKe || ""],
-["Alamat", surat?.alamat || surat?.alamatKelahiran || ""],
+        ["NIK Ayah", surat?.nikAyah || surat?.ayahNik || ""],
+        ["Nama Ibu Kandung", surat?.namaIbu || surat?.ibuNama || ""],
+        ["NIK Ibu", surat?.nikIbu || surat?.ibuNik || ""],
+        ["Nomor Kartu Keluarga", surat?.kk || surat?.nomorKK || ""],
+        ["Anak Ke", surat?.anakKe || ""],
+        ["Alamat", surat?.alamat || surat?.alamatKelahiran || ""],
       ],
 
       penutup:
@@ -705,39 +704,38 @@ function getIsiSurat(surat, daftarWarga = []) {
   // SURAT PENGANTAR UMUM
   // =========================================================
   if (surat.jenisSurat === "Surat Pengantar") {
-  return {
-    judul: "SURAT PENGANTAR",
+    return {
+      judul: "SURAT PENGANTAR",
 
-    pembuka:
-      "Yang bertanda tangan di bawah ini, menerangkan bahwa:",
+      pembuka: "Yang bertanda tangan di bawah ini, menerangkan bahwa:",
 
-    data: [
-      ["Nama", nama],
+      data: [
+        ["Nama", nama],
 
-      [
-        "Tempat/Tgl. Lahir",
-        `${tempatLahir}${
-          tanggalLahir ? `, ${formatTanggal(tanggalLahir)}` : ""
-        }`,
+        [
+          "Tempat/Tgl. Lahir",
+          `${tempatLahir}${
+            tanggalLahir ? `, ${formatTanggal(tanggalLahir)}` : ""
+          }`,
+        ],
+
+        ["Jenis Kelamin", jenisKelamin],
+
+        ["Agama", agama],
+
+        ["Pekerjaan", pekerjaan],
+
+        ["Nomor KTP", nik],
+
+        ["Alamat", alamat],
+
+        ["Keperluan", keperluan],
       ],
 
-      ["Jenis Kelamin", jenisKelamin],
-
-      ["Agama", agama],
-
-      ["Pekerjaan", pekerjaan],
-
-      ["Nomor KTP", nik],
-
-      ["Alamat", alamat],
-
-      ["Keperluan", keperluan],
-    ],
-
-    penutup:
-      "Demikian surat pengantar ini dibuat untuk dapat dipergunakan sebagaimana mestinya dan yang berkepentingan untuk menjadi maklum.",
-  };
-}
+      penutup:
+        "Demikian surat pengantar ini dibuat untuk dapat dipergunakan sebagaimana mestinya dan yang berkepentingan untuk menjadi maklum.",
+    };
+  }
 
   // =========================================================
   // SURAT KETERANGAN UMUM
@@ -1558,82 +1556,82 @@ function SuratPengantar() {
     /* =====================================================
      SIMPAN KE SUPABASE
     ===================================================== */
-let suratTersimpan;
-let error;
+    let suratTersimpan;
+    let error;
 
-const dataSurat = {
-  nomor_surat: suratBaru.nomorSurat,
-  tanggal_surat: suratBaru.tanggalSurat || null,
-  jenis_surat: suratBaru.jenisSurat,
+    const dataSurat = {
+      nomor_surat: suratBaru.nomorSurat,
+      tanggal_surat: suratBaru.tanggalSurat || null,
+      jenis_surat: suratBaru.jenisSurat,
 
-  warga_id: suratBaru.wargaId,
-  nama_warga: suratBaru.namaWarga,
-  nik: suratBaru.nik,
-  kk: suratBaru.kk,
-  tempat_lahir: suratBaru.tempatLahir,
-  tanggal_lahir: suratBaru.tanggalLahir || null,
-  jenis_kelamin: suratBaru.jenisKelamin,
-  agama: suratBaru.agama,
-  pekerjaan: suratBaru.pekerjaan,
-  status_perkawinan: suratBaru.statusPerkawinan,
-  kewarganegaraan: suratBaru.kewarganegaraan,
-  alamat: suratBaru.alamat,
-  rt_rw: suratBaru.rtRw,
+      warga_id: suratBaru.wargaId,
+      nama_warga: suratBaru.namaWarga,
+      nik: suratBaru.nik,
+      kk: suratBaru.kk,
+      tempat_lahir: suratBaru.tempatLahir,
+      tanggal_lahir: suratBaru.tanggalLahir || null,
+      jenis_kelamin: suratBaru.jenisKelamin,
+      agama: suratBaru.agama,
+      pekerjaan: suratBaru.pekerjaan,
+      status_perkawinan: suratBaru.statusPerkawinan,
+      kewarganegaraan: suratBaru.kewarganegaraan,
+      alamat: suratBaru.alamat,
+      rt_rw: suratBaru.rtRw,
 
-  keperluan: suratBaru.keperluan,
+      keperluan: suratBaru.keperluan,
 
-  nama_bayi: suratBaru.namaBayi,
-  jenis_kelamin_bayi: suratBaru.jenisKelaminBayi,
-  tanggal_lahir_bayi: suratBaru.tanggalLahirBayi || null,
-  hari_lahir_bayi: suratBaru.hariLahirBayi,
-  tempat_lahir_bayi: suratBaru.tempatLahirBayi,
-  anak_ke: suratBaru.anakKe,
+      nama_bayi: suratBaru.namaBayi,
+      jenis_kelamin_bayi: suratBaru.jenisKelaminBayi,
+      tanggal_lahir_bayi: suratBaru.tanggalLahirBayi || null,
+      hari_lahir_bayi: suratBaru.hariLahirBayi,
+      tempat_lahir_bayi: suratBaru.tempatLahirBayi,
+      anak_ke: suratBaru.anakKe,
 
-  ayah_id: suratBaru.ayahId,
-  nama_ayah: suratBaru.namaAyah,
-  nik_ayah: suratBaru.nikAyah,
+      ayah_id: suratBaru.ayahId,
+      nama_ayah: suratBaru.namaAyah,
+      nik_ayah: suratBaru.nikAyah,
 
-  ibu_id: suratBaru.ibuId,
-  nama_ibu: suratBaru.namaIbu,
-  nik_ibu: suratBaru.nikIbu,
+      ibu_id: suratBaru.ibuId,
+      nama_ibu: suratBaru.namaIbu,
+      nik_ibu: suratBaru.nikIbu,
 
-  ahli_waris_mode: suratBaru.ahliWarisMode,
-  almarhum_id: suratBaru.almarhumId,
-  nama_almarhum: suratBaru.namaAlmarhum,
-  nik_almarhum: suratBaru.nikAlmarhum,
-  hubungan_keluarga: suratBaru.hubunganKeluarga,
-};
+      ahli_waris_mode: suratBaru.ahliWarisMode,
+      almarhum_id: suratBaru.almarhumId,
+      nama_almarhum: suratBaru.namaAlmarhum,
+      nik_almarhum: suratBaru.nikAlmarhum,
+      hubungan_keluarga: suratBaru.hubunganKeluarga,
+    };
 
-if (editSuratId) {
-  console.log("=== UPDATE SURAT ===");
-  console.log("ID:", editSuratId);
+    if (editSuratId) {
+      console.log("=== UPDATE SURAT ===");
+      console.log("ID:", editSuratId);
 
-  const hasil = await supabase
-    .from("surat_pengantar")
-    .update(dataSurat)
-    .eq("id", editSuratId)
-    .select()
-    .single();
+      const hasil = await supabase
+        .from("surat_pengantar")
+        .update(dataSurat)
+        .eq("id", editSuratId)
+        .select()
+        .single();
 
-  suratTersimpan = hasil.data;
-  error = hasil.error;
-} else {
-  console.log("=== INSERT SURAT BARU ===");
+      suratTersimpan = hasil.data;
+      error = hasil.error;
+    } else {
+      console.log("=== INSERT SURAT BARU ===");
 
-  const hasil = await supabase
-    .from("surat_pengantar")
-    .insert([
-      {
-        id: suratBaru.id,
-        ...dataSurat,
-      },
-    ])
-    .select()
-    .single();
+      const hasil = await supabase
+        .from("surat_pengantar")
+        .insert([
+          {
+            id: suratBaru.id,
+            ...dataSurat,
+          },
+        ])
+        .select()
+        .single();
 
-  suratTersimpan = hasil.data;
-  error = hasil.error;
-}
+      suratTersimpan = hasil.data;
+      error = hasil.error;
+    }
     if (error) {
       console.error("GAGAL MENYIMPAN SURAT BIASA KE SUPABASE:", error);
 
@@ -1696,20 +1694,15 @@ if (editSuratId) {
       createdAt: suratTersimpan.created_at || "",
     };
 
-   if (editSuratId) {
-  setDaftarSurat((prev) =>
-    prev.map((item) =>
-      String(item.id) === String(editSuratId)
-        ? suratBaruSupabase
-        : item
-    )
-  );
-} else {
-  setDaftarSurat((prev) => [
-    suratBaruSupabase,
-    ...prev,
-  ]);
-}
+    if (editSuratId) {
+      setDaftarSurat((prev) =>
+        prev.map((item) =>
+          String(item.id) === String(editSuratId) ? suratBaruSupabase : item,
+        ),
+      );
+    } else {
+      setDaftarSurat((prev) => [suratBaruSupabase, ...prev]);
+    }
 
     setShowForm(false);
     setWargaTerpilih(null);
@@ -2027,12 +2020,12 @@ if (editSuratId) {
   ======================================================= */
 
   function bukaPreviewSurat(surat) {
-  console.log("DATA SURAT YANG DIPREVIEW:", surat);
-  console.log("KEPERLUAN:", surat?.keperluan);
+    console.log("DATA SURAT YANG DIPREVIEW:", surat);
+    console.log("KEPERLUAN:", surat?.keperluan);
 
-  setSuratPreview(surat);
-  setOpenActionId(null);
-}
+    setSuratPreview(surat);
+    setOpenActionId(null);
+  }
 
   /* =======================================================
      EDIT
@@ -2664,18 +2657,18 @@ if (editSuratId) {
                 <label>Jenis Surat</label>
 
                 <select
-  name="jenisSurat"
-  value={form.jenisSurat}
-  onChange={handleChange}
->
-  <option value="">-- Pilih Jenis Surat --</option>
+                  name="jenisSurat"
+                  value={form.jenisSurat}
+                  onChange={handleChange}
+                >
+                  <option value="">-- Pilih Jenis Surat --</option>
 
-  {JENIS_SURAT.map((jenis) => (
-    <option key={jenis} value={jenis}>
-      {jenis}
-    </option>
-  ))}
-</select>
+                  {JENIS_SURAT.map((jenis) => (
+                    <option key={jenis} value={jenis}>
+                      {jenis}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>
@@ -3742,101 +3735,97 @@ if (editSuratId) {
             ====================================================== */}
 
                   <div className="preview-judul-surat">
-  <h2>SURAT PENGANTAR</h2>
+                    <h2>SURAT PENGANTAR</h2>
 
-  <div className="preview-nomor-surat">
-    Nomor : {suratPreview.nomorSurat}
-  </div>
-</div>
+                    <div className="preview-nomor-surat">
+                      Nomor : {suratPreview.nomorSurat}
+                    </div>
+                  </div>
 
-
-{/* =====================================================
+                  {/* =====================================================
     ISI SURAT — SATU FORMAT UNTUK SEMUA JENIS SURAT
 ====================================================== */}
 
-<div className="preview-isi-surat">
+                  <div className="preview-isi-surat">
+                    <p>Yang bertanda tangan di bawah ini, menerangkan bahwa:</p>
 
-  <p>
-    Yang bertanda tangan di bawah ini, menerangkan bahwa:
-  </p>
+                    <div className="preview-identitas-warga">
+                      <div className="identitas-row">
+                        <span>Nama</span>
+                        <b>:</b>
+                        <strong>{wargaSurat.nama || "-"}</strong>
+                      </div>
 
-  <div className="preview-identitas-warga">
+                      <div className="identitas-row">
+                        <span>Tempat/Tgl. Lahir</span>
+                        <b>:</b>
+                        <strong>
+                          {wargaSurat.tempatLahir || "-"}
+                          {wargaSurat.tanggalLahir
+                            ? `, ${formatTanggal(wargaSurat.tanggalLahir)}`
+                            : ""}
+                        </strong>
+                      </div>
 
-    <div className="identitas-row">
-      <span>Nama</span>
-      <b>:</b>
-      <strong>{wargaSurat.nama || "-"}</strong>
-    </div>
+                      <div className="identitas-row">
+                        <span>Jenis Kelamin</span>
+                        <b>:</b>
+                        <strong>{wargaSurat.jenisKelamin || "-"}</strong>
+                      </div>
 
-    <div className="identitas-row">
-      <span>Tempat/Tgl. Lahir</span>
-      <b>:</b>
-      <strong>
-        {wargaSurat.tempatLahir || "-"}
-        {wargaSurat.tanggalLahir
-          ? `, ${formatTanggal(wargaSurat.tanggalLahir)}`
-          : ""}
-      </strong>
-    </div>
+                      <div className="identitas-row">
+                        <span>Agama</span>
+                        <b>:</b>
+                        <strong>{wargaSurat.agama || "-"}</strong>
+                      </div>
 
-    <div className="identitas-row">
-      <span>Jenis Kelamin</span>
-      <b>:</b>
-      <strong>{wargaSurat.jenisKelamin || "-"}</strong>
-    </div>
+                      <div className="identitas-row">
+                        <span>Pekerjaan</span>
+                        <b>:</b>
+                        <strong>{wargaSurat.pekerjaan || "-"}</strong>
+                      </div>
 
-    <div className="identitas-row">
-      <span>Agama</span>
-      <b>:</b>
-      <strong>{wargaSurat.agama || "-"}</strong>
-    </div>
+                      <div className="identitas-row">
+                        <span>Nomor KTP</span>
+                        <b>:</b>
+                        <strong>{wargaSurat.nik || "-"}</strong>
+                      </div>
 
-    <div className="identitas-row">
-      <span>Pekerjaan</span>
-      <b>:</b>
-      <strong>{wargaSurat.pekerjaan || "-"}</strong>
-    </div>
+                      <div className="identitas-row identitas-alamat">
+                        <span>Alamat</span>
+                        <b>:</b>
+                        <strong>
+                          {wargaSurat.alamat || "-"}
 
-    <div className="identitas-row">
-      <span>Nomor KTP</span>
-      <b>:</b>
-      <strong>{wargaSurat.nik || "-"}</strong>
-    </div>
+                          {String(wargaSurat.statusKependudukan || "")
+                            .trim()
+                            .toLowerCase() !== "pendatang" && (
+                            <>
+                              <br />
+                              KELURAHAN KARET, KECAMATAN SETIABUDI JAKARTA
+                              SELATAN
+                            </>
+                          )}
+                        </strong>
+                      </div>
 
-    <div className="identitas-row identitas-alamat">
-      <span>Alamat</span>
-      <b>:</b>
-      <strong>
-        {wargaSurat.alamat || "-"}
+                      <div className="identitas-row identitas-keperluan">
+                        <span>Keperluan</span>
+                        <b>:</b>
+                        <strong>
+                          {String(suratPreview.keperluan || "-")
+                            .replace(/^KEPERLUAN\s*:\s*/i, "")
+                            .trim() || "-"}
+                        </strong>
+                      </div>
+                    </div>
 
-        {String(wargaSurat.statusKependudukan || "")
-          .trim()
-          .toLowerCase() !== "pendatang" && (
-          <>
-            <br />
-            KELURAHAN KARET, KECAMATAN SETIABUDI JAKARTA SELATAN
-          </>
-        )}
-      </strong>
-    </div>
-
-    <div className="identitas-row identitas-keperluan">
-  <span>Keperluan</span>
-  <b>:</b>
-  <strong>
-    {String(suratPreview.keperluan || "-")
-      .replace(/^KEPERLUAN\s*:\s*/i, "")
-      .trim() || "-"}
-  </strong>
-</div>
-</div>
-
-  <p className="preview-penutup">
-    Demikian surat pengantar ini dibuat untuk dapat dipergunakan
-    sebagaimana mestinya dan yang berkepentingan untuk menjadi maklum.
-  </p>
-
-</div>
+                    <p className="preview-penutup">
+                      Demikian surat pengantar ini dibuat untuk dapat
+                      dipergunakan sebagaimana mestinya dan yang berkepentingan
+                      untuk menjadi maklum.
+                    </p>
+                  </div>
 
                   {/* =====================================================
                 TANDA TANGAN
@@ -3856,13 +3845,15 @@ if (editSuratId) {
                       </div>
 
                       <div className="ttd-space"></div>
-
+                      <div className="jarak-nama-ttd"></div>
                       <strong>(HASAN BASRI)</strong>
                     </div>
 
                     <div className="ttd-rt">
-                      <div className="rt-tanggal">
-                        Jakarta, {formatTanggal(suratPreview.tanggalSurat)}
+                      <div className="ttd-rt-tanggal">
+                        <div>
+                          Jakarta, {formatTanggal(suratPreview.tanggalSurat)}
+                        </div>
                       </div>
 
                       <div className="ttd-jabatan">
@@ -3872,7 +3863,7 @@ if (editSuratId) {
                       </div>
 
                       <div className="ttd-space"></div>
-
+                      <div className="jarak-nama-ttd"></div>
                       <strong>(JANUARDI PRATOMO)</strong>
                     </div>
                   </div>
